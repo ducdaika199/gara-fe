@@ -6,7 +6,7 @@ import React from 'react';
 
 const Login = () => {
   return (
-    <div className="min-h-screen flex bg-white text-white text-black">
+    <div className="min-h-screen flex bg-white text-black">
       <div className="w-1/2 p-12 space-y-8">
         <div className="flex items-center space-x-2">
           <GlobeIcon className="text-white w-6 h-6" />

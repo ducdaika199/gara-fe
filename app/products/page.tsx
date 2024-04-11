@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Table,
   TableBody,
@@ -36,13 +36,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { DialogTrigger } from '@radix-ui/react-dialog';
 import {
   FileIcon,
   HomeIcon,
@@ -55,11 +48,9 @@ import {
   PanelLeftIcon,
   PlusCircleIcon,
   SearchIcon,
-  SettingsIcon,
   ShoppingCartIcon,
   Users2Icon,
 } from 'lucide-react';
-import React from 'react';
 
 const Products = () => {
   return (

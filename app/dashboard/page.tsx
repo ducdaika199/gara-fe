@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import {
   ChevronLeft,
   ChevronRight,
@@ -19,6 +17,8 @@ import {
   Truck,
   Users2,
 } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import {
@@ -68,8 +68,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
   TooltipProvider,
+  TooltipTrigger,
 } from '@/components/ui/tooltip';
 
 export default function Dashboard() {
