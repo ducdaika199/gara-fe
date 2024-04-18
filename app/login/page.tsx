@@ -1,41 +1,101 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Link from 'next/link';
+import paths from '@/routes/path';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { noTokenApi } from '../api';
+
+const formSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+});
 
 const Login = () => {
+  const route = useRouter();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await noTokenApi.post('/login', values);
+      const accessToken = res?.data?.AccessToken || '';
+      setCookie('access_token', accessToken);
+      form.reset();
+      window.location.href = paths.orders;
+    } catch (error) {
+      throw new Error('Login Fail');
+    }
+  }
+
   return (
     <div className="flex items-center min-h-screen p-6 lg:justify-center">
       <div className="w-full max-w-sm space-y-4">
         <div className="text-center">
-          <h1 className="text-4xl font-bold">Acme</h1>
+          <h1 className="text-4xl font-bold pb-4">Gara Mạnh Ngà</h1>
           <p className="text-gray-500 dark:text-gray-400">
-            Login to your account
+            Đăng nhập vào tài khoản của bạn
           </p>
         </div>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
-            <Input id="username" placeholder="Username" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link className="ml-auto inline-block text-sm underline" href="#">
-                Forgot your password?
-              </Link>
-            </div>
-            <Input id="password" placeholder="Password" type="password" />
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="remember" />
-            <Label className="text-sm leading-none" htmlFor="remember">
-              Remember me
-            </Label>
-          </div>
-          <Button className="w-full">Login</Button>
-        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tên đăng nhập</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="username"
+                      placeholder="Tên đăng nhập..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mật khẩu</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="password"
+                      placeholder="Mật khẩu..."
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full">
+              Đăng nhập
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
