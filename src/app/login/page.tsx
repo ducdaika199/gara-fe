@@ -11,11 +11,9 @@ import {
 } from '@/src/components/ui/form';
 import { Input } from '@/src/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { noTokenApi } from '../../api';
 
 const formSchema = z.object({
   username: z.string(),
@@ -32,20 +30,7 @@ const Login = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const res = await noTokenApi.post('/login', values);
-      const accessToken = res?.data?.AccessToken || '';
-      const refreshToken = res?.data?.RefreshToken || '';
-      setCookie('access_token', accessToken);
-      setCookie('refresh_token', refreshToken);
-      form.reset();
-
-      // window.location.href = paths.orders;
-    } catch (error) {
-      throw new Error('Login Fail');
-    }
-  }
+  async function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
     <div className="flex items-center min-h-screen p-6 lg:justify-center">

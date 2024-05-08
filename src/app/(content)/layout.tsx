@@ -12,14 +12,6 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/src/components/ui/breadcrumb';
 import { Button } from '@/src/components/ui/button';
 import {
   DropdownMenu,
