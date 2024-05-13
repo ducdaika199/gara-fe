@@ -25,10 +25,11 @@ export const authConfig = {
       const isOnProductsPage =
         request.nextUrl?.pathname.startsWith('/products');
       const isOnOrdersPage = request.nextUrl?.pathname.startsWith('/orders');
+      const isOnLoginPage = request.nextUrl?.pathname.startsWith('/login');
 
       // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
 
-      if (isOnUsersPage && !user?.isAdmin) {
+      if (isOnUsersPage && !user) {
         return false;
       }
 
@@ -38,10 +39,14 @@ export const authConfig = {
         return false;
       }
 
+      if (isOnOrdersPage && !user) {
+        return false;
+      }
+
       // ONLY UNAUTHENTICATED USERS CAN REACH THE LOGIN PAGE
 
-      if (isOnOrdersPage && user) {
-        return Response.redirect(new URL('/', request.nextUrl));
+      if (isOnLoginPage && user) {
+        return Response.redirect(new URL('/dashboard', request.nextUrl));
       }
 
       return true;

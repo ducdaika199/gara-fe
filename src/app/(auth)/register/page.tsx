@@ -10,8 +10,10 @@ import {
   FormMessage,
 } from '@/src/components/ui/form';
 import { Input } from '@/src/components/ui/input';
+import { register } from '@/src/lib/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -22,6 +24,7 @@ const formSchema = z.object({
 
 const Login = () => {
   const route = useRouter();
+  const [stateRegister, setStateRegister] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,7 +33,17 @@ const Login = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {}
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const state = (await register(values)).success;
+    console.log(state, '----state-----');
+    if (state) {
+      setStateRegister(state);
+    }
+  }
+
+  useEffect(() => {
+    stateRegister && route.push('/login');
+  }, [stateRegister, route]);
 
   return (
     <div className="flex items-center min-h-screen p-6 lg:justify-center">
@@ -38,7 +51,7 @@ const Login = () => {
         <div className="text-center">
           <h1 className="text-4xl font-bold pb-4">Gara Mạnh Ngà</h1>
           <p className="text-gray-500 dark:text-gray-400">
-            Đăng nhập vào tài khoản của bạn
+            Đăng ký với chúng tôi
           </p>
         </div>
         <Form {...form}>

@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from '@/src/components/ui/form';
 import { Input } from '@/src/components/ui/input';
+import { login } from '@/src/lib/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -30,7 +31,9 @@ const Login = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {}
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    login(values);
+  }
 
   return (
     <div className="flex items-center min-h-screen p-6 lg:justify-center">

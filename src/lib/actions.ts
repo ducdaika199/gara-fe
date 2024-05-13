@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import { revalidatePath } from 'next/cache';
 
 export const register = async (formData) => {
-  const { username, password } = Object.fromEntries(formData);
+  const { username, password } = formData;
 
   try {
     const users = await prisma.user.findMany();
@@ -34,7 +34,8 @@ export const register = async (formData) => {
 };
 
 export const login = async (formData) => {
-  const { username, password } = Object.fromEntries(formData);
+  console.log(formData, '----formData-----');
+  const { username, password } = formData;
 
   try {
     await signIn('credentials', { username, password });
