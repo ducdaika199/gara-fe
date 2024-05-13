@@ -26,12 +26,18 @@ export const authConfig = {
         request.nextUrl?.pathname.startsWith('/products');
       const isOnOrdersPage = request.nextUrl?.pathname.startsWith('/orders');
       const isOnLoginPage = request.nextUrl?.pathname.startsWith('/login');
+      const isOnDashboardPage = request.nextUrl?.pathname.startsWith('/dashboard');
 
       // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
 
       if (isOnUsersPage && !user) {
         return false;
       }
+
+      if (isOnDashboardPage && !user) {
+        return false;
+      }
+
 
       // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
 
