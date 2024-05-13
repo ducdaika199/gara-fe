@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String? @unique
+  password String? 
+  email String?
+  name String?
+  code String?
+  phoneNumber String?
+  plateNumber String?
+  address String?
+  carName String?
+  carType String?
+  invoices Invoice[]
+  status Status @default(ACTIVE)
+  isAdmin Boolean? @default(false)
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  code String
+  description String?
+  countUnit String?
+  priceUnit Decimal
+  ck Decimal? @default(0)
+  tax Decimal? @default(0)
+  type TypeWork @default(SUPPLIES)
+  invoiceItems InvoiceItem[]
+  status Status @default(ACTIVE)
+}
+
+model Invoice {
+  id Int @id @default(autoincrement())
+  userRequest String?
+  joinDate DateTime? @default(now())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  invoiceItems InvoiceItem[]
+  status Status @default(ACTIVE)
+}
+
+model InvoiceItem {
+  id Int @id @default(autoincrement())
+  quantity Int
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+  invoiceId Int
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum TypeWork {
+  SUPPLIES
+  REPAIRS
+}

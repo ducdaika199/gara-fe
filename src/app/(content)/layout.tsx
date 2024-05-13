@@ -8,18 +8,11 @@ import {
   Settings,
   ShoppingCart,
   Users2,
+  Package2Icon,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/src/components/ui/breadcrumb';
 import { Button } from '@/src/components/ui/button';
 import {
   DropdownMenu,
@@ -53,8 +46,20 @@ export default function DashboardLayout({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href="orders"
+                    href="dashboard"
                     className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  >
+                    <Package2Icon className="h-5 w-5" />
+                    <span className="sr-only">Dashboard</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Dashboard</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="orders"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   >
                     <ShoppingCart className="h-5 w-5" />
                     <span className="sr-only">Orders</span>

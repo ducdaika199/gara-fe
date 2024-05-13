@@ -1,28 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import paths, { checkPathIsProtected } from './routes/path';
+import NextAuth from 'next-auth';
+import { authConfig } from './lib/auth.config';
+
+export default NextAuth(authConfig).auth;
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|assets|favicon|sw.js|silent-check-sso.html|images).*)',
-  ],
+  matcher: ['/((?!api|static|.*\\..*|_next).*)'],
 };
 
-export function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
-  // Direction for root path
-  console.log(pathname, '------pathname---------');
-  if (pathname === paths.root) {
-    if (req.cookies.get('access_token')?.value) {
-      return NextResponse.redirect(new URL(`${paths.orders}`, req.url));
-    }
-    return NextResponse.redirect(new URL(paths.login, req.url));
-  }
-
-  if (
-    checkPathIsProtected(pathname) &&
-    !req.cookies.get('access_token')?.value
-  ) {
-    return NextResponse.redirect(new URL(paths.login, req.url));
-  }
-  return NextResponse.next();
-}
+// FOR MORE INFORMATION CHECK: https://nextjs.org/docs/app/building-your-application/routing/middleware
