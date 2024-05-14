@@ -54,7 +54,7 @@ export const handleLogout = async () => {
 
 // user action
 
-export const getUsers = async ({ take, skip }) => {
+export const getUsers = async ({ take, skip }, searchKey) => {
   let query = {
     take: 5,
     skip: 0,
@@ -69,7 +69,16 @@ export const getUsers = async ({ take, skip }) => {
     prisma.user.findMany({
       ...query,
       where: {
-        status: 'ACTIVE',
+        OR: [
+          {
+            name: {
+              startsWith: searchKey,
+            },
+          },
+        ],
+        NOT: {
+          status: 'INACTIVE',
+        },
       },
     }),
     prisma.user.count(),

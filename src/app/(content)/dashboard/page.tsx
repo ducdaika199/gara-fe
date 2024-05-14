@@ -1,15 +1,11 @@
-import Link from 'next/link';
 import {
   Activity,
   ArrowUpRight,
-  CircleUser,
   CreditCard,
   DollarSign,
-  Menu,
-  Package2,
-  Search,
   Users,
 } from 'lucide-react';
+import Link from 'next/link';
 
 import {
   Avatar,
@@ -25,16 +21,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/src/components/ui/dropdown-menu';
-import { Input } from '@/src/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/src/components/ui/sheet';
 import {
   Table,
   TableBody,
