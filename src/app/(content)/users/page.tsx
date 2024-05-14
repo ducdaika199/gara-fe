@@ -16,15 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/src/components/ui/dropdown-menu';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/src/components/ui/pagination';
+import PaginationFooter from '@/src/components/ui/paginationFooter';
 import SearchInput from '@/src/components/ui/search';
 import {
   Table,
@@ -58,32 +50,29 @@ const Users = async ({
 }) => {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const users = await getUsers(
-    { take: 10, skip: (currentPage - 1) * 10 },
-    query
-  );
+  const users = await getUsers(currentPage, query);
 
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <Tabs defaultValue="all">
-        <div className="flex items-center">
+    <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
+      <Tabs defaultValue='all'>
+        <div className='flex items-center'>
           <TabsList>
-            <TabsTrigger value="all">Tất cả</TabsTrigger>
+            <TabsTrigger value='all'>Tất cả</TabsTrigger>
           </TabsList>
-          <div className="relative ml-2 flex-1 md:grow-0">
+          <div className='relative ml-2 flex-1 md:grow-0'>
             <SearchInput />
           </div>
-          <div className="ml-auto flex items-center gap-2">
+          <div className='ml-auto flex items-center gap-2'>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-8 gap-1" size="sm" variant="outline">
-                  <ListFilterIcon className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                <Button className='h-8 gap-1' size='sm' variant='outline'>
+                  <ListFilterIcon className='h-3.5 w-3.5' />
+                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
                     Filter
                   </span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align='end'>
                 <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuCheckboxItem checked>
@@ -93,22 +82,22 @@ const Users = async ({
                 <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button className="h-8 gap-1" size="sm" variant="outline">
-              <FileIcon className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            <Button className='h-8 gap-1' size='sm' variant='outline'>
+              <FileIcon className='h-3.5 w-3.5' />
+              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
                 Export
               </span>
             </Button>
-            <Button className="h-8 gap-1" size="sm">
-              <PlusCircleIcon className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            <Button className='h-8 gap-1' size='sm'>
+              <PlusCircleIcon className='h-3.5 w-3.5' />
+              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
                 Thêm khách hàng
               </span>
             </Button>
           </div>
         </div>
-        <TabsContent value="all">
-          <Card x-chunk="dashboard-06-chunk-0">
+        <TabsContent value='all'>
+          <Card x-chunk='dashboard-06-chunk-0'>
             <CardHeader>
               <CardTitle>Khách hàng</CardTitle>
               <CardDescription>Danh sách khách hàng</CardDescription>
@@ -117,21 +106,21 @@ const Users = async ({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="hidden w-[100px] sm:table-cell">
+                    <TableHead className='hidden w-[100px] sm:table-cell'>
                       STT
                     </TableHead>
                     <TableHead>Tên</TableHead>
-                    <TableHead className="hidden md:table-cell">
+                    <TableHead className='hidden md:table-cell'>
                       Số điện thoại
                     </TableHead>
-                    <TableHead className="hidden md:table-cell">
+                    <TableHead className='hidden md:table-cell'>
                       Biển số xe
                     </TableHead>
-                    <TableHead className="hidden md:table-cell">
+                    <TableHead className='hidden md:table-cell'>
                       Loại xe
                     </TableHead>
                     <TableHead>
-                      <span className="sr-only">Actions</span>
+                      <span className='sr-only'>Actions</span>
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -139,34 +128,34 @@ const Users = async ({
                   {users?.data?.map((item) => {
                     return (
                       <TableRow key={item?.id ?? 0}>
-                        <TableCell className="hidden sm:table-cell">
+                        <TableCell className='hidden sm:table-cell'>
                           {item?.id ?? 0}
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell">
+                        <TableCell className='hidden sm:table-cell'>
                           {item?.name ?? ''}
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">
+                        <TableCell className='hidden md:table-cell'>
                           {item?.phoneNumber ?? ''}
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">
+                        <TableCell className='hidden md:table-cell'>
                           {item?.plateNumber ?? ''}
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">
+                        <TableCell className='hidden md:table-cell'>
                           {item?.carName ?? ''}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button
-                                aria-haspopup="true"
-                                size="icon"
-                                variant="ghost"
+                                aria-haspopup='true'
+                                size='icon'
+                                variant='ghost'
                               >
-                                <MoreHorizontalIcon className="h-4 w-4" />
-                                <span className="sr-only">Toggle menu</span>
+                                <MoreHorizontalIcon className='h-4 w-4' />
+                                <span className='sr-only'>Toggle menu</span>
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
+                            <DropdownMenuContent align='end'>
                               <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
                               <DropdownMenuItem>Xóa</DropdownMenuItem>
                             </DropdownMenuContent>
@@ -179,37 +168,14 @@ const Users = async ({
               </Table>
             </CardContent>
             <CardFooter>
-              <div className="text-xs text-muted-foreground">
+              <div className='text-xs text-muted-foreground'>
                 Hiển thị
-                <strong>{` ${users.pagination.skip} - ${users.pagination.take} `}</strong>
-                of <strong>{users.total} </strong>
+                <strong>{` ${users.data.length} - ${users.pagination.take} `}</strong>
+                của <strong>{users.total} </strong>
                 khách hàng
               </div>
-              <div className="text-xs ml-auto">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#" isActive>
-                        2
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationNext href="#" />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+              <div className='text-xs ml-auto'>
+                <PaginationFooter totalItems={users.total} />
               </div>
             </CardFooter>
           </Card>

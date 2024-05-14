@@ -5,6 +5,7 @@ import { prisma } from './db';
 import bcrypt from 'bcryptjs';
 import { revalidatePath } from 'next/cache';
 
+
 export const register = async (formData) => {
   const { username, password } = formData;
 
@@ -34,7 +35,6 @@ export const register = async (formData) => {
 };
 
 export const login = async (formData) => {
-  console.log(formData, '----formData-----');
   const { username, password } = formData;
 
   try {
@@ -54,25 +54,19 @@ export const handleLogout = async () => {
 
 // user action
 
-export const getUsers = async ({ take, skip }, searchKey) => {
-  let query = {
-    take: 5,
-    skip: 0,
-  };
-  if (take && skip) {
-    query = {
-      take: +take,
-      skip: +skip,
-    };
-  }
+export const getUsers = async (page, query) => {
+  const ITEM_PER_PAGE = 10;
+  const take = ITEM_PER_PAGE;
+  const skip = (ITEM_PER_PAGE * (page - 1));
   const users = await prisma.$transaction([
     prisma.user.findMany({
-      ...query,
+      take: take,
+      skip: skip,
       where: {
         OR: [
           {
             name: {
-              startsWith: searchKey,
+              startsWith: query,
             },
           },
         ],

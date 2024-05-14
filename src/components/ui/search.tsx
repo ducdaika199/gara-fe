@@ -13,7 +13,7 @@ const SearchInput = () => {
 
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
-
+    params.set('page', '1');
     if (term) {
       params.set('query', term);
     } else {
@@ -24,11 +24,11 @@ const SearchInput = () => {
 
   return (
     <div>
-      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
       <Input
-        type="search"
-        placeholder="Search..."
-        className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+        type='search'
+        placeholder='Search...'
+        className='w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]'
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
