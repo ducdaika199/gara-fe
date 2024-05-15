@@ -34,6 +34,7 @@ import {
   TabsTrigger,
 } from '@/src/components/ui/tabs';
 import UserCreateSheet from '@/src/components/users/userCreateForm';
+import UserEditSheet from '@/src/components/users/userEditForm';
 import { getUsers } from '@/src/lib/actions';
 import { FileIcon, ListFilterIcon, MoreHorizontalIcon } from 'lucide-react';
 
@@ -47,7 +48,9 @@ const Users = async ({
 }) => {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+  console.log(currentPage, '----currentPage----');
   const users = await getUsers(currentPage, query);
+  console.log(users, '------users------');
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -136,22 +139,7 @@ const Users = async ({
                           {item?.carName ?? ''}
                         </TableCell>
                         <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                aria-haspopup="true"
-                                size="icon"
-                                variant="ghost"
-                              >
-                                <MoreHorizontalIcon className="h-4 w-4" />
-                                <span className="sr-only">Toggle menu</span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-                              <DropdownMenuItem>Xóa</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <UserEditSheet user={item} />
                         </TableCell>
                       </TableRow>
                     );
