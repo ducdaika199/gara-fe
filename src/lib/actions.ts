@@ -5,7 +5,6 @@ import { prisma } from './db';
 import bcrypt from 'bcryptjs';
 import { revalidatePath } from 'next/cache';
 
-
 export const register = async (formData) => {
   const { username, password } = formData;
 
@@ -57,7 +56,7 @@ export const handleLogout = async () => {
 export const getUsers = async (page, query) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
-  const skip = (ITEM_PER_PAGE * (page - 1));
+  const skip = ITEM_PER_PAGE * (page - 1);
   const users = await prisma.$transaction([
     prisma.user.findMany({
       take: take,
