@@ -48,9 +48,7 @@ const Users = async ({
 }) => {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  console.log(currentPage, '----currentPage----');
   const users = await getUsers(currentPage, query);
-  console.log(users, '------users------');
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">

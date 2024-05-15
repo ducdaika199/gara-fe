@@ -53,7 +53,12 @@ const PaginationFooter = (count: { totalItems: number }) => {
           parseInt(currentPage) === page ? 'bg-neutral-100 rounded-md' : ''
         }
       >
-        <PaginationLink onClick={() => params.set('page', page.toString())}>
+        <PaginationLink
+          onClick={() => {
+            params.set('page', page.toString());
+            replace(`${pathname}?${params.toString()}`);
+          }}
+        >
           {page}
         </PaginationLink>
       </PaginationItem>
@@ -64,7 +69,10 @@ const PaginationFooter = (count: { totalItems: number }) => {
       renderedPages.unshift(
         <PaginationEllipsis
           key="ellipsis-start"
-          onClick={() => params.set('page', (activePages[0] - 1).toString())}
+          onClick={() => {
+            params.set('page', (activePages[0] - 1).toString());
+            replace(`${pathname}?${params.toString()}`);
+          }}
         />
       );
     }
@@ -74,12 +82,13 @@ const PaginationFooter = (count: { totalItems: number }) => {
       renderedPages.push(
         <PaginationEllipsis
           key="ellipsis-end"
-          onClick={() =>
+          onClick={() => {
             params.set(
               'page',
               (activePages[activePages.length - 1] + 1).toString()
-            )
-          }
+            );
+            replace(`${pathname}?${params.toString()}`);
+          }}
         />
       );
     }

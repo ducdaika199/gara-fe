@@ -37,8 +37,8 @@ import { useToast } from '@/src/components/ui/use-toast';
 import { cn } from '@/src/lib/utils';
 
 const UserEditSheet = (data: { user: User }) => {
-  console.log(data, '-----data-----');
   const [isClient, setIsClient] = useState(false);
+  const [isView, setIsView] = useState(false);
   const { toast } = useToast();
 
   const {
@@ -115,19 +115,42 @@ const UserEditSheet = (data: { user: User }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <SheetTrigger asChild>
+              <SheetTrigger
+                asChild
+                onClick={() => {
+                  if (!data.user) return;
+                  setIsView(true);
+                  form.reset(data.user);
+                }}
+              >
+                <DropdownMenuItem>Xem</DropdownMenuItem>
+              </SheetTrigger>
+              <SheetTrigger
+                asChild
+                onClick={() => {
+                  if (!data.user) return;
+                  setIsView(false);
+                  form.reset(data.user);
+                }}
+              >
                 <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
               </SheetTrigger>
               <DropdownMenuItem>Xóa</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Chỉnh sửa thông tin khách hàng</SheetTitle>
-              <SheetDescription>
-                Sửa thông tin khách hàng ở đây và lưu
-              </SheetDescription>
-            </SheetHeader>
+          <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
+            {isView ? (
+              <SheetHeader>
+                <SheetTitle>Thông tin khách hàng</SheetTitle>
+              </SheetHeader>
+            ) : (
+              <SheetHeader>
+                <SheetTitle>Chỉnh sửa thông tin khách hàng</SheetTitle>
+                <SheetDescription>
+                  Sửa thông tin khách hàng ở đây và lưu
+                </SheetDescription>
+              </SheetHeader>
+            )}
             <div className="py-4">
               <Form {...form}>
                 <form
@@ -145,6 +168,7 @@ const UserEditSheet = (data: { user: User }) => {
                             id="username"
                             placeholder="Tên đăng nhập..."
                             {...field}
+                            disabled={isView}
                           />
                         </FormControl>
                         <FormMessage />
@@ -162,6 +186,7 @@ const UserEditSheet = (data: { user: User }) => {
                             id="email"
                             placeholder="Địa chỉ email..."
                             {...field}
+                            disabled={isView}
                           />
                         </FormControl>
                         <FormMessage />
@@ -175,7 +200,12 @@ const UserEditSheet = (data: { user: User }) => {
                       <FormItem>
                         <FormLabel>Tên</FormLabel>
                         <FormControl>
-                          <Input id="name" placeholder="Tên..." {...field} />
+                          <Input
+                            id="name"
+                            placeholder="Tên..."
+                            {...field}
+                            disabled={isView}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -192,6 +222,7 @@ const UserEditSheet = (data: { user: User }) => {
                             id="phoneNumber"
                             placeholder="Số điện thoại..."
                             {...field}
+                            disabled={isView}
                           />
                         </FormControl>
                         <FormMessage />
@@ -209,6 +240,7 @@ const UserEditSheet = (data: { user: User }) => {
                             id="plateNumber"
                             placeholder="Biển số xe..."
                             {...field}
+                            disabled={isView}
                           />
                         </FormControl>
                         <FormMessage />
@@ -226,6 +258,7 @@ const UserEditSheet = (data: { user: User }) => {
                             id="carName"
                             placeholder="Tên xe..."
                             {...field}
+                            disabled={isView}
                           />
                         </FormControl>
                         <FormMessage />
@@ -243,6 +276,7 @@ const UserEditSheet = (data: { user: User }) => {
                             id="carType"
                             placeholder="Loại xe..."
                             {...field}
+                            disabled={isView}
                           />
                         </FormControl>
                         <FormMessage />
@@ -256,15 +290,22 @@ const UserEditSheet = (data: { user: User }) => {
                       <FormItem>
                         <FormLabel>Mã</FormLabel>
                         <FormControl>
-                          <Input id="code" placeholder="Mã..." {...field} />
+                          <Input
+                            id="code"
+                            placeholder="Mã..."
+                            {...field}
+                            disabled={isView}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <div className="flex justify-end">
-                    <Button type="submit">Lưu</Button>
-                  </div>
+                  {!isView && (
+                    <div className="flex justify-end">
+                      <Button type="submit">Lưu</Button>
+                    </div>
+                  )}
                 </form>
               </Form>
             </div>

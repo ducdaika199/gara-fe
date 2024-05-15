@@ -35,7 +35,6 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const state = (await register(values)).success;
-    console.log(state, '----state-----');
     if (state) {
       setStateRegister(state);
     }
