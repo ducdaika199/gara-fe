@@ -1,7 +1,11 @@
 'use client';
 
-import React from 'react';
-import { z } from 'zod';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/src/components/ui/dropdown-menu';
 import {
   Form,
   FormControl,
@@ -10,29 +14,44 @@ import {
   FormLabel,
   FormMessage,
 } from '@/src/components/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { Input } from '@/src/components/ui/input';
 import {
   Sheet,
-  SheetTrigger,
+  SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetDescription,
   SheetFooter,
-  SheetClose,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from '@/src/components/ui/sheet';
-import { PlusCircleIcon } from 'lucide-react';
+import { updateUser } from '@/src/lib/actions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { MoreHorizontalIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Button } from '../ui/button';
-import { createUser } from '@/src/lib/actions';
+import { User } from '@prisma/client';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/src/components/ui/use-toast';
 import { cn } from '@/src/lib/utils';
 
-const UserCreateSheet = () => {
+const UserEditSheet = (data: { user: User }) => {
+  console.log(data, '-----data-----');
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
+
+  const {
+    username,
+    email,
+    name,
+    phoneNumber,
+    plateNumber,
+    carName,
+    carType,
+    code,
+    id,
+  } = data.user;
   const formSchema = z.object({
     username: z.string(),
     email: z.string(),
@@ -47,30 +66,27 @@ const UserCreateSheet = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
-      email: '',
-      name: '',
-      phoneNumber: '',
-      plateNumber: '',
-      carName: '',
-      carType: '',
-      code: '',
+      username: username || '',
+      email: email || '',
+      name: name || '',
+      phoneNumber: phoneNumber || '',
+      plateNumber: plateNumber || '',
+      carName: carName || '',
+      carType: carType || '',
+      code: code || '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const user = await createUser(values);
-      if (user) {
-        toast({
-          className: cn(
-            'top-0 left-2 flex fixed md:max-w-[420px] md:top-4 md:right-4]'
-          ),
-          title: 'Tạo mới khách hàng thành công',
-          description: 'Thành công',
-        });
-        form.reset();
-      }
+      const user = await updateUser(id, values);
+      toast({
+        className: cn(
+          'top-0 left-2 flex fixed md:max-w-[420px] md:top-4 md:right-4]'
+        ),
+        title: 'Cập nhật thông tin khách hàng thành công',
+        description: 'Thành công',
+      });
       return user;
     } catch (err) {
       toast({
@@ -91,19 +107,25 @@ const UserCreateSheet = () => {
     <div>
       {isClient ? (
         <Sheet>
-          <SheetTrigger asChild>
-            <Button className="h-8 gap-1" size="sm">
-              <PlusCircleIcon className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Thêm khách hàng
-              </span>
-            </Button>
-          </SheetTrigger>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button aria-haspopup="true" size="icon" variant="ghost">
+                <MoreHorizontalIcon className="h-4 w-4" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <SheetTrigger asChild>
+                <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
+              </SheetTrigger>
+              <DropdownMenuItem>Xóa</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Thêm mới khách hàng</SheetTitle>
+              <SheetTitle>Chỉnh sửa thông tin khách hàng</SheetTitle>
               <SheetDescription>
-                Tạo mới thông tin khách hàng ở đây và lưu
+                Sửa thông tin khách hàng ở đây và lưu
               </SheetDescription>
             </SheetHeader>
             <div className="py-4">
@@ -258,4 +280,4 @@ const UserCreateSheet = () => {
   );
 };
 
-export default UserCreateSheet;
+export default UserEditSheet;
