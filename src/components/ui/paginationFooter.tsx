@@ -1,18 +1,15 @@
 'use client';
 
-import React from 'react';
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from '@/src/components/ui/pagination';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { Button } from './button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Button } from './button';
 
 const PaginationFooter = (count: { totalItems: number }) => {
   const searchParams = useSearchParams();
@@ -66,7 +63,7 @@ const PaginationFooter = (count: { totalItems: number }) => {
     if (activePages[0] > 1) {
       renderedPages.unshift(
         <PaginationEllipsis
-          key='ellipsis-start'
+          key="ellipsis-start"
           onClick={() => params.set('page', (activePages[0] - 1).toString())}
         />
       );
@@ -76,7 +73,7 @@ const PaginationFooter = (count: { totalItems: number }) => {
     if (activePages[activePages.length - 1] < pageNumbers.length) {
       renderedPages.push(
         <PaginationEllipsis
-          key='ellipsis-end'
+          key="ellipsis-end"
           onClick={() =>
             params.set(
               'page',
@@ -96,14 +93,14 @@ const PaginationFooter = (count: { totalItems: number }) => {
         <PaginationContent>
           <PaginationItem>
             <Button
-              className='h-8 gap-1'
-              size='sm'
-              variant='outline'
+              className="h-8 gap-1"
+              size="sm"
+              variant="outline"
               onClick={() => handleChangePage('prev')}
               disabled={!hasPrev}
             >
-              <ChevronLeft className='h-4 w-4' />
-              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Previous
               </span>
             </Button>
@@ -111,14 +108,14 @@ const PaginationFooter = (count: { totalItems: number }) => {
           {renderPages()}
           <PaginationItem>
             <Button
-              className='h-8 gap-1'
-              size='sm'
-              variant='outline'
+              className="h-8 gap-1"
+              size="sm"
+              variant="outline"
               onClick={() => handleChangePage('next')}
               disabled={!hasNext}
             >
-              <ChevronRight className='h-4 w-4' />
-              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+              <ChevronRight className="h-4 w-4" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Next
               </span>
             </Button>
