@@ -29,7 +29,8 @@ model User {
 
 model Product {
   id Int @id @default(autoincrement())
-  code String
+  code String?
+  name String?
   description String?
   countUnit String?
   priceUnit Decimal

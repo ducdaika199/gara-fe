@@ -129,20 +129,23 @@ export const deleteUser = async (id) => {
 
 // product actions
 
-export const getProducts = async ({ take, skip }) => {
-  let query = {
-    take: 5,
-    skip: 0,
-  };
-  if (take && skip) {
-    query = {
-      take: +take,
-      skip: +skip,
-    };
-  }
+export const getProducts = async (page, query) => {
+  const ITEM_PER_PAGE = 10;
+  const take = ITEM_PER_PAGE;
+  const skip = ITEM_PER_PAGE * (page - 1);
   const products = await prisma.$transaction([
     prisma.product.findMany({
-      ...query,
+      take: take,
+      skip: skip,
+      where: {
+        OR: [
+          {
+            name: {
+              startsWith: query,
+            },
+          },
+        ],
+      },
     }),
     prisma.product.count(),
   ]);
