@@ -145,6 +145,9 @@ export const getProducts = async (page, query) => {
             },
           },
         ],
+        NOT: {
+          status: 'INACTIVE',
+        },
       },
     }),
     prisma.product.count(),

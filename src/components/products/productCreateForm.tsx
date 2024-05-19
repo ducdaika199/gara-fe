@@ -13,17 +13,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/src/components/ui/input';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetClose,
-} from '@/src/components/ui/sheet';
-import { PlusCircleIcon } from 'lucide-react';
+
 import { Button } from '../ui/button';
 import { createUser } from '@/src/lib/actions';
 import { useState, useEffect } from 'react';
@@ -31,30 +21,33 @@ import { useToast } from '@/src/components/ui/use-toast';
 import { cn } from '@/src/lib/utils';
 
 const ProductCreateSheet = () => {
-  const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
   const formSchema = z.object({
-    username: z.string(),
-    email: z.string(),
     name: z.string(),
-    phoneNumber: z.string(),
-    plateNumber: z.string(),
+    code: z.string(),
+    description: z.string(),
+    countUnit: z.string(),
+    priceUnit: z.string(),
     carName: z.string(),
     carType: z.string(),
-    code: z.string(),
+    type: z.string(),
+    tax: z.number(),
+    ck: z.number(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
-      email: '',
       name: '',
-      phoneNumber: '',
-      plateNumber: '',
+      code: '',
+      description: '',
+      countUnit: '',
+      priceUnit: '',
       carName: '',
       carType: '',
-      code: '',
+      type: '',
+      tax: 0,
+      ck: 0,
     },
   });
 
@@ -83,177 +76,131 @@ const ProductCreateSheet = () => {
     }
   }
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
-    <div>
-      {!isClient ? (
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button className='h-8 gap-1' size='sm'>
-              <PlusCircleIcon className='h-3.5 w-3.5' />
-              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-                Thêm sản phẩm
-              </span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Thêm mới sản phẩm</SheetTitle>
-              <SheetDescription>
-                Tạo mới thông tin sản phẩm ở đây và lưu
-              </SheetDescription>
-            </SheetHeader>
-            <div className='py-4'>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className='space-y-4'
-                >
-                  <FormField
-                    control={form.control}
-                    name='username'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tên đăng nhập</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='username'
-                            placeholder='Tên đăng nhập...'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+    <div className='py-4'>
+      {/* <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+          <FormField
+            control={form.control}
+            name='username'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tên đăng nhập</FormLabel>
+                <FormControl>
+                  <Input
+                    id='username'
+                    placeholder='Tên đăng nhập...'
+                    {...field}
                   />
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Địa chỉ email</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='email'
-                            placeholder='Địa chỉ email...'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Địa chỉ email</FormLabel>
+                <FormControl>
+                  <Input id='email' placeholder='Địa chỉ email...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tên</FormLabel>
+                <FormControl>
+                  <Input id='name' placeholder='Tên...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='phoneNumber'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Số điện thoại</FormLabel>
+                <FormControl>
+                  <Input
+                    id='phoneNumber'
+                    placeholder='Số điện thoại...'
+                    {...field}
                   />
-                  <FormField
-                    control={form.control}
-                    name='name'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tên</FormLabel>
-                        <FormControl>
-                          <Input id='name' placeholder='Tên...' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='plateNumber'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Biển số xe</FormLabel>
+                <FormControl>
+                  <Input
+                    id='plateNumber'
+                    placeholder='Biển số xe...'
+                    {...field}
                   />
-                  <FormField
-                    control={form.control}
-                    name='phoneNumber'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Số điện thoại</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='phoneNumber'
-                            placeholder='Số điện thoại...'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='plateNumber'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Biển số xe</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='plateNumber'
-                            placeholder='Biển số xe...'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='carName'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tên xe</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='carName'
-                            placeholder='Tên xe...'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='carType'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Loại xe</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='carType'
-                            placeholder='Loại xe...'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='code'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Mã</FormLabel>
-                        <FormControl>
-                          <Input id='code' placeholder='Mã...' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className='flex justify-end'>
-                    <Button type='submit'>Lưu</Button>
-                  </div>
-                </form>
-              </Form>
-            </div>
-            <SheetFooter>
-              <SheetClose asChild></SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-      ) : (
-        <></>
-      )}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='carName'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tên xe</FormLabel>
+                <FormControl>
+                  <Input id='carName' placeholder='Tên xe...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='carType'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Loại xe</FormLabel>
+                <FormControl>
+                  <Input id='carType' placeholder='Loại xe...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='code'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mã</FormLabel>
+                <FormControl>
+                  <Input id='code' placeholder='Mã...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className='flex justify-end'>
+            <Button type='submit'>Lưu</Button>
+          </div>
+        </form>
+      </Form> */}
     </div>
   );
 };
