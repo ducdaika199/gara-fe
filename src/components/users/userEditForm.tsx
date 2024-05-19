@@ -25,16 +25,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/src/components/ui/sheet';
+import { useToast } from '@/src/components/ui/use-toast';
 import { updateUser } from '@/src/lib/actions';
+import { cn } from '@/src/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@prisma/client';
 import { MoreHorizontalIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
-import { User } from '@prisma/client';
-import { useState, useEffect } from 'react';
-import { useToast } from '@/src/components/ui/use-toast';
-import { cn } from '@/src/lib/utils';
+import { Skeleton } from '../ui/skeleton';
 
 const UserEditSheet = (data: { user: User }) => {
   const [isClient, setIsClient] = useState(false);
@@ -109,12 +110,12 @@ const UserEditSheet = (data: { user: User }) => {
         <Sheet>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button aria-haspopup="true" size="icon" variant="ghost">
-                <MoreHorizontalIcon className="h-4 w-4" />
-                <span className="sr-only">Toggle menu</span>
+              <Button aria-haspopup='true' size='icon' variant='ghost'>
+                <MoreHorizontalIcon className='h-4 w-4' />
+                <span className='sr-only'>Toggle menu</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align='end'>
               <SheetTrigger
                 asChild
                 onClick={() => {
@@ -151,22 +152,22 @@ const UserEditSheet = (data: { user: User }) => {
                 </SheetDescription>
               </SheetHeader>
             )}
-            <div className="py-4">
+            <div className='py-4'>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4"
+                  className='space-y-4'
                 >
                   <FormField
                     control={form.control}
-                    name="username"
+                    name='username'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tên đăng nhập</FormLabel>
                         <FormControl>
                           <Input
-                            id="username"
-                            placeholder="Tên đăng nhập..."
+                            id='username'
+                            placeholder='Tên đăng nhập...'
                             {...field}
                             disabled={isView}
                           />
@@ -177,14 +178,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="email"
+                    name='email'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Địa chỉ email</FormLabel>
                         <FormControl>
                           <Input
-                            id="email"
-                            placeholder="Địa chỉ email..."
+                            id='email'
+                            placeholder='Địa chỉ email...'
                             {...field}
                             disabled={isView}
                           />
@@ -195,14 +196,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="name"
+                    name='name'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tên</FormLabel>
                         <FormControl>
                           <Input
-                            id="name"
-                            placeholder="Tên..."
+                            id='name'
+                            placeholder='Tên...'
                             {...field}
                             disabled={isView}
                           />
@@ -213,14 +214,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="phoneNumber"
+                    name='phoneNumber'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Số điện thoại</FormLabel>
                         <FormControl>
                           <Input
-                            id="phoneNumber"
-                            placeholder="Số điện thoại..."
+                            id='phoneNumber'
+                            placeholder='Số điện thoại...'
                             {...field}
                             disabled={isView}
                           />
@@ -231,14 +232,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="plateNumber"
+                    name='plateNumber'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Biển số xe</FormLabel>
                         <FormControl>
                           <Input
-                            id="plateNumber"
-                            placeholder="Biển số xe..."
+                            id='plateNumber'
+                            placeholder='Biển số xe...'
                             {...field}
                             disabled={isView}
                           />
@@ -249,14 +250,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="carName"
+                    name='carName'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tên xe</FormLabel>
                         <FormControl>
                           <Input
-                            id="carName"
-                            placeholder="Tên xe..."
+                            id='carName'
+                            placeholder='Tên xe...'
                             {...field}
                             disabled={isView}
                           />
@@ -267,14 +268,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="carType"
+                    name='carType'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Loại xe</FormLabel>
                         <FormControl>
                           <Input
-                            id="carType"
-                            placeholder="Loại xe..."
+                            id='carType'
+                            placeholder='Loại xe...'
                             {...field}
                             disabled={isView}
                           />
@@ -285,14 +286,14 @@ const UserEditSheet = (data: { user: User }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="code"
+                    name='code'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Mã</FormLabel>
                         <FormControl>
                           <Input
-                            id="code"
-                            placeholder="Mã..."
+                            id='code'
+                            placeholder='Mã...'
                             {...field}
                             disabled={isView}
                           />
@@ -302,8 +303,8 @@ const UserEditSheet = (data: { user: User }) => {
                     )}
                   />
                   {!isView && (
-                    <div className="flex justify-end">
-                      <Button type="submit">Lưu</Button>
+                    <div className='flex justify-end'>
+                      <Button type='submit'>Lưu</Button>
                     </div>
                   )}
                 </form>
@@ -315,7 +316,9 @@ const UserEditSheet = (data: { user: User }) => {
           </SheetContent>
         </Sheet>
       ) : (
-        <></>
+        <>
+          <Skeleton className='w-[40px] h-[40px]' />
+        </>
       )}
     </div>
   );

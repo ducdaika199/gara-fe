@@ -92,9 +92,9 @@ const ProductCreateSheet = () => {
       {!isClient ? (
         <Sheet>
           <SheetTrigger asChild>
-            <Button className="h-8 gap-1" size="sm">
-              <PlusCircleIcon className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            <Button className='h-8 gap-1' size='sm'>
+              <PlusCircleIcon className='h-3.5 w-3.5' />
+              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
                 Thêm sản phẩm
               </span>
             </Button>
@@ -106,22 +106,22 @@ const ProductCreateSheet = () => {
                 Tạo mới thông tin sản phẩm ở đây và lưu
               </SheetDescription>
             </SheetHeader>
-            <div className="py-4">
+            <div className='py-4'>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4"
+                  className='space-y-4'
                 >
                   <FormField
                     control={form.control}
-                    name="username"
+                    name='username'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tên đăng nhập</FormLabel>
                         <FormControl>
                           <Input
-                            id="username"
-                            placeholder="Tên đăng nhập..."
+                            id='username'
+                            placeholder='Tên đăng nhập...'
                             {...field}
                           />
                         </FormControl>
@@ -131,14 +131,14 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="email"
+                    name='email'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Địa chỉ email</FormLabel>
                         <FormControl>
                           <Input
-                            id="email"
-                            placeholder="Địa chỉ email..."
+                            id='email'
+                            placeholder='Địa chỉ email...'
                             {...field}
                           />
                         </FormControl>
@@ -148,12 +148,12 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="name"
+                    name='name'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tên</FormLabel>
                         <FormControl>
-                          <Input id="name" placeholder="Tên..." {...field} />
+                          <Input id='name' placeholder='Tên...' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -161,14 +161,14 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="phoneNumber"
+                    name='phoneNumber'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Số điện thoại</FormLabel>
                         <FormControl>
                           <Input
-                            id="phoneNumber"
-                            placeholder="Số điện thoại..."
+                            id='phoneNumber'
+                            placeholder='Số điện thoại...'
                             {...field}
                           />
                         </FormControl>
@@ -178,14 +178,14 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="plateNumber"
+                    name='plateNumber'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Biển số xe</FormLabel>
                         <FormControl>
                           <Input
-                            id="plateNumber"
-                            placeholder="Biển số xe..."
+                            id='plateNumber'
+                            placeholder='Biển số xe...'
                             {...field}
                           />
                         </FormControl>
@@ -195,14 +195,14 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="carName"
+                    name='carName'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tên xe</FormLabel>
                         <FormControl>
                           <Input
-                            id="carName"
-                            placeholder="Tên xe..."
+                            id='carName'
+                            placeholder='Tên xe...'
                             {...field}
                           />
                         </FormControl>
@@ -212,14 +212,14 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="carType"
+                    name='carType'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Loại xe</FormLabel>
                         <FormControl>
                           <Input
-                            id="carType"
-                            placeholder="Loại xe..."
+                            id='carType'
+                            placeholder='Loại xe...'
                             {...field}
                           />
                         </FormControl>
@@ -229,19 +229,19 @@ const ProductCreateSheet = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="code"
+                    name='code'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Mã</FormLabel>
                         <FormControl>
-                          <Input id="code" placeholder="Mã..." {...field} />
+                          <Input id='code' placeholder='Mã...' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <div className="flex justify-end">
-                    <Button type="submit">Lưu</Button>
+                  <div className='flex justify-end'>
+                    <Button type='submit'>Lưu</Button>
                   </div>
                 </form>
               </Form>
