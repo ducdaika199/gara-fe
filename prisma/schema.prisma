@@ -33,9 +33,9 @@ model Product {
   name String?
   description String?
   countUnit String?
-  priceUnit Decimal
-  ck Decimal? @default(0)
-  tax Decimal? @default(0)
+  priceUnit BigInt
+  ck Int? @default(0)
+  tax Int? @default(0)
   type TypeWork @default(SUPPLIES)
   invoiceItems InvoiceItem[]
   status Status @default(ACTIVE)
