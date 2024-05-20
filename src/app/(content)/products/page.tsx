@@ -140,7 +140,7 @@ const Products = async ({
                           {item?.countUnit ?? ''}
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
-                          {item?.priceUnit?.toString() ?? ''}
+                          {`${item?.priceUnit?.toLocaleString('it-IT')} đ`}
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
                           {item?.tax?.toString() ?? ''}
