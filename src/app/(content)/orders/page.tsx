@@ -1,3 +1,4 @@
+'use client';
 import {
   ChevronLeft,
   ChevronRight,
@@ -55,8 +56,30 @@ import {
   TabsTrigger,
 } from '@/src/components/ui/tabs';
 import { Input } from '@/src/components/ui/input';
+import { getInvoices } from '@/src/lib/actions';
+import { Invoice } from '@prisma/client';
+import { useEffect, useState } from 'react';
 
-export default function Orders() {
+const Orders = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getInvoices({take: 10, skip: 0});
+      console.log(data)
+      setOrders(data?.data ?? []);
+    }
+    fetchData();
+  }, []);
+
+  
+  const formattedCurrency = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'});
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+
+  const handleClickInvoice = (item: Invoice) => {
+    setSelectedInvoice(item);
+  }
+
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
       <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
@@ -171,11 +194,13 @@ export default function Orders() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    <TableRow className='bg-accent'>
+                  {orders?.map((item) => {
+                    return (
+                    <TableRow key={item?.id ?? 0} onClick={() => handleClickInvoice(item)} >
                       <TableCell>
-                        <div className='font-medium'>Liam Johnson</div>
+                        <div className='font-medium'>{item.user.username}</div>
                         <div className='hidden text-sm text-muted-foreground md:inline'>
-                          liam@example.com
+                        {item.user.email}
                         </div>
                       </TableCell>
                       <TableCell className='hidden sm:table-cell'>
@@ -183,154 +208,18 @@ export default function Orders() {
                       </TableCell>
                       <TableCell className='hidden sm:table-cell'>
                         <Badge className='text-xs' variant='secondary'>
-                          Fulfilled
+                          {item.status}
                         </Badge>
                       </TableCell>
                       <TableCell className='hidden md:table-cell'>
-                        2023-06-23
-                      </TableCell>
-                      <TableCell className='text-right'>$250.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Olivia Smith</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          olivia@example.com
+                        <div>
+                        {item.createdDate?.toDateString()}
                         </div>
                       </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Refund
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='outline'>
-                          Declined
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-24
-                      </TableCell>
-                      <TableCell className='text-right'>$150.00</TableCell>
+                      <TableCell className='text-right'>{formattedCurrency.format(item.invoiceItems.reduce((total, i) => total + Number(i.amount), 0))}</TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Noah Williams</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          noah@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Subscription
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='secondary'>
-                          Fulfilled
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-25
-                      </TableCell>
-                      <TableCell className='text-right'>$350.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Emma Brown</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          emma@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Sale
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='secondary'>
-                          Fulfilled
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-26
-                      </TableCell>
-                      <TableCell className='text-right'>$450.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Liam Johnson</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          liam@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Sale
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='secondary'>
-                          Fulfilled
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-23
-                      </TableCell>
-                      <TableCell className='text-right'>$250.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Liam Johnson</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          liam@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Sale
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='secondary'>
-                          Fulfilled
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-23
-                      </TableCell>
-                      <TableCell className='text-right'>$250.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Olivia Smith</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          olivia@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Refund
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='outline'>
-                          Declined
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-24
-                      </TableCell>
-                      <TableCell className='text-right'>$150.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className='font-medium'>Emma Brown</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                          emma@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Sale
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='secondary'>
-                          Fulfilled
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        2023-06-26
-                      </TableCell>
-                      <TableCell className='text-right'>$450.00</TableCell>
-                    </TableRow>
+                    );
+                  })}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -377,7 +266,7 @@ export default function Orders() {
           <CardHeader className='flex flex-row items-start bg-muted/50'>
             <div className='grid gap-0.5'>
               <CardTitle className='group flex items-center gap-2 text-lg'>
-                Order ID: Oe31b70H
+                Order ID: {selectedInvoice?.id}
                 <Button
                   size='icon'
                   variant='outline'
@@ -387,7 +276,7 @@ export default function Orders() {
                   <span className='sr-only'>Copy Order ID</span>
                 </Button>
               </CardTitle>
-              <CardDescription>Date: November 23, 2023</CardDescription>
+              <CardDescription>Date: {selectedInvoice?.createdDate.toDateString()}</CardDescription>
             </div>
             <div className='ml-auto flex items-center gap-1'>
               <Button size='sm' variant='outline' className='h-8 gap-1'>
@@ -450,40 +339,23 @@ export default function Orders() {
               </ul>
             </div>
             <Separator className='my-4' />
-            <div className='grid grid-cols-2 gap-4'>
-              <div className='grid gap-3'>
-                <div className='font-semibold'>Shipping Information</div>
-                <address className='grid gap-0.5 not-italic text-muted-foreground'>
-                  <span>Liam Johnson</span>
-                  <span>1234 Main St.</span>
-                  <span>Anytown, CA 12345</span>
-                </address>
-              </div>
-              <div className='grid auto-rows-max gap-3'>
-                <div className='font-semibold'>Billing Information</div>
-                <div className='text-muted-foreground'>
-                  Same as shipping address
-                </div>
-              </div>
-            </div>
-            <Separator className='my-4' />
             <div className='grid gap-3'>
               <div className='font-semibold'>Customer Information</div>
               <dl className='grid gap-3'>
                 <div className='flex items-center justify-between'>
                   <dt className='text-muted-foreground'>Customer</dt>
-                  <dd>Liam Johnson</dd>
+                  <dd>{selectedInvoice?.user.username}</dd>
                 </div>
                 <div className='flex items-center justify-between'>
                   <dt className='text-muted-foreground'>Email</dt>
                   <dd>
-                    <a href='mailto:'>liam@acme.com</a>
+                    <a href='mailto:'>{selectedInvoice?.user.email}</a>
                   </dd>
                 </div>
                 <div className='flex items-center justify-between'>
                   <dt className='text-muted-foreground'>Phone</dt>
                   <dd>
-                    <a href='tel:'>+1 234 567 890</a>
+                    <a href='tel:'>{selectedInvoice?.user.Phone}</a>
                   </dd>
                 </div>
               </dl>
@@ -528,3 +400,4 @@ export default function Orders() {
     </main>
   );
 }
+export default Orders;
