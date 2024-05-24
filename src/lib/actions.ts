@@ -216,7 +216,13 @@ export const getInvoices = async ({ take, skip }) => {
     };
   }
   const invoices = await prisma.$transaction([
-    prisma.invoice.findMany({ ...query }),
+    prisma.invoice.findMany({
+       ...query,
+       include: {
+        user: true,
+        invoiceItems: true
+      },
+      }),
     prisma.invoice.count(),
   ]);
   return {
@@ -240,6 +246,7 @@ export const getInvoice = async (id) => {
           quantity: true,
           id: true,
           product: true,
+          amount: true
         },
       },
       user: true,
