@@ -204,25 +204,35 @@ export const deleteProduct = async (id) => {
 };
 
 // invoice actions
-export const getInvoices = async ({ take, skip }) => {
-  let query = {
-    take: 5,
-    skip: 0,
-  };
-  if (take && skip) {
-    query = {
-      take: +take,
-      skip: +skip,
-    };
-  }
+export const getInvoices = async (page, query) => {
+  const ITEM_PER_PAGE = 10;
+  const take = ITEM_PER_PAGE;
+  const skip = ITEM_PER_PAGE * (page - 1);
   const invoices = await prisma.$transaction([
     prisma.invoice.findMany({
-       ...query,
-       include: {
+      take: take,
+      skip: skip,
+      where: {
+        OR: [
+          {
+            user: {
+              username: {
+                startsWith: query
+              }
+            }
+          }
+        ],
+        NOT: {
+          user: {
+            status: 'INACTIVE'
+          }
+        }
+      },
+      include: {
         user: true,
         invoiceItems: true
       },
-      }),
+    }),
     prisma.invoice.count(),
   ]);
   return {

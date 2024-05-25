@@ -1,4 +1,3 @@
-'use client';
 import {
   ChevronLeft,
   ChevronRight,
@@ -60,25 +59,38 @@ import { getInvoices } from '@/src/lib/actions';
 import { Invoice } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
-const Orders = () => {
-  const [orders, setOrders] = useState([]);
+const Orders = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) => {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+  const orders = await getInvoices(currentPage, query);
+  console.log(orders, '-----orders-----');
+  // const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getInvoices({take: 10, skip: 0});
-      console.log(data)
-      setOrders(data?.data ?? []);
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const data = await getInvoices({ take: 10, skip: 0 });
+  //     console.log(data);
+  //     setOrders(data?.data ?? []);
+  //   }
+  //   fetchData();
+  // }, []);
 
-  
-  const formattedCurrency = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'});
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const formattedCurrency = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  });
+  // const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
-  const handleClickInvoice = (item: Invoice) => {
-    setSelectedInvoice(item);
-  }
+  // const handleClickInvoice = (item: Invoice) => {
+  //   setSelectedInvoice(item);
+  // };
 
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
@@ -194,32 +206,42 @@ const Orders = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                  {orders?.map((item) => {
-                    return (
-                    <TableRow key={item?.id ?? 0} onClick={() => handleClickInvoice(item)} >
-                      <TableCell>
-                        <div className='font-medium'>{item.user.username}</div>
-                        <div className='hidden text-sm text-muted-foreground md:inline'>
-                        {item.user.email}
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        Sale
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Badge className='text-xs' variant='secondary'>
-                          {item.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        <div>
-                        {item.createdDate?.toDateString()}
-                        </div>
-                      </TableCell>
-                      <TableCell className='text-right'>{formattedCurrency.format(item.invoiceItems.reduce((total, i) => total + Number(i.amount), 0))}</TableCell>
-                    </TableRow>
-                    );
-                  })}
+                    {/* {orders?.map((item) => {
+                      return (
+                        <TableRow
+                          key={item?.id ?? 0}
+                          // onClick={() => handleClickInvoice(item)}
+                        >
+                          <TableCell>
+                            <div className='font-medium'>
+                              {item.user.username}
+                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>
+                              {item.user.email}
+                            </div>
+                          </TableCell>
+                          <TableCell className='hidden sm:table-cell'>
+                            Sale
+                          </TableCell>
+                          <TableCell className='hidden sm:table-cell'>
+                            <Badge className='text-xs' variant='secondary'>
+                              {item.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className='hidden md:table-cell'>
+                            <div>{item.createdDate?.toDateString()}</div>
+                          </TableCell>
+                          <TableCell className='text-right'>
+                            {formattedCurrency.format(
+                              item.invoiceItems.reduce(
+                                (total, i) => total + Number(i.amount),
+                                0
+                              )
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })} */}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -266,7 +288,7 @@ const Orders = () => {
           <CardHeader className='flex flex-row items-start bg-muted/50'>
             <div className='grid gap-0.5'>
               <CardTitle className='group flex items-center gap-2 text-lg'>
-                Order ID: {selectedInvoice?.id}
+                {/* Order ID: {selectedInvoice?.id} */}
                 <Button
                   size='icon'
                   variant='outline'
@@ -276,7 +298,9 @@ const Orders = () => {
                   <span className='sr-only'>Copy Order ID</span>
                 </Button>
               </CardTitle>
-              <CardDescription>Date: {selectedInvoice?.createdDate.toDateString()}</CardDescription>
+              <CardDescription>
+                {/* Date: {selectedInvoice?.createdDate.toDateString()} */}
+              </CardDescription>
             </div>
             <div className='ml-auto flex items-center gap-1'>
               <Button size='sm' variant='outline' className='h-8 gap-1'>
@@ -344,18 +368,18 @@ const Orders = () => {
               <dl className='grid gap-3'>
                 <div className='flex items-center justify-between'>
                   <dt className='text-muted-foreground'>Customer</dt>
-                  <dd>{selectedInvoice?.user.username}</dd>
+                  {/* <dd>{selectedInvoice?.user.username}</dd> */}
                 </div>
                 <div className='flex items-center justify-between'>
                   <dt className='text-muted-foreground'>Email</dt>
                   <dd>
-                    <a href='mailto:'>{selectedInvoice?.user.email}</a>
+                    {/* <a href='mailto:'>{selectedInvoice?.user.email}</a> */}
                   </dd>
                 </div>
                 <div className='flex items-center justify-between'>
                   <dt className='text-muted-foreground'>Phone</dt>
                   <dd>
-                    <a href='tel:'>{selectedInvoice?.user.Phone}</a>
+                    {/* <a href='tel:'>{selectedInvoice?.user.Phone}</a> */}
                   </dd>
                 </div>
               </dl>
@@ -399,5 +423,5 @@ const Orders = () => {
       </div>
     </main>
   );
-}
+};
 export default Orders;

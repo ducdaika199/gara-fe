@@ -170,8 +170,8 @@ const Products = async ({
             <CardFooter>
               <div className='text-xs text-muted-foreground'>
                 Hiển thị
-                <strong>{` ${products.data.length} - ${products.pagination.take} `}</strong>
-                của <strong>{products.total} </strong>
+                <strong>{` ${products?.data?.length} - ${products?.pagination?.take} `}</strong>
+                của <strong>{products?.total} </strong>
                 sản phẩm
               </div>
               <div className='text-xs ml-auto'>
