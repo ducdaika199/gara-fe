@@ -1,4 +1,5 @@
 import ProductCreateSheet from '@/src/components/products/productCreateForm';
+import ProductEditSheet from '@/src/components/products/productEditForm';
 import { Button } from '@/src/components/ui/button';
 import {
   Card,
@@ -8,14 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/src/components/ui/dropdown-menu';
 import PaginationFooter from '@/src/components/ui/paginationFooter';
 import SearchInput from '@/src/components/ui/search';
 import {
@@ -42,10 +35,8 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/src/components/ui/tabs';
-import UserCreateSheet from '@/src/components/users/userCreateForm';
-import UserEditSheet from '@/src/components/users/userEditForm';
-import { getProducts, getUsers } from '@/src/lib/actions';
-import { FileIcon, ListFilterIcon, PlusCircleIcon } from 'lucide-react';
+import { getProducts } from '@/src/lib/actions';
+import { PlusCircleIcon } from 'lucide-react';
 
 const Products = async ({
   searchParams,
@@ -159,7 +150,7 @@ const Products = async ({
                           {renderType(item?.type) ?? ''}
                         </TableCell>
                         <TableCell>
-                          {/* <UserEditSheet user={item} /> */}
+                          <ProductEditSheet product={item} />
                         </TableCell>
                       </TableRow>
                     );
