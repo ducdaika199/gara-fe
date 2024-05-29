@@ -70,7 +70,6 @@ const ProductEditSheet = (data: { product: Product }) => {
 
   const { id, name, description, priceUnit, countUnit, ck, tax, code, type } =
     data.product;
-  console.log(data.product, '------price unit-------');
   const formSchema = z.object({
     name: z.string(),
     code: z.string(),
@@ -151,12 +150,12 @@ const ProductEditSheet = (data: { product: Product }) => {
           <Sheet>
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <Button aria-haspopup='true' size='icon' variant='ghost'>
-                  <MoreHorizontalIcon className='h-4 w-4' />
-                  <span className='sr-only'>Toggle menu</span>
+                <Button aria-haspopup="true" size="icon" variant="ghost">
+                  <MoreHorizontalIcon className="h-4 w-4" />
+                  <span className="sr-only">Toggle menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align='end'>
+              <DropdownMenuContent align="end">
                 <SheetTrigger
                   asChild
                   onClick={() => {
@@ -200,22 +199,22 @@ const ProductEditSheet = (data: { product: Product }) => {
                   </SheetDescription>
                 </SheetHeader>
               )}
-              <div className='py-4'>
+              <div className="py-4">
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className='space-y-4'
+                    className="space-y-4"
                   >
                     <FormField
                       control={form.control}
-                      name='name'
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Tên sản phẩm</FormLabel>
                           <FormControl>
                             <Input
-                              id='name'
-                              placeholder='Tên sản phẩm...'
+                              id="name"
+                              placeholder="Tên sản phẩm..."
                               {...field}
                               disabled={isView}
                             />
@@ -226,14 +225,14 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='code'
+                      name="code"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Mã</FormLabel>
                           <FormControl>
                             <Input
-                              id='code'
-                              placeholder='Mã...'
+                              id="code"
+                              placeholder="Mã..."
                               {...field}
                               disabled={isView}
                             />
@@ -244,14 +243,14 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='description'
+                      name="description"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Mô tả</FormLabel>
                           <FormControl>
                             <Input
-                              id='description'
-                              placeholder='Mô tả...'
+                              id="description"
+                              placeholder="Mô tả..."
                               {...field}
                               disabled={isView}
                             />
@@ -262,14 +261,14 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='countUnit'
+                      name="countUnit"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>ĐVT</FormLabel>
                           <FormControl>
                             <Input
-                              id='countUnit'
-                              placeholder='Đơn vị tính...'
+                              id="countUnit"
+                              placeholder="Đơn vị tính..."
                               {...field}
                               disabled={isView}
                             />
@@ -280,15 +279,15 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='priceUnit'
+                      name="priceUnit"
                       render={({ field }) => {
                         return (
                           <FormItem>
                             <FormLabel>Đơn giá</FormLabel>
                             <FormControl>
                               <CurrencyInput
-                                id='priceUnit'
-                                placeholder='đ1,234,567'
+                                id="priceUnit"
+                                placeholder="đ1,234,567"
                                 allowDecimals={false}
                                 className={
                                   'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
@@ -296,7 +295,7 @@ const ProductEditSheet = (data: { product: Product }) => {
                                 onValueChange={field.onChange}
                                 prefix={'đ'}
                                 step={10}
-                                name='priceUnit'
+                                name="priceUnit"
                                 disabled={isView}
                                 defaultValue={priceUnit.toString()}
                               />
@@ -308,7 +307,7 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='type'
+                      name="type"
                       render={({ field }) => {
                         console.log(field, '-----field-----');
                         return (
@@ -322,15 +321,15 @@ const ProductEditSheet = (data: { product: Product }) => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder='Chọn vật công hoặc vật liệu' />
+                                  <SelectValue placeholder="Chọn vật công hoặc vật liệu" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
                                 <SelectGroup>
-                                  <SelectItem value='SUPPLIES'>
+                                  <SelectItem value="SUPPLIES">
                                     Vật liệu
                                   </SelectItem>
-                                  <SelectItem value='REPAIRS'>
+                                  <SelectItem value="REPAIRS">
                                     Vật công
                                   </SelectItem>
                                 </SelectGroup>
@@ -343,15 +342,15 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='tax'
+                      name="tax"
                       render={({ field }) => {
                         return (
                           <FormItem>
                             <FormLabel>Thuế</FormLabel>
                             <FormControl>
                               <CurrencyInput
-                                id='tax'
-                                placeholder='0%'
+                                id="tax"
+                                placeholder="0%"
                                 allowDecimals={false}
                                 className={
                                   'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
@@ -359,7 +358,7 @@ const ProductEditSheet = (data: { product: Product }) => {
                                 onValueChange={field.onChange}
                                 suffix={'%'}
                                 step={10}
-                                name='tax'
+                                name="tax"
                                 disabled={isView}
                                 defaultValue={tax?.toString()}
                               />
@@ -371,15 +370,15 @@ const ProductEditSheet = (data: { product: Product }) => {
                     />
                     <FormField
                       control={form.control}
-                      name='ck'
+                      name="ck"
                       render={({ field }) => {
                         return (
                           <FormItem>
                             <FormLabel>Chiết khấu</FormLabel>
                             <FormControl>
                               <CurrencyInput
-                                id='ck'
-                                placeholder='0%'
+                                id="ck"
+                                placeholder="0%"
                                 allowDecimals={false}
                                 className={
                                   'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
@@ -387,7 +386,7 @@ const ProductEditSheet = (data: { product: Product }) => {
                                 onValueChange={field.onChange}
                                 suffix={'%'}
                                 step={10}
-                                name='ck'
+                                name="ck"
                                 disabled={isView}
                                 defaultValue={ck?.toString()}
                               />
@@ -398,8 +397,8 @@ const ProductEditSheet = (data: { product: Product }) => {
                       }}
                     />
                     {!isView && (
-                      <div className='flex justify-end'>
-                        <Button type='submit'>Lưu</Button>
+                      <div className="flex justify-end">
+                        <Button type="submit">Lưu</Button>
                       </div>
                     )}
                   </form>
@@ -417,7 +416,7 @@ const ProductEditSheet = (data: { product: Product }) => {
               setProductSelected(0);
             }}
           >
-            <DialogContent className='sm:max-w-[425px]'>
+            <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Xóa dữ liệu?</DialogTitle>
                 <DialogDescription>
@@ -426,7 +425,7 @@ const ProductEditSheet = (data: { product: Product }) => {
               </DialogHeader>
               <DialogFooter>
                 <Button
-                  type='submit'
+                  type="submit"
                   onClick={() => handleDeleted(productSelected)}
                 >
                   Xóa
@@ -437,7 +436,7 @@ const ProductEditSheet = (data: { product: Product }) => {
         </>
       ) : (
         <>
-          <Skeleton className='w-[40px] h-[40px]' />
+          <Skeleton className="w-[40px] h-[40px]" />
         </>
       )}
     </div>

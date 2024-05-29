@@ -21,18 +21,39 @@ import { useToast } from '@/src/components/ui/use-toast';
 import { cn } from '@/src/lib/utils';
 
 const UserCreateSheet = () => {
+  const phoneRegex = new RegExp(
+    /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  );
   const { toast } = useToast();
   const formSchema = z.object({
-    username: z.string(),
+    username: z
+      .string()
+      .min(2, {
+        message: 'Tên phải có ít nhất 2 ký tự',
+      })
+      .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
     email: z.string(),
-    name: z.string(),
-    phoneNumber: z.string(),
-    plateNumber: z.string(),
+    name: z
+      .string()
+      .min(2, {
+        message: 'Tên phải có ít nhất 2 ký tự',
+      })
+      .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
+    phoneNumber: z
+      .string()
+      .min(4, { message: 'Số điện thoại phải có ít nhất 4 ký tự' })
+      .max(16, { message: 'Số điện thoại có tối đa 16 ký tự' })
+      .regex(phoneRegex, 'Số điện thoại chưa đúng định dạng'),
+    plateNumber: z
+      .string()
+      .min(4, {
+        message: 'Biển số xe phải có ít nhất 4 ký tự',
+      })
+      .max(24, 'Biển số xe  có độ dài tối đa là 24 ký tự'),
     carName: z.string(),
     carType: z.string(),
     code: z.string(),
   });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,19 +94,19 @@ const UserCreateSheet = () => {
   }
 
   return (
-    <div className='py-4'>
+    <div className="py-4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name='username'
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tên đăng nhập</FormLabel>
                 <FormControl>
                   <Input
-                    id='username'
-                    placeholder='Tên đăng nhập...'
+                    id="username"
+                    placeholder="Tên đăng nhập..."
                     {...field}
                   />
                 </FormControl>
@@ -95,12 +116,12 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='email'
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Địa chỉ email</FormLabel>
                 <FormControl>
-                  <Input id='email' placeholder='Địa chỉ email...' {...field} />
+                  <Input id="email" placeholder="Địa chỉ email..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,12 +129,12 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='name'
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tên</FormLabel>
                 <FormControl>
-                  <Input id='name' placeholder='Tên...' {...field} />
+                  <Input id="name" placeholder="Tên..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,14 +142,14 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='phoneNumber'
+            name="phoneNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Số điện thoại</FormLabel>
                 <FormControl>
                   <Input
-                    id='phoneNumber'
-                    placeholder='Số điện thoại...'
+                    id="phoneNumber"
+                    placeholder="Số điện thoại..."
                     {...field}
                   />
                 </FormControl>
@@ -138,14 +159,14 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='plateNumber'
+            name="plateNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Biển số xe</FormLabel>
                 <FormControl>
                   <Input
-                    id='plateNumber'
-                    placeholder='Biển số xe...'
+                    id="plateNumber"
+                    placeholder="Biển số xe..."
                     {...field}
                   />
                 </FormControl>
@@ -155,12 +176,12 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='carName'
+            name="carName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tên xe</FormLabel>
                 <FormControl>
-                  <Input id='carName' placeholder='Tên xe...' {...field} />
+                  <Input id="carName" placeholder="Tên xe..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -168,12 +189,12 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='carType'
+            name="carType"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Loại xe</FormLabel>
                 <FormControl>
-                  <Input id='carType' placeholder='Loại xe...' {...field} />
+                  <Input id="carType" placeholder="Loại xe..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -181,19 +202,19 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name='code'
+            name="code"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Mã</FormLabel>
                 <FormControl>
-                  <Input id='code' placeholder='Mã...' {...field} />
+                  <Input id="code" placeholder="Mã..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className='flex justify-end'>
-            <Button type='submit'>Lưu</Button>
+          <div className="flex justify-end">
+            <Button type="submit">Lưu</Button>
           </div>
         </form>
       </Form>
