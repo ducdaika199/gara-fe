@@ -217,20 +217,20 @@ export const getInvoices = async (page, query) => {
           {
             user: {
               username: {
-                startsWith: query
-              }
-            }
-          }
+                startsWith: query,
+              },
+            },
+          },
         ],
         NOT: {
           user: {
-            status: 'INACTIVE'
-          }
-        }
+            status: 'INACTIVE',
+          },
+        },
       },
       include: {
         user: true,
-        invoiceItems: true
+        invoiceItems: true,
       },
     }),
     prisma.invoice.count(),
@@ -256,7 +256,7 @@ export const getInvoice = async (id) => {
           quantity: true,
           id: true,
           product: true,
-          amount: true
+          amount: true,
         },
       },
       user: true,
