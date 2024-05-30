@@ -26,29 +26,21 @@ import {
   SheetTrigger,
 } from '@/src/components/ui/sheet';
 import { useToast } from '@/src/components/ui/use-toast';
-import {
-  deleteProduct,
-  deleteUser,
-  updateProduct,
-  updateUser,
-} from '@/src/lib/actions';
+import { deleteProduct, updateProduct } from '@/src/lib/actions';
 import { cn } from '@/src/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Product, User } from '@prisma/client';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
-import { Skeleton } from '../ui/skeleton';
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from '../ui/dialog';
 import {
   Select,
@@ -58,10 +50,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import { Label } from '../ui/label';
-import CurrencyInput from 'react-currency-input-field';
+import { Skeleton } from '../ui/skeleton';
 
-const ProductEditSheet = (data: { product: Product }) => {
+const ProductEditSheet = (data: any) => {
   const [isClient, setIsClient] = useState(false);
   const [isView, setIsView] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -77,8 +68,8 @@ const ProductEditSheet = (data: { product: Product }) => {
     countUnit: z.string(),
     priceUnit: z.string(),
     type: z.string(),
-    tax: z.number(),
-    ck: z.number(),
+    tax: z.string(),
+    ck: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -88,21 +79,26 @@ const ProductEditSheet = (data: { product: Product }) => {
       code: code || '',
       description: description || '',
       countUnit: countUnit || '',
-      priceUnit: priceUnit.toString() || '',
+      priceUnit: priceUnit || '',
       type: type || 'SUPPLIES',
-      tax: ck || 0,
-      ck: tax || 0,
+      tax: ck || '',
+      ck: tax || '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const user = await updateProduct(id, values);
+      const user = await updateProduct(id, {
+        ...values,
+        priceUnit: Number(values.priceUnit),
+        tax: Number(values.tax),
+        ck: Number(values.ck),
+      });
       toast({
         className: cn(
           'top-0 left-2 flex fixed md:max-w-[420px] md:top-4 md:right-4]'
         ),
-        title: 'Cập nhật thông tin khách hàng thành công',
+        title: 'Cập nhật thông tin sản phẩm thành công',
         description: 'Thành công',
       });
       return user;
@@ -285,20 +281,21 @@ const ProductEditSheet = (data: { product: Product }) => {
                           <FormItem>
                             <FormLabel>Đơn giá</FormLabel>
                             <FormControl>
-                              <CurrencyInput
-                                id="priceUnit"
-                                placeholder="đ1,234,567"
-                                allowDecimals={false}
-                                className={
-                                  'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
-                                }
-                                onValueChange={field.onChange}
-                                prefix={'đ'}
-                                step={10}
-                                name="priceUnit"
-                                disabled={isView}
-                                defaultValue={priceUnit.toString()}
-                              />
+                              <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                                  đ
+                                </span>
+                                <Input
+                                  className="pl-8"
+                                  id="amount"
+                                  maxLength={10}
+                                  pattern="[0-9]*"
+                                  placeholder="0.00"
+                                  type="number"
+                                  {...field}
+                                  disabled={isView}
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -309,7 +306,6 @@ const ProductEditSheet = (data: { product: Product }) => {
                       control={form.control}
                       name="type"
                       render={({ field }) => {
-                        console.log(field, '-----field-----');
                         return (
                           <FormItem>
                             <FormLabel>Loại</FormLabel>
@@ -348,20 +344,21 @@ const ProductEditSheet = (data: { product: Product }) => {
                           <FormItem>
                             <FormLabel>Thuế</FormLabel>
                             <FormControl>
-                              <CurrencyInput
-                                id="tax"
-                                placeholder="0%"
-                                allowDecimals={false}
-                                className={
-                                  'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
-                                }
-                                onValueChange={field.onChange}
-                                suffix={'%'}
-                                step={10}
-                                name="tax"
-                                disabled={isView}
-                                defaultValue={tax?.toString()}
-                              />
+                              <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                                  %
+                                </span>
+                                <Input
+                                  className="pl-8"
+                                  id="amount"
+                                  maxLength={10}
+                                  pattern="[0-9]*"
+                                  placeholder="0.00"
+                                  type="number"
+                                  {...field}
+                                  disabled={isView}
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -376,20 +373,21 @@ const ProductEditSheet = (data: { product: Product }) => {
                           <FormItem>
                             <FormLabel>Chiết khấu</FormLabel>
                             <FormControl>
-                              <CurrencyInput
-                                id="ck"
-                                placeholder="0%"
-                                allowDecimals={false}
-                                className={
-                                  'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
-                                }
-                                onValueChange={field.onChange}
-                                suffix={'%'}
-                                step={10}
-                                name="ck"
-                                disabled={isView}
-                                defaultValue={ck?.toString()}
-                              />
+                              <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                                  %
+                                </span>
+                                <Input
+                                  className="pl-8"
+                                  id="amount"
+                                  maxLength={10}
+                                  pattern="[0-9]*"
+                                  placeholder="0.00"
+                                  type="number"
+                                  {...field}
+                                  disabled={isView}
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>

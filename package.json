@@ -33,7 +33,6 @@
     "next-auth": "^5.0.0-beta.17",
     "puppeteer": "^22.8.0",
     "react": "^18",
-    "react-currency-input-field": "^3.8.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
     "tailwind-merge": "^2.2.2",
