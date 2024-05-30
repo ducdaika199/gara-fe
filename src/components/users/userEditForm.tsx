@@ -366,7 +366,12 @@ const UserEditSheet = (data: { user: User }) => {
                     />
                     {!isView && (
                       <div className="flex justify-end">
-                        <Button type="submit">Lưu</Button>
+                        <Button
+                          type="submit"
+                          disabled={!form.formState.isDirty}
+                        >
+                          Lưu
+                        </Button>
                       </div>
                     )}
                   </form>

@@ -28,11 +28,20 @@ import {
 const ProductCreateSheet = () => {
   const { toast } = useToast();
   const formSchema = z.object({
-    name: z.string(),
+    name: z
+      .string()
+      .min(2, { message: 'Tên phải có ít nhất 2 ký tự' })
+      .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
     code: z.string(),
     description: z.string(),
-    countUnit: z.string(),
-    priceUnit: z.string(),
+    countUnit: z
+      .string()
+      .min(2, { message: 'Đơn vị tính phải có tối thiểu 2 ký tự' })
+      .max(16, { message: 'Đơn vị tính chỉ có tối đa 16 ký tự' }),
+    priceUnit: z
+      .string()
+      .min(1, { message: 'Đơn giá phải có trên một số' })
+      .max(12, { message: 'Đơn giá chỉ có tối đa 12 số' }),
     type: z.string(),
     tax: z.string(),
     ck: z.string(),
