@@ -37,19 +37,6 @@ import { User } from '@prisma/client';
 import { log } from 'console';
 import { Input } from '../ui/input';
 
-// fetch data from actions -> filter value
-const languages = [
-  { label: 'English', value: 'en' },
-  { label: 'French', value: 'fr' },
-  { label: 'German', value: 'de' },
-  { label: 'Spanish', value: 'es' },
-  { label: 'Portuguese', value: 'pt' },
-  { label: 'Russian', value: 'ru' },
-  { label: 'Japanese', value: 'ja' },
-  { label: 'Korean', value: 'ko' },
-  { label: 'Chinese', value: 'zh' },
-] as const;
-
 const FormSchema = z.object({
   language: z.string({
     required_error: 'Please select a language.',
@@ -73,21 +60,12 @@ export default function OrderCreateForm() {
     });
   }
 
-  const searchQuery = form.getValues('language');
-
   const searchUsers = useDebouncedCallback(async (query: string) => {
     setUsers([]);
     const data = await getUsers(1, query);
     console.log(data, '-----check call function search user----');
     setUsers(data?.data ?? []);
   }, 300);
-
-  useEffect(() => {
-    console.log('-----check call function use effect----');
-    if (searchQuery) {
-      searchUsers(searchQuery);
-    }
-  }, [searchQuery]);
 
   return (
     <Form {...form}>
@@ -105,6 +83,7 @@ export default function OrderCreateForm() {
                     placeholder='Search...'
                     className='pr-10'
                     {...field}
+                    onChange={(e) => searchUsers(e.target.value)}
                   />
                   {users.length > 0 && (
                     <ul className='mt-2 rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950'>
