@@ -43,6 +43,7 @@ import { Product, User } from '@prisma/client';
 import { log } from 'console';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
+import React from 'react';
 
 const FormSchema = z.object({
   userId: z.string({
@@ -119,6 +120,20 @@ export default function OrderCreateForm() {
     const data = await getProducts(1, query);
     setProducts(data?.data ?? []);
   }, 300);
+
+  const userIdValue = form.getValues('userId');
+
+  React.useEffect(() => {
+    if (userIdValue === '') {
+      form.setError('userId', {
+        type: 'manual',
+        message: 'Dont Forget Your Username Should Be Cool!',
+      });
+    } else {
+      console.log('check call function');
+      form.clearErrors('userId');
+    }
+  }, [form.setError, userIdValue]);
 
   return (
     <Form {...form}>
@@ -212,7 +227,7 @@ export default function OrderCreateForm() {
           type="button"
           onClick={() =>
             append({
-              quantity: '',
+              quantity: '1',
               product: {
                 productId: '',
                 productName: '',
