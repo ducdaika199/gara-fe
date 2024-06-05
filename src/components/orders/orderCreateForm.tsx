@@ -56,7 +56,12 @@ const FormSchema = z.object({
     .max(255, 'Yêu cầu của khách hàng chỉ có tối đa 255 ký tự'),
   invoiceItems: z.array(
     z.object({
-      productId: z.string(),
+      product: z.object({
+        productId: z.string({
+          required_error: 'Hãy chọn một sản phẩm',
+        }),
+        productName: z.string(),
+      }),
       quantity: z.string(),
     })
   ),
@@ -71,6 +76,15 @@ export default function OrderCreateForm() {
     defaultValues: {
       userId: '',
       userRequest: '',
+      invoiceItems: [
+        {
+          product: {
+            productId: '',
+            productName: '',
+          },
+          quantity: '1',
+        },
+      ],
     },
   });
 
@@ -80,7 +94,18 @@ export default function OrderCreateForm() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data, '-----submit data-------');
+    const invoicesItems = data.invoiceItems.map((item) => {
+      return {
+        productId: Number(item.product.productId),
+        quantity: Number(item.quantity),
+      };
+    });
+    const dataRequest = {
+      userId: Number(data.userId ?? ''),
+      userRequest: data.userRequest ?? '',
+      invoicesItems: invoicesItems,
+    };
+    console.log(dataRequest, '-------formatData------');
   }
 
   const searchUsers = useDebouncedCallback(async (query: string) => {
@@ -188,7 +213,10 @@ export default function OrderCreateForm() {
           onClick={() =>
             append({
               quantity: '',
-              productId: '',
+              product: {
+                productId: '',
+                productName: '',
+              },
             })
           }
         >
@@ -220,8 +248,8 @@ export default function OrderCreateForm() {
                                   !field.id && 'text-muted-foreground'
                                 )}
                               >
-                                {field.productId
-                                  ? field.productId
+                                {field.product.productId
+                                  ? field.product.productName
                                   : 'Chọn sản phẩm'}
 
                                 <ChevronsUpDown className="ml-2  h-4 w-4 shrink-0 opacity-50" />
@@ -234,7 +262,7 @@ export default function OrderCreateForm() {
                                 id="productId"
                                 placeholder="Tìm kiếm sản phẩm..."
                                 {...form.register(
-                                  `invoiceItems.${index}.productId`
+                                  `invoiceItems.${index}.product.productId`
                                 )}
                                 onValueChange={(value) => searchProducts(value)}
                               />
@@ -250,8 +278,11 @@ export default function OrderCreateForm() {
                                         key={product?.id ?? ''}
                                         onSelect={() => {
                                           update(index, {
-                                            productId:
-                                              product?.id.toString() ?? '',
+                                            product: {
+                                              productId:
+                                                product?.id.toString() ?? '',
+                                              productName: product?.name ?? '',
+                                            },
                                             quantity: field.quantity ?? '1',
                                           });
                                         }}
@@ -260,7 +291,7 @@ export default function OrderCreateForm() {
                                           className={cn(
                                             'mr-2 h-4 w-4',
                                             product?.id.toString() ===
-                                              field.productId
+                                              field.product.productId
                                               ? 'opacity-100'
                                               : 'opacity-0'
                                           )}
@@ -286,7 +317,10 @@ export default function OrderCreateForm() {
                               onClick={() => {
                                 if (Number(field.quantity) > 1) {
                                   update(index, {
-                                    productId: field.productId,
+                                    product: {
+                                      productId: field.product.productId,
+                                      productName: field.product.productName,
+                                    },
                                     quantity: (
                                       Number(field.quantity) - 1
                                     ).toString(),
@@ -305,12 +339,7 @@ export default function OrderCreateForm() {
                               {...form.register(
                                 `invoiceItems.${index}.quantity`
                               )}
-                              onChange={(e) =>
-                                update(index, {
-                                  productId: field.productId,
-                                  quantity: e.target.value,
-                                })
-                              }
+                              disabled
                               className="w-max text-center"
                               min={1}
                             />
@@ -319,7 +348,10 @@ export default function OrderCreateForm() {
                               size="icon"
                               onClick={() =>
                                 update(index, {
-                                  productId: field.productId,
+                                  product: {
+                                    productId: field.product.productId,
+                                    productName: field.product.productName,
+                                  },
                                   quantity: (
                                     Number(field.quantity) + 1
                                   ).toString(),
