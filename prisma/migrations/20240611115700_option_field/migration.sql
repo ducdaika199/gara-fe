@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "InvoiceItem" ALTER COLUMN "price" DROP NOT NULL,
+ALTER COLUMN "amount" DROP NOT NULL;

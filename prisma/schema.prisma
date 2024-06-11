@@ -58,8 +58,8 @@ model InvoiceItem {
   product Product @relation(fields: [productId], references: [id])
   invoiceId Int
   invoice Invoice @relation(fields: [invoiceId], references: [id])
-  price BigInt
-  amount BigInt @default(0)
+  price BigInt?
+  amount BigInt? @default(0)
   taxRate Float? @default(0)
 }
 
