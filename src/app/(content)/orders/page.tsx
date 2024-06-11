@@ -77,7 +77,7 @@ const Orders = async ({
 }) => {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const orders = await getInvoices(currentPage, query);
+  // const orders = await getInvoices(currentPage, query);
   // const [orders, setOrders] = useState([]);
 
   // useEffect(() => {

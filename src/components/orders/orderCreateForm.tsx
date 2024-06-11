@@ -36,7 +36,7 @@ import {
   PopoverTrigger,
 } from '@/src/components/ui/popover';
 import { toast } from '@/src/components/ui/use-toast';
-import { getProducts, getUsers } from '@/src/lib/actions';
+import { createInvoice, getProducts, getUsers } from '@/src/lib/actions';
 import { useDebouncedCallback } from 'use-debounce';
 import { useEffect, useState } from 'react';
 import { Product, User } from '@prisma/client';
@@ -94,7 +94,7 @@ export default function OrderCreateForm() {
     control: form.control,
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     const invoicesItems = data.invoiceItems.map((item) => {
       return {
         productId: Number(item.product.productId),
@@ -107,6 +107,14 @@ export default function OrderCreateForm() {
       invoicesItems: invoicesItems,
     };
     console.log(dataRequest, '-------formatData------');
+    const order = await createInvoice([
+      {
+        userId: 1,
+        userRequest: 'dasdasdasdasdas',
+        invoicesItems: [{ productId: 1, quantity: 1 }],
+      },
+    ]);
+    return order;
   }
 
   const searchUsers = useDebouncedCallback(async (query: string) => {
