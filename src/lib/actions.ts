@@ -265,8 +265,8 @@ export const getInvoice = async (id) => {
 };
 
 export const createInvoice = async (formData) => {
-  console.log(formData, '-----formData-----');
   const { userRequest, userId, invoiceItems } = formData;
+  console.log(invoiceItems, '-----invoiceItems--------');
   const invoice = await prisma.invoice.create({
     data: {
       user: {

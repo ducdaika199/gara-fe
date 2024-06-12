@@ -66,6 +66,7 @@ import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import OrderCreateForm from '@/src/components/orders/orderCreateForm';
 import ComboboxForm from '@/src/components/orders/orderCreateForm';
+import SearchInput from '@/src/components/ui/search';
 
 const Orders = async ({
   searchParams,
@@ -77,7 +78,7 @@ const Orders = async ({
 }) => {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  // const orders = await getInvoices(currentPage, query);
+  const orders = await getInvoices(currentPage, query);
   // const [orders, setOrders] = useState([]);
 
   // useEffect(() => {
@@ -105,10 +106,9 @@ const Orders = async ({
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
           <Card className="sm:col-span-2">
             <CardHeader className="pb-3">
-              <CardTitle>Your Orders</CardTitle>
+              <CardTitle>Hóa đơn</CardTitle>
               <CardDescription className="max-w-lg text-balance leading-relaxed">
-                Introducing Our Dynamic Orders Dashboard for Seamless Management
-                and Insightful Analysis.
+                Tổng hợp hóa đơn và tiền hóa đơn theo tuần, theo tháng
               </CardDescription>
             </CardHeader>
             <CardFooter>
@@ -116,7 +116,7 @@ const Orders = async ({
                 <DialogTrigger asChild>
                   <Button>Tạo mới hóa đơn</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[700px] sm:max-h-[90%]">
+                <DialogContent className="sm:max-w-[1200px] sm:max-h-[90%]">
                   <DialogHeader>
                     <DialogTitle>Tạo mới hóa đơn</DialogTitle>
                     <DialogDescription>
@@ -133,12 +133,12 @@ const Orders = async ({
           </Card>
           <Card>
             <CardHeader className="pb-2">
-              <CardDescription>This Week</CardDescription>
+              <CardDescription>Tuần</CardDescription>
               <CardTitle className="text-4xl">$1329</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-xs text-muted-foreground">
-                +25% from last week
+                +25% so với tuần trước
               </div>
             </CardContent>
             <CardFooter>
@@ -147,12 +147,12 @@ const Orders = async ({
           </Card>
           <Card>
             <CardHeader className="pb-2">
-              <CardDescription>This Month</CardDescription>
+              <CardDescription>Tháng</CardDescription>
               <CardTitle className="text-3xl">$5,329</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-xs text-muted-foreground">
-                +10% from last month
+                +10% so với tháng trước
               </div>
             </CardContent>
             <CardFooter>
@@ -160,50 +160,16 @@ const Orders = async ({
             </CardFooter>
           </Card>
         </div>
-        <Tabs defaultValue="week">
+        <Tabs defaultValue="all">
           <div className="flex items-center">
             <TabsList>
-              <TabsTrigger value="week">Week</TabsTrigger>
-              <TabsTrigger value="month">Month</TabsTrigger>
-              <TabsTrigger value="year">Year</TabsTrigger>
+              <TabsTrigger value="all">Tất cả</TabsTrigger>
             </TabsList>
             <div className="relative ml-2 flex-1 md:grow-0">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-              />
-            </div>
-            <div className="ml-auto flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-7 gap-1 text-sm"
-                  >
-                    <ListFilter className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only">Filter</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem checked>
-                    Fulfilled
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>Declined</DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>Refunded</DropdownMenuCheckboxItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
-                <File className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only">Export</span>
-              </Button>
+              <SearchInput />
             </div>
           </div>
-          <TabsContent value="week">
+          <TabsContent value="all">
             <Card>
               <CardHeader className="px-7">
                 <CardTitle>Orders</CardTitle>
@@ -215,15 +181,12 @@ const Orders = async ({
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Customer</TableHead>
+                      <TableHead>Khách hàng</TableHead>
                       <TableHead className="hidden sm:table-cell">
-                        Type
-                      </TableHead>
-                      <TableHead className="hidden sm:table-cell">
-                        Status
+                        Yêu cầu của khách hàng
                       </TableHead>
                       <TableHead className="hidden md:table-cell">
-                        Date
+                        Ngày vào
                       </TableHead>
                       <TableHead className="text-right">Amount</TableHead>
                     </TableRow>

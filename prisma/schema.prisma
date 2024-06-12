@@ -49,6 +49,7 @@ model Invoice {
   user User @relation(fields: [userId], references: [id])
   invoiceItems InvoiceItem[]
   status Status @default(ACTIVE)
+  totalAmount BigInt @default(0)
 }
 
 model InvoiceItem {
@@ -58,6 +59,7 @@ model InvoiceItem {
   product Product @relation(fields: [productId], references: [id])
   invoiceId Int
   invoice Invoice @relation(fields: [invoiceId], references: [id])
+  price BigInt @default(0)
 }
 
 enum Status {

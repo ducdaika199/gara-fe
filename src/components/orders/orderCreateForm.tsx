@@ -1,17 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Check,
-  ChevronsUpDown,
-  MinusIcon,
-  PlusIcon,
-  XIcon,
-} from 'lucide-react';
+import { Check, ChevronsUpDown, MinusIcon, PlusIcon } from 'lucide-react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { cn } from '@/src/lib/utils';
 import { Button } from '@/src/components/ui/button';
 import {
   Command,
@@ -24,7 +17,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -37,13 +29,20 @@ import {
 } from '@/src/components/ui/popover';
 import { toast } from '@/src/components/ui/use-toast';
 import { createInvoice, getProducts, getUsers } from '@/src/lib/actions';
-import { useDebouncedCallback } from 'use-debounce';
-import { useEffect, useState } from 'react';
+import { cn } from '@/src/lib/utils';
 import { Product, User } from '@prisma/client';
-import { log } from 'console';
+import { useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 import { Input } from '../ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { Textarea } from '../ui/textarea';
-import React from 'react';
 
 const FormSchema = z.object({
   userId: z.string().trim().min(1, {
@@ -58,10 +57,10 @@ const FormSchema = z.object({
   invoiceItems: z.array(
     z.object({
       product: z.object({
-        productId: z.string({
-          required_error: 'Hãy chọn một sản phẩm',
-        }),
+        productId: z.string(),
         productName: z.string(),
+        price: z.string(),
+        type: z.string(),
       }),
       quantity: z.string(),
     })
@@ -82,6 +81,8 @@ export default function OrderCreateForm() {
           product: {
             productId: '',
             productName: '',
+            price: '',
+            type: '',
           },
           quantity: '1',
         },
@@ -99,6 +100,8 @@ export default function OrderCreateForm() {
       return {
         productId: Number(item.product.productId),
         quantity: Number(item.quantity),
+        // price: Number(item.product.price),
+        // type: item.product.type,
       };
     });
     const dataRequest = {
@@ -106,6 +109,7 @@ export default function OrderCreateForm() {
       userRequest: data.userRequest ?? '',
       invoiceItems: invoicesItems,
     };
+    console.log(dataRequest, '-----dataReq-------');
     if (invoicesItems.find((item) => item.productId === 0)) {
       form.setError('invoiceItems', {
         type: 'manual',
@@ -236,6 +240,8 @@ export default function OrderCreateForm() {
                 product: {
                   productId: '',
                   productName: '',
+                  price: '',
+                  type: '',
                 },
               })
             }
@@ -304,6 +310,10 @@ export default function OrderCreateForm() {
                                               productId:
                                                 product?.id.toString() ?? '',
                                               productName: product?.name ?? '',
+                                              price:
+                                                product?.priceUnit.toString() ??
+                                                '',
+                                              type: product?.type ?? '',
                                             },
                                             quantity: field.quantity ?? '1',
                                           });
@@ -342,6 +352,8 @@ export default function OrderCreateForm() {
                                     product: {
                                       productId: field.product.productId,
                                       productName: field.product.productName,
+                                      price: field.product.price,
+                                      type: field.product.type,
                                     },
                                     quantity: (
                                       Number(field.quantity) - 1
@@ -373,6 +385,8 @@ export default function OrderCreateForm() {
                                   product: {
                                     productId: field.product.productId,
                                     productName: field.product.productName,
+                                    price: field.product.price,
+                                    type: field.product.type,
                                   },
                                   quantity: (
                                     Number(field.quantity) + 1
@@ -386,6 +400,44 @@ export default function OrderCreateForm() {
                             </Button>
                           </div>
                         </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                      <FormItem>
+                        <FormLabel>Đơn giá</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                              đ
+                            </span>
+                            <Input
+                              className="pl-8"
+                              id="amount"
+                              maxLength={10}
+                              pattern="[0-9]*"
+                              placeholder="0.00"
+                              type="number"
+                              value={field.product.price}
+                              disabled
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                      <FormItem>
+                        <FormLabel>Loại</FormLabel>
+                        <Select value={field.product.type} disabled>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn vật công hoặc vật liệu" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="SUPPLIES">Vật liệu</SelectItem>
+                              <SelectItem value="REPAIRS">Vật công</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                       <Button type="button" onClick={() => remove(index)}>
