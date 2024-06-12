@@ -59,7 +59,7 @@ model InvoiceItem {
   product Product @relation(fields: [productId], references: [id])
   invoiceId Int
   invoice Invoice @relation(fields: [invoiceId], references: [id])
-  price BigInt @default(0)
+  price BigInt 
 }
 
 enum Status {

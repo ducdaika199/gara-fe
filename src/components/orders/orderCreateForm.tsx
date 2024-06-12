@@ -100,8 +100,7 @@ export default function OrderCreateForm() {
       return {
         productId: Number(item.product.productId),
         quantity: Number(item.quantity),
-        // price: Number(item.product.price),
-        // type: item.product.type,
+        price: Number(item.product.price),
       };
     });
     const dataRequest = {
