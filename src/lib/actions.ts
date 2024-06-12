@@ -256,7 +256,6 @@ export const getInvoice = async (id) => {
           quantity: true,
           id: true,
           product: true,
-          amount: true,
         },
       },
       user: true,

@@ -46,8 +46,8 @@ import { Textarea } from '../ui/textarea';
 import React from 'react';
 
 const FormSchema = z.object({
-  userId: z.string({
-    required_error: 'Hãy chọn một khách hàng',
+  userId: z.string().trim().min(1, {
+    message: 'Hãy chọn một khách hàng',
   }),
   userRequest: z
     .string()
@@ -89,7 +89,7 @@ export default function OrderCreateForm() {
     },
   });
 
-  const { fields, append, update } = useFieldArray({
+  const { fields, append, update, remove } = useFieldArray({
     name: 'invoiceItems',
     control: form.control,
   });
@@ -104,17 +104,27 @@ export default function OrderCreateForm() {
     const dataRequest = {
       userId: Number(data.userId ?? ''),
       userRequest: data.userRequest ?? '',
-      invoicesItems: invoicesItems,
+      invoiceItems: invoicesItems,
     };
-    console.log(dataRequest, '-------formatData------');
-    const order = await createInvoice([
-      {
-        userId: 1,
-        userRequest: 'dasdasdasdasdas',
-        invoicesItems: [{ productId: 1, quantity: 1 }],
-      },
-    ]);
-    return order;
+    if (invoicesItems.find((item) => item.productId === 0)) {
+      form.setError('invoiceItems', {
+        type: 'manual',
+        message: 'Hãy chọn tối thiểu một sản phẩm',
+      });
+    } else {
+      form.clearErrors('invoiceItems');
+      const order = await createInvoice(dataRequest);
+      if (order) {
+        toast({
+          className: cn(
+            'top-0 left-2 flex fixed md:max-w-[420px] md:top-4 md:right-4]'
+          ),
+          title: 'Tạo mới hóa đơn thành công',
+          description: 'Thành công',
+        });
+        form.reset();
+      }
+    }
   }
 
   const searchUsers = useDebouncedCallback(async (query: string) => {
@@ -128,20 +138,6 @@ export default function OrderCreateForm() {
     const data = await getProducts(1, query);
     setProducts(data?.data ?? []);
   }, 300);
-
-  const userIdValue = form.getValues('userId');
-
-  React.useEffect(() => {
-    if (userIdValue === '') {
-      form.setError('userId', {
-        type: 'manual',
-        message: 'Dont Forget Your Username Should Be Cool!',
-      });
-    } else {
-      console.log('check call function');
-      form.clearErrors('userId');
-    }
-  }, [form.setError, userIdValue]);
 
   return (
     <Form {...form}>
@@ -231,20 +227,23 @@ export default function OrderCreateForm() {
             )}
           />
         </div>
-        <Button
-          type="button"
-          onClick={() =>
-            append({
-              quantity: '1',
-              product: {
-                productId: '',
-                productName: '',
-              },
-            })
-          }
-        >
-          + Thêm mới
-        </Button>
+        <div className="flex">
+          <Button
+            type="button"
+            onClick={() =>
+              append({
+                quantity: '1',
+                product: {
+                  productId: '',
+                  productName: '',
+                },
+              })
+            }
+          >
+            + Thêm mới
+          </Button>
+        </div>
+
         {fields.map((field, index) => {
           return (
             <div
@@ -389,6 +388,9 @@ export default function OrderCreateForm() {
                         </FormControl>
                         <FormMessage />
                       </FormItem>
+                      <Button type="button" onClick={() => remove(index)}>
+                        Xóa
+                      </Button>
                     </>
                   );
                 }}
@@ -397,7 +399,9 @@ export default function OrderCreateForm() {
           );
         })}
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className="ml-auto flex">
+          Tạo mới hóa đơn
+        </Button>
       </form>
     </Form>
   );
