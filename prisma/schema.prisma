@@ -60,6 +60,7 @@ model InvoiceItem {
   invoiceId Int
   invoice Invoice @relation(fields: [invoiceId], references: [id])
   price BigInt 
+  productName String
 }
 
 enum Status {

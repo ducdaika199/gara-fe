@@ -1,16 +1,7 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  Copy,
-  CreditCard,
-  File,
-  ListFilter,
-  MoreHorizontalIcon,
-  MoreVertical,
-  Search,
-  Truck,
-} from 'lucide-react';
+import { MoreHorizontalIcon } from 'lucide-react';
 
+import OrderCreateForm from '@/src/components/orders/orderCreateForm';
+import OrderView from '@/src/components/orders/orderView';
 import { Button } from '@/src/components/ui/button';
 import {
   Card,
@@ -21,25 +12,22 @@ import {
   CardTitle,
 } from '@/src/components/ui/card';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/src/components/ui/dialog';
+import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/src/components/ui/dropdown-menu';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/src/components/ui/pagination';
+import PaginationFooter from '@/src/components/ui/paginationFooter';
 import { Progress } from '@/src/components/ui/progress';
-import { Separator } from '@/src/components/ui/separator';
+import SearchInput from '@/src/components/ui/search';
 import {
   Table,
   TableBody,
@@ -55,24 +43,6 @@ import {
   TabsTrigger,
 } from '@/src/components/ui/tabs';
 import { getInvoices } from '@/src/lib/actions';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/src/components/ui/dialog';
-import { Input } from '@/src/components/ui/input';
-import { Label } from '@/src/components/ui/label';
-import OrderCreateForm from '@/src/components/orders/orderCreateForm';
-import ComboboxForm from '@/src/components/orders/orderCreateForm';
-import SearchInput from '@/src/components/ui/search';
-import { Badge } from '@/src/components/ui/badge';
-import PaginationFooter from '@/src/components/ui/paginationFooter';
-import OrderView from '@/src/components/orders/orderView';
-import { SheetTrigger } from '@/src/components/ui/sheet';
 
 const Orders = async ({
   searchParams,
@@ -85,30 +55,9 @@ const Orders = async ({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const orders = await getInvoices(currentPage, query);
-  console.log(orders);
-  // const [orders, setOrders] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const data = await getInvoices({ take: 10, skip: 0 });
-  //     console.log(data);
-  //     setOrders(data?.data ?? []);
-  //   }
-  //   fetchData();
-  // }, []);
-
-  const formattedCurrency = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  });
-  // const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
-
-  // const handleClickInvoice = (item: Invoice) => {
-  //   setSelectedInvoice(item);
-  // };
 
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
           <Card className="sm:col-span-2">
@@ -202,10 +151,7 @@ const Orders = async ({
                   <TableBody>
                     {orders?.data.map((item) => {
                       return (
-                        <TableRow
-                          key={item?.id ?? 0}
-                          // onClick={() => handleClickInvoice(item)}
-                        >
+                        <TableRow key={item?.id ?? 0}>
                           <TableCell>
                             <div className="font-medium">
                               {item.user.username}
@@ -219,11 +165,6 @@ const Orders = async ({
                               {item.userRequest}
                             </div>
                           </TableCell>
-                          {/* <TableCell className="hidden sm:table-cell">
-                            <Badge className="text-xs" variant="secondary">
-                              {item.status}
-                            </Badge>
-                          </TableCell> */}
                           <TableCell className="hidden md:table-cell">
                             <div>{item.joinDate?.toDateString()}</div>
                           </TableCell>
@@ -233,23 +174,7 @@ const Orders = async ({
                             )} đ`}
                           </TableCell>
                           <TableCell>
-                            <DropdownMenu modal={false}>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  aria-haspopup="true"
-                                  size="icon"
-                                  variant="ghost"
-                                >
-                                  <MoreHorizontalIcon className="h-4 w-4" />
-                                  <span className="sr-only">Toggle menu</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>Xem</DropdownMenuItem>
-                                <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-                                <DropdownMenuItem>Xóa</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            <OrderView data={item} />
                           </TableCell>
                         </TableRow>
                       );
@@ -272,7 +197,6 @@ const Orders = async ({
           </TabsContent>
         </Tabs>
       </div>
-      <OrderView />
     </main>
   );
 };

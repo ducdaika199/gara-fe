@@ -101,6 +101,7 @@ export default function OrderCreateForm() {
         productId: Number(item.product.productId),
         quantity: Number(item.quantity),
         price: Number(item.product.price),
+        productName: item.product.productName,
       };
     });
     const dataRequest = {

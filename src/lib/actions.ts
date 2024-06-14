@@ -57,33 +57,42 @@ export const getUsers = async (page, query) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
-  const users = await prisma.$transaction([
-    prisma.user.findMany({
-      take: take,
-      skip: skip,
-      where: {
-        OR: [
-          {
-            name: {
-              startsWith: query,
-            },
-          },
-        ],
-        NOT: {
-          status: 'INACTIVE',
-        },
-      },
-    }),
-    prisma.user.count(),
-  ]);
-  return {
-    data: users[0],
-    total: users[1],
-    pagination: {
-      take,
-      skip,
-    },
-  };
+
+  const users = await prisma.$queryRaw`
+    SELECT name FROM User WHERE (
+        unaccent(lower(name)) ILIKE unaccent(lower(${query}))
+      )
+  `;
+
+  return users;
+
+  // const users = await prisma.$transaction([
+  //   prisma.user.findMany({
+  //     take: take,
+  //     skip: skip,
+  //     where: {
+  //       OR: [
+  //         {
+  //           name: {
+  //             startsWith: query,
+  //           },
+  //         },
+  //       ],
+  //       NOT: {
+  //         status: 'INACTIVE',
+  //       },
+  //     },
+  //   }),
+  //   prisma.user.count(),
+  // ]);
+  // return {
+  //   data: users[0],
+  //   total: users[1],
+  //   pagination: {
+  //     take,
+  //     skip,
+  //   },
+  // };
 };
 
 export const getUser = async (id) => {
