@@ -266,7 +266,6 @@ export const getInvoice = async (id) => {
 
 export const createInvoice = async (formData) => {
   const { userRequest, userId, invoiceItems } = formData;
-  console.log(invoiceItems, '-----invoiceItems--------');
   const invoice = await prisma.invoice.create({
     data: {
       user: {
@@ -280,6 +279,10 @@ export const createInvoice = async (formData) => {
           data: invoiceItems,
         },
       },
+      totalAmount: invoiceItems.reduce(
+        (acc, cur) => acc + cur.quantity * cur.price,
+        0
+      ),
     },
   });
   revalidatePath('/invoices');

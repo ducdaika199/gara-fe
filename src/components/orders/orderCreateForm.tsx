@@ -108,7 +108,6 @@ export default function OrderCreateForm() {
       userRequest: data.userRequest ?? '',
       invoiceItems: invoicesItems,
     };
-    console.log(dataRequest, '-----dataReq-------');
     if (invoicesItems.find((item) => item.productId === 0)) {
       form.setError('invoiceItems', {
         type: 'manual',
@@ -439,7 +438,11 @@ export default function OrderCreateForm() {
                         </Select>
                         <FormMessage />
                       </FormItem>
-                      <Button type="button" onClick={() => remove(index)}>
+                      <Button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="mt-8"
+                      >
                         Xóa
                       </Button>
                     </>
