@@ -144,20 +144,20 @@ export default function OrderCreateForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-flow-col gap-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <div className='grid grid-flow-col gap-2'>
           <FormField
             control={form.control}
-            name="userId"
+            name='userId'
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className='flex flex-col'>
                 <FormLabel>Khách hàng: </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant="outline"
-                        role="combobox"
+                        variant='outline'
+                        role='combobox'
                         className={cn(
                           'w-[200px] justify-between mt-8',
                           !field.value && 'text-muted-foreground'
@@ -168,14 +168,14 @@ export default function OrderCreateForm() {
                               (user) => user?.id.toString() === field.value
                             )?.name
                           : 'Chọn khách hàng'}
-                        <ChevronsUpDown className="ml-2  h-4 w-4 shrink-0 opacity-50" />
+                        <ChevronsUpDown className='ml-2  h-4 w-4 shrink-0 opacity-50' />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className='w-[200px] p-0'>
                     <Command>
                       <CommandInput
-                        placeholder="Tìm kiếm khách hàng..."
+                        placeholder='Tìm kiếm khách hàng...'
                         onValueChange={(value) => searchUsers(value)}
                       />
                       <CommandEmpty>Không tìm thấy khách hàng</CommandEmpty>
@@ -214,14 +214,14 @@ export default function OrderCreateForm() {
           />
           <FormField
             control={form.control}
-            name="userRequest"
+            name='userRequest'
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className='flex flex-col'>
                 <FormLabel>Yêu cầu của khách hàng: </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Điền thông tin yêu cầu của khách hàng ..."
-                    className="resize-none"
+                    placeholder='Điền thông tin yêu cầu của khách hàng ...'
+                    className='resize-none'
                     {...field}
                   />
                 </FormControl>
@@ -230,9 +230,9 @@ export default function OrderCreateForm() {
             )}
           />
         </div>
-        <div className="flex">
+        <div className='flex'>
           <Button
-            type="button"
+            type='button'
             onClick={() =>
               append({
                 quantity: '1',
@@ -253,23 +253,23 @@ export default function OrderCreateForm() {
           return (
             <div
               key={field.id}
-              className="grid grid-flow-col gap-2 items-center"
+              className='grid grid-flow-col gap-2 items-center'
             >
               <FormField
                 control={form.control}
-                name="invoiceItems"
+                name='invoiceItems'
                 key={index}
                 render={() => {
                   return (
                     <>
-                      <FormItem className="flex flex-col">
+                      <FormItem className='flex flex-col'>
                         <FormLabel>Sản phẩm: </FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
-                                variant="outline"
-                                role="combobox"
+                                variant='outline'
+                                role='combobox'
                                 className={cn(
                                   'w-[200px] justify-between mt-8',
                                   !field.id && 'text-muted-foreground'
@@ -279,15 +279,15 @@ export default function OrderCreateForm() {
                                   ? field.product.productName
                                   : 'Chọn sản phẩm'}
 
-                                <ChevronsUpDown className="ml-2  h-4 w-4 shrink-0 opacity-50" />
+                                <ChevronsUpDown className='ml-2  h-4 w-4 shrink-0 opacity-50' />
                               </Button>
                             </FormControl>
                           </PopoverTrigger>
-                          <PopoverContent className="w-[200px] p-0">
+                          <PopoverContent className='w-[200px] p-0'>
                             <Command>
                               <CommandInput
-                                id="productId"
-                                placeholder="Tìm kiếm sản phẩm..."
+                                id='productId'
+                                placeholder='Tìm kiếm sản phẩm...'
                                 {...form.register(
                                   `invoiceItems.${index}.product.productId`
                                 )}
@@ -341,10 +341,10 @@ export default function OrderCreateForm() {
                       <FormItem>
                         <FormLabel>Số lượng: </FormLabel>
                         <FormControl>
-                          <div className="flex items-center gap-2">
+                          <div className='flex items-center gap-2'>
                             <Button
-                              variant="ghost"
-                              size="icon"
+                              variant='ghost'
+                              size='icon'
                               onClick={() => {
                                 if (Number(field.quantity) > 1) {
                                   update(index, {
@@ -360,25 +360,25 @@ export default function OrderCreateForm() {
                                   });
                                 }
                               }}
-                              className="h-10 w-10 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                              className='h-10 w-10 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800'
                             >
-                              <MinusIcon className="h-5 w-5" />
-                              <span className="sr-only">Decrement</span>
+                              <MinusIcon className='h-5 w-5' />
+                              <span className='sr-only'>Decrement</span>
                             </Button>
                             <Input
-                              id="quantity"
-                              type="number"
+                              id='quantity'
+                              type='number'
                               value={field.quantity}
                               {...form.register(
                                 `invoiceItems.${index}.quantity`
                               )}
                               disabled
-                              className="w-max text-center"
+                              className='w-max text-center'
                               min={1}
                             />
                             <Button
-                              variant="ghost"
-                              size="icon"
+                              variant='ghost'
+                              size='icon'
                               onClick={() =>
                                 update(index, {
                                   product: {
@@ -392,10 +392,10 @@ export default function OrderCreateForm() {
                                   ).toString(),
                                 })
                               }
-                              className="h-10 w-10 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                              className='h-10 w-10 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800'
                             >
-                              <PlusIcon className="h-5 w-5" />
-                              <span className="sr-only">Increment</span>
+                              <PlusIcon className='h-5 w-5' />
+                              <span className='sr-only'>Increment</span>
                             </Button>
                           </div>
                         </FormControl>
@@ -404,17 +404,17 @@ export default function OrderCreateForm() {
                       <FormItem>
                         <FormLabel>Đơn giá</FormLabel>
                         <FormControl>
-                          <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                          <div className='relative'>
+                            <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                               đ
                             </span>
                             <Input
-                              className="pl-8"
-                              id="amount"
+                              className='pl-8'
+                              id='amount'
                               maxLength={10}
-                              pattern="[0-9]*"
-                              placeholder="0.00"
-                              type="number"
+                              pattern='[0-9]*'
+                              placeholder='0.00'
+                              type='number'
                               value={field.product.price}
                               disabled
                             />
@@ -427,22 +427,22 @@ export default function OrderCreateForm() {
                         <Select value={field.product.type} disabled>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Chọn vật công hoặc vật liệu" />
+                              <SelectValue placeholder='Chọn vật công hoặc vật liệu' />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectItem value="SUPPLIES">Vật liệu</SelectItem>
-                              <SelectItem value="REPAIRS">Vật công</SelectItem>
+                              <SelectItem value='SUPPLIES'>Vật liệu</SelectItem>
+                              <SelectItem value='REPAIRS'>Vật công</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
                         <FormMessage />
                       </FormItem>
                       <Button
-                        type="button"
+                        type='button'
                         onClick={() => remove(index)}
-                        className="mt-8"
+                        className='mt-8'
                       >
                         Xóa
                       </Button>
@@ -454,7 +454,7 @@ export default function OrderCreateForm() {
           );
         })}
 
-        <Button type="submit" className="ml-auto flex">
+        <Button type='submit' className='ml-auto flex'>
           Tạo mới hóa đơn
         </Button>
       </form>

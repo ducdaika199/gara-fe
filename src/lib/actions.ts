@@ -58,41 +58,36 @@ export const getUsers = async (page, query) => {
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
 
+  await prisma.$executeRaw`CREATE EXTENSION IF NOT EXISTS unaccent;`;
+
   const users = await prisma.$queryRaw`
-    SELECT name FROM User WHERE (
-        unaccent(lower(name)) ILIKE unaccent(lower(${query}))
-      )
-  `;
+  SELECT *
+  FROM "User"
+  WHERE (
+    unaccent("name") ILIKE unaccent(${query} || '%')
+    AND "status" != 'INACTIVE'
+  )
+  LIMIT ${take}
+  OFFSET ${skip};`
 
-  return users;
+  const count = await prisma.$queryRaw`
+  SELECT COUNT(*)
+  FROM "User"
+  WHERE (
+  unaccent("name") ILIKE unaccent(${query} || '%')
+  AND "status" != 'INACTIVE'
+);
+`;
 
-  // const users = await prisma.$transaction([
-  //   prisma.user.findMany({
-  //     take: take,
-  //     skip: skip,
-  //     where: {
-  //       OR: [
-  //         {
-  //           name: {
-  //             startsWith: query,
-  //           },
-  //         },
-  //       ],
-  //       NOT: {
-  //         status: 'INACTIVE',
-  //       },
-  //     },
-  //   }),
-  //   prisma.user.count(),
-  // ]);
-  // return {
-  //   data: users[0],
-  //   total: users[1],
-  //   pagination: {
-  //     take,
-  //     skip,
-  //   },
-  // };
+  return {
+    data: users,
+    total: Number(count[0].count),
+    pagination: {
+      take,
+      skip,
+    },
+  };
+
 };
 
 export const getUser = async (id) => {
@@ -142,28 +137,30 @@ export const getProducts = async (page, query) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
-  const products = await prisma.$transaction([
-    prisma.product.findMany({
-      take: take,
-      skip: skip,
-      where: {
-        OR: [
-          {
-            name: {
-              startsWith: query,
-            },
-          },
-        ],
-        NOT: {
-          status: 'INACTIVE',
-        },
-      },
-    }),
-    prisma.product.count(),
-  ]);
+  await prisma.$executeRaw`CREATE EXTENSION IF NOT EXISTS unaccent;`;
+
+  const products = await prisma.$queryRaw`
+  SELECT *
+  FROM "Product"
+  WHERE (
+    unaccent("name") ILIKE unaccent(${query} || '%')
+    AND "status" != 'INACTIVE'
+  )
+  LIMIT ${take}
+  OFFSET ${skip};`
+
+  const count = await prisma.$queryRaw`
+SELECT COUNT(*)
+FROM "Product"
+WHERE (
+  unaccent("name") ILIKE unaccent(${query} || '%')
+  AND "status" != 'INACTIVE'
+);
+`;
+
   return {
-    data: products[0],
-    total: products[1],
+    data: products,
+    total: Number(count[0].count),
     pagination: {
       take,
       skip,
@@ -245,8 +242,8 @@ export const getInvoices = async (page, query) => {
     prisma.invoice.count(),
   ]);
   return {
-    data: invoices[0],
-    total: invoices[1],
+    data: [],
+    total: [],
     pagination: {
       take,
       skip,
