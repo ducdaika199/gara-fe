@@ -214,36 +214,60 @@ export const getInvoices = async (page, query) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
-  const invoices = await prisma.$transaction([
-    prisma.invoice.findMany({
-      take: take,
-      skip: skip,
-      where: {
-        OR: [
-          {
-            user: {
-              username: {
-                startsWith: query,
-              },
-            },
-          },
-        ],
-        NOT: {
-          user: {
-            status: 'INACTIVE',
-          },
-        },
-      },
-      include: {
-        user: true,
-        invoiceItems: true,
-      },
-    }),
-    prisma.invoice.count(),
-  ]);
+  await prisma.$executeRaw`CREATE EXTENSION IF NOT EXISTS unaccent;`;
+  // const invoices = await prisma.$transaction([
+  //   prisma.invoice.findMany({
+  //     take: take,
+  //     skip: skip,
+  //     where: {
+  //       OR: [
+  //         {
+  //           user: {
+  //             username: {
+  //               startsWith: query,
+  //             },
+  //           },
+  //         },
+  //       ],
+  //       NOT: {
+  //         user: {
+  //           status: 'INACTIVE',
+  //         },
+  //       },
+  //     },
+  //     include: {
+  //       user: true,
+  //       invoiceItems: true,
+  //     },
+  //   }),
+  //   prisma.invoice.count(),
+  // ]);
+
+  const invoices = await prisma.$queryRaw`
+    SELECT i.*, u.*, ii.*
+    FROM "Invoice" i
+    LEFT JOIN "User" u ON i."userId" = u."id"
+    LEFT JOIN "InvoiceItem" ii ON i."id" = ii."invoiceId"
+    WHERE (
+      unaccent(u."username") ILIKE unaccent(${query} || '%')
+      AND u."status" != 'INACTIVE'
+    )
+    LIMIT ${take}
+    OFFSET ${skip};
+  `;
+  const count = await prisma.$queryRaw`
+    SELECT COUNT(*) 
+    FROM "Invoice" i
+    LEFT JOIN "User" u ON i."userId" = u."id"
+    WHERE (
+      u."username" LIKE ${query + '%'}
+    )
+    AND u."status" != 'INACTIVE';
+  `
+  console.log(invoices, '------invoices--------');
   return {
-    data: [],
-    total: [],
+    data: invoices,
+    total: Number(count[0].count),
     pagination: {
       take,
       skip,
