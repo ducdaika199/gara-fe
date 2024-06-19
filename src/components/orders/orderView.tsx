@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { SheetTrigger } from '../ui/sheet';
 import {
@@ -35,6 +33,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { renderTemplate } from '../pdf/template';
+import Link from 'next/link';
 
 const OrderView = (data) => {
   return (
@@ -81,17 +80,14 @@ const OrderView = (data) => {
                     </CardDescription>
                   </div>
                   <div className="ml-auto flex items-center gap-1">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="h-8 gap-1"
-                      onClick={() => renderTemplate(data.data.id)}
-                    >
-                      <File className="h-3.5 w-3.5" />
-                      <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                        In hóa đơn
-                      </span>
-                    </Button>
+                    <Link href={`/orders/${data.data.id}`} target="_blank">
+                      <Button size="sm" variant="outline" className="h-8 gap-1">
+                        <File className="h-3.5 w-3.5" />
+                        <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
+                          In hóa đơn
+                        </span>
+                      </Button>
+                    </Link>
                   </div>
                 </CardHeader>
                 <CardContent className="p-6 text-sm">

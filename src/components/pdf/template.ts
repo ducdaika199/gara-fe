@@ -2,7 +2,6 @@ import VNnum2words from 'vn-num2words';
 import { getInvoice } from '../../lib/actions';
 
 export const renderTemplate = async (invoiceId) => {
-  console.log(invoiceId, '-------invoiceId------');
   const invoice = await getInvoice(invoiceId);
   const joinDate = new Date(invoice?.joinDate ?? '').toLocaleDateString();
   const invoiceItems = invoice?.invoiceItems ?? [];
