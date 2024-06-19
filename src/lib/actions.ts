@@ -228,15 +228,19 @@ export const getInvoices = async (page, query) => {
           'id', "InvoiceItem"."id",
           'quantity', "InvoiceItem"."quantity",
           'productId', "InvoiceItem"."productId",
-          'price', "InvoiceItem"."price"
+          'price', "InvoiceItem"."price",
+          'productName', p."name"
         )
       ) AS "invoiceItems"
     FROM
       "Invoice" 
     LEFT JOIN
       "InvoiceItem" ON "Invoice"."id" = "InvoiceItem"."invoiceId"
-      LEFT JOIN "User" u ON "Invoice"."userId" = u."id"
-      WHERE (
+    LEFT JOIN
+      "Product" p ON "InvoiceItem"."productId" = p."id"
+    LEFT JOIN
+      "User" u ON "Invoice"."userId" = u."id"
+    WHERE (
         unaccent(u."username") ILIKE unaccent(${query} || '%')
         AND u."status" != 'INACTIVE'
       )

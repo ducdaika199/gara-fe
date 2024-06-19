@@ -36,6 +36,7 @@ import { renderTemplate } from '../pdf/template';
 import Link from 'next/link';
 
 const OrderView = (data) => {
+  console.log(data.data, '------data------');
   return (
     <div>
       <div>
@@ -65,7 +66,7 @@ const OrderView = (data) => {
                 <CardHeader className="flex flex-row items-start bg-muted/50">
                   <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
-                      Order ID: {data?.data?.id ?? ''}
+                      Hóa đơn số: {data?.data?.id ?? ''}
                       <Button
                         size="icon"
                         variant="outline"
@@ -76,7 +77,10 @@ const OrderView = (data) => {
                       </Button>
                     </CardTitle>
                     <CardDescription>
-                      Date: {data?.data?.joinDate.toDateString() ?? ''}
+                      Ngày vào:{' '}
+                      {new Date(
+                        data?.data?.joinDate ?? ''
+                      ).toLocaleDateString()}
                     </CardDescription>
                   </div>
                   <div className="ml-auto flex items-center gap-1">
@@ -94,39 +98,44 @@ const OrderView = (data) => {
                   <div className="grid gap-3">
                     <div className="font-semibold">Chi tiết hóa đơn</div>
                     <ul className="grid gap-3">
-                      {/* {data?.data?.invoiceItems.map((item) => {
+                      {data?.data?.invoiceItems.map((item) => {
                         return (
                           <li
-                            className='flex items-center justify-between'
+                            className="flex items-center justify-between"
                             key={item.id}
                           >
-                            <span className='text-muted-foreground'>
-                              Glimmer Lamps x <span>{item.quantity}</span>
+                            <span className="text-muted-foreground">
+                              {item.productName} x <span>{item.quantity}</span>
                             </span>
-                            <span>$250.00</span>
+                            <span>{`${Number(item.price).toLocaleString(
+                              'it-IT'
+                            )} đ`}</span>
                           </li>
                         );
-                      })} */}
+                      })}
                     </ul>
-                    <Separator className="my-2" />
-                    <ul className="grid gap-3">
-                      <li className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Subtotal</span>
-                        <span>$299.00</span>
-                      </li>
-                      <li className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Shipping</span>
-                        <span>$5.00</span>
-                      </li>
-                      <li className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Tax</span>
-                        <span>$25.00</span>
-                      </li>
-                      <li className="flex items-center justify-between font-semibold">
-                        <span className="text-muted-foreground">Total</span>
-                        <span>$329.00</span>
-                      </li>
-                    </ul>
+                  </div>
+                  <Separator className="my-4" />
+                  <div className="grid gap-3">
+                    <div className="font-semibold">Tạm tính</div>
+                    <dl className="grid gap-3">
+                      <div className="flex items-center justify-between">
+                        <dt className="text-muted-foreground">Tổng tiền</dt>
+                        <dd>
+                          {`${Number(data.data.totalAmount).toLocaleString(
+                            'it-IT'
+                          )} đ`}
+                        </dd>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <dt className="text-muted-foreground">Email</dt>
+                        <dd>{data?.data?.email ?? ''}</dd>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <dt className="text-muted-foreground">Số điện thoại</dt>
+                        <dd>{data?.data?.phoneNumber ?? ''}</dd>
+                      </div>
+                    </dl>
                   </div>
                   <Separator className="my-4" />
                   <div className="grid gap-3">
@@ -149,9 +158,11 @@ const OrderView = (data) => {
                 </CardContent>
                 <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
                   <div className="text-xs text-muted-foreground">
-                    Updated{' '}
+                    Cập nhật{' '}
                     <time dateTime={data?.data?.joinDate.toDateString() ?? ''}>
-                      {data?.data?.joinDate.toDateString() ?? ''}
+                      {new Date(
+                        data?.data?.joinDate ?? ''
+                      ).toLocaleDateString()}
                     </time>
                   </div>
                 </CardFooter>
