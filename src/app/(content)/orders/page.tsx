@@ -57,13 +57,13 @@ const Orders = async ({
   const orders = await getInvoices(currentPage, query);
 
   return (
-    <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
-      <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
-        <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4'>
-          <Card className='sm:col-span-2'>
-            <CardHeader className='pb-3'>
+    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+          <Card className="sm:col-span-2">
+            <CardHeader className="pb-3">
               <CardTitle>Hóa đơn</CardTitle>
-              <CardDescription className='max-w-lg text-balance leading-relaxed'>
+              <CardDescription className="max-w-lg text-balance leading-relaxed">
                 Tổng hợp hóa đơn và tiền hóa đơn theo tuần, theo tháng
               </CardDescription>
             </CardHeader>
@@ -72,7 +72,7 @@ const Orders = async ({
                 <DialogTrigger asChild>
                   <Button>Tạo mới hóa đơn</Button>
                 </DialogTrigger>
-                <DialogContent className='sm:max-w-[1200px] sm:max-h-[90%]'>
+                <DialogContent className="sm:max-w-[1200px] sm:max-h-[90%]">
                   <DialogHeader>
                     <DialogTitle>Tạo mới hóa đơn</DialogTitle>
                     <DialogDescription>
@@ -80,7 +80,7 @@ const Orders = async ({
                       công
                     </DialogDescription>
                   </DialogHeader>
-                  <div className='grid gap-4 py-4'>
+                  <div className="grid gap-4 py-4">
                     <OrderCreateForm />
                   </div>
                 </DialogContent>
@@ -88,46 +88,46 @@ const Orders = async ({
             </CardFooter>
           </Card>
           <Card>
-            <CardHeader className='pb-2'>
+            <CardHeader className="pb-2">
               <CardDescription>Tuần</CardDescription>
-              <CardTitle className='text-4xl'>$1329</CardTitle>
+              <CardTitle className="text-4xl">$1329</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className='text-xs text-muted-foreground'>
+              <div className="text-xs text-muted-foreground">
                 +25% so với tuần trước
               </div>
             </CardContent>
             <CardFooter>
-              <Progress value={25} aria-label='25% increase' />
+              <Progress value={25} aria-label="25% increase" />
             </CardFooter>
           </Card>
           <Card>
-            <CardHeader className='pb-2'>
+            <CardHeader className="pb-2">
               <CardDescription>Tháng</CardDescription>
-              <CardTitle className='text-3xl'>$5,329</CardTitle>
+              <CardTitle className="text-3xl">$5,329</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className='text-xs text-muted-foreground'>
+              <div className="text-xs text-muted-foreground">
                 +10% so với tháng trước
               </div>
             </CardContent>
             <CardFooter>
-              <Progress value={12} aria-label='12% increase' />
+              <Progress value={12} aria-label="12% increase" />
             </CardFooter>
           </Card>
         </div>
-        <Tabs defaultValue='all'>
-          <div className='flex items-center'>
+        <Tabs defaultValue="all">
+          <div className="flex items-center">
             <TabsList>
-              <TabsTrigger value='all'>Tất cả</TabsTrigger>
+              <TabsTrigger value="all">Tất cả</TabsTrigger>
             </TabsList>
-            <div className='relative ml-2 flex-1 md:grow-0'>
+            <div className="relative ml-2 flex-1 md:grow-0">
               <SearchInput />
             </div>
           </div>
-          <TabsContent value='all'>
+          <TabsContent value="all">
             <Card>
-              <CardHeader className='px-7'>
+              <CardHeader className="px-7">
                 <CardTitle>Hóa đơn</CardTitle>
                 <CardDescription>Hóa đơn gần đây của gara</CardDescription>
               </CardHeader>
@@ -136,37 +136,37 @@ const Orders = async ({
                   <TableHeader>
                     <TableRow>
                       <TableHead>Khách hàng</TableHead>
-                      <TableHead className='hidden sm:table-cell'>
+                      <TableHead className="hidden sm:table-cell">
                         Yêu cầu của khách hàng
                       </TableHead>
-                      <TableHead className='hidden md:table-cell'>
+                      <TableHead className="hidden md:table-cell">
                         Ngày vào
                       </TableHead>
-                      <TableHead className='text-right'>Amount</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
                       <TableHead>
-                        <span className='sr-only'>Actions</span>
+                        <span className="sr-only">Actions</span>
                       </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {orders?.data.map((item) => {
+                    {(orders?.data as any[]).map((item) => {
                       return (
                         <TableRow key={item?.id ?? 0}>
                           <TableCell>
-                            <div className='font-medium'>{item.username}</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
+                            <div className="font-medium">{item.username}</div>
+                            <div className="hidden text-sm text-muted-foreground md:inline">
                               {item.phoneNumber}
                             </div>
                           </TableCell>
                           <TableCell>
-                            <div className='font-medium'>
+                            <div className="font-medium">
                               {item.userRequest}
                             </div>
                           </TableCell>
-                          <TableCell className='hidden md:table-cell'>
+                          <TableCell className="hidden md:table-cell">
                             <div>{item.joinDate?.toDateString()}</div>
                           </TableCell>
-                          <TableCell className='text-right'>
+                          <TableCell className="text-right">
                             {`${Number(item.totalAmount).toLocaleString(
                               'it-IT'
                             )} đ`}
@@ -181,13 +181,15 @@ const Orders = async ({
                 </Table>
               </CardContent>
               <CardFooter>
-                <div className='text-xs text-muted-foreground'>
+                <div className="text-xs text-muted-foreground">
                   Hiển thị
-                  <strong>{` ${orders?.data?.length} - ${orders?.pagination?.take} `}</strong>
+                  <strong>{` ${((orders?.data as any[]) || []).length} - ${
+                    orders?.pagination?.take
+                  } `}</strong>
                   của <strong>{orders?.total} </strong>
                   hóa đơn
                 </div>
-                <div className='text-xs ml-auto'>
+                <div className="text-xs ml-auto">
                   <PaginationFooter totalItems={orders.total} />
                 </div>
               </CardFooter>

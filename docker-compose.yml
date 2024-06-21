@@ -12,7 +12,16 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
-
+  frontend:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: ['npm', 'start']
 volumes:
   db_data:
     driver: local

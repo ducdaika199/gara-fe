@@ -125,7 +125,7 @@ const Products = async ({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products?.data?.map((item) => {
+                  {products?.data?.map((item: any) => {
                     return (
                       <TableRow key={item?.id ?? 0}>
                         <TableCell className="hidden sm:table-cell">

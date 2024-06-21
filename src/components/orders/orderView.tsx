@@ -1,12 +1,5 @@
-import React from 'react';
-import { SheetTrigger } from '../ui/sheet';
-import {
-  Copy,
-  File,
-  MoreHorizontalIcon,
-  MoreVertical,
-  Truck,
-} from 'lucide-react';
+import { Copy, File, MoreHorizontalIcon } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '../ui/button';
 import {
   Card,
@@ -16,14 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { Separator } from '../ui/separator';
-import {
-  DropdownMenuSeparator,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -32,11 +17,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
-import { renderTemplate } from '../pdf/template';
-import Link from 'next/link';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Separator } from '../ui/separator';
 
 const OrderView = (data) => {
-  console.log(data.data, '------data------');
   return (
     <div>
       <div>

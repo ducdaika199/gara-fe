@@ -1,6 +1,23 @@
-FROM node:14.2.0-alpine3.11
-WORKDIR /app
-COPY package.json /app/
-COPY package-lock.json /app/
-COPY package-lock.json /app/
-RUN npm ci --only=production
+# Use the official Node.js image as the base  
+FROM node:20  
+
+# Set the working directory inside the container  
+WORKDIR /app  
+
+# Copy package.json and package-lock.json to the container  
+COPY package*.json ./  
+
+# Install dependencies  
+RUN npm install
+
+# Copy the app source code to the container  
+COPY . .  
+
+# Build the Next.js app  
+RUN npm run build  
+
+# Expose the port the app will run on  
+EXPOSE 3000  
+
+# Start the app  
+CMD ["npm", "start"]  
