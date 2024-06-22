@@ -17,7 +17,7 @@ export const {
         username: {},
         password: {},
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials, request) => {
         let user = null;
 
         // logic to salt and hash password
@@ -42,8 +42,8 @@ export const {
 
         if (!isPasswordCorrect) throw new Error('Wrong credentials!');
 
-        // return user object with the their profile data
-        return user;
+        // return user object with their profile data
+        return user as any | null;
       },
     }),
   ],

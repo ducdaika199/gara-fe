@@ -5,7 +5,7 @@ import { prisma } from './db';
 import bcrypt from 'bcryptjs';
 import { revalidatePath } from 'next/cache';
 
-export const register = async (formData) => {
+export const register = async (formData: any) => {
   const { username, password } = formData;
 
   try {
@@ -33,7 +33,7 @@ export const register = async (formData) => {
   }
 };
 
-export const login = async (formData) => {
+export const login = async (formData: any) => {
   const { username, password } = formData;
 
   try {
@@ -53,7 +53,7 @@ export const handleLogout = async () => {
 
 // user action
 
-export const getUsers = async (page, query) => {
+export const getUsers = async (page: any, query: any) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
@@ -77,7 +77,7 @@ export const getUsers = async (page, query) => {
   unaccent("name") ILIKE unaccent(${query} || '%')
   AND "status" != 'INACTIVE'
 );
-`;
+` as any;
 
   return {
     data: users,
@@ -89,7 +89,7 @@ export const getUsers = async (page, query) => {
   };
 };
 
-export const getUser = async (id) => {
+export const getUser = async (id: any) => {
   const user = await prisma.user.findUnique({
     where: {
       id: id,
@@ -98,7 +98,7 @@ export const getUser = async (id) => {
   return user;
 };
 
-export const createUser = async (formData) => {
+export const createUser = async (formData: any) => {
   const user = await prisma.user.create({
     data: formData,
   });
@@ -106,7 +106,7 @@ export const createUser = async (formData) => {
   return user;
 };
 
-export const updateUser = async (id, formData) => {
+export const updateUser = async (id: any, formData: any) => {
   const userUpdated = await prisma.user.update({
     where: {
       id: id,
@@ -117,7 +117,7 @@ export const updateUser = async (id, formData) => {
   return userUpdated;
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (id: any) => {
   const userDeleted = await prisma.user.update({
     where: {
       id: id,
@@ -132,7 +132,7 @@ export const deleteUser = async (id) => {
 
 // product actions
 
-export const getProducts = async (page, query) => {
+export const getProducts = async (page: any, query: any) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
@@ -155,7 +155,7 @@ WHERE (
   unaccent("name") ILIKE unaccent(${query} || '%')
   AND "status" != 'INACTIVE'
 );
-`;
+` as any;
 
   return {
     data: products,
@@ -167,7 +167,7 @@ WHERE (
   };
 };
 
-export const getProduct = async (id) => {
+export const getProduct = async (id: any) => {
   const product = await prisma.product.findUnique({
     where: {
       id: id,
@@ -176,7 +176,7 @@ export const getProduct = async (id) => {
   return product;
 };
 
-export const createProduct = async (formData) => {
+export const createProduct = async (formData: any) => {
   const product = await prisma.product.create({
     data: formData,
   });
@@ -184,7 +184,7 @@ export const createProduct = async (formData) => {
   return product;
 };
 
-export const updateProduct = async (id, formData) => {
+export const updateProduct = async (id: any, formData: any) => {
   const productUpdate = await prisma.product.update({
     where: {
       id: id,
@@ -195,7 +195,7 @@ export const updateProduct = async (id, formData) => {
   return productUpdate;
 };
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (id: any) => {
   const productDeleted = await prisma.product.update({
     where: {
       id: id,
@@ -209,7 +209,7 @@ export const deleteProduct = async (id) => {
 };
 
 // invoice actions
-export const getInvoices = async (page, query) => {
+export const getInvoices = async (page: any, query: any) => {
   const ITEM_PER_PAGE = 10;
   const take = ITEM_PER_PAGE;
   const skip = ITEM_PER_PAGE * (page - 1);
@@ -255,7 +255,7 @@ export const getInvoices = async (page, query) => {
       u."username" LIKE ${query + '%'}
     )
     AND u."status" != 'INACTIVE';
-  `;
+  ` as any;
   return {
     data: invoices,
     total: Number(count[0].count),
@@ -266,7 +266,7 @@ export const getInvoices = async (page, query) => {
   };
 };
 
-export const getInvoice = async (id) => {
+export const getInvoice = async (id: any) => {
   const invoice = await prisma.invoice.findUnique({
     where: {
       id: id,
@@ -285,7 +285,7 @@ export const getInvoice = async (id) => {
   return invoice;
 };
 
-export const createInvoice = async (formData) => {
+export const createInvoice = async (formData: any) => {
   const { userRequest, userId, invoiceItems } = formData;
   const invoice = await prisma.invoice.create({
     data: {
@@ -301,7 +301,7 @@ export const createInvoice = async (formData) => {
         },
       },
       totalAmount: invoiceItems.reduce(
-        (acc, cur) => acc + cur.quantity * cur.price,
+        (acc: any, cur: any) => acc + cur.quantity * cur.price,
         0
       ),
     },
@@ -310,7 +310,7 @@ export const createInvoice = async (formData) => {
   return invoice;
 };
 
-export const updateInvoice = async (id, formData) => {
+export const updateInvoice = async (id: any, formData: any) => {
   const invoiceUpdated = await prisma.invoice.update({
     where: {
       id: id,
@@ -321,7 +321,7 @@ export const updateInvoice = async (id, formData) => {
   return invoiceUpdated;
 };
 
-export const deleteInvoice = async (id) => {
+export const deleteInvoice = async (id: any) => {
   const invoiceDeleted = await prisma.invoice.update({
     where: {
       id: id,

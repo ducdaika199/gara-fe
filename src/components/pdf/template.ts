@@ -1,7 +1,7 @@
 import VNnum2words from 'vn-num2words';
 import { getInvoice } from '../../lib/actions';
 
-export const renderTemplate = async (invoiceId) => {
+export const renderTemplate = async (invoiceId: any) => {
   const invoice = await getInvoice(invoiceId);
   const joinDate = new Date(invoice?.joinDate ?? '').toLocaleDateString();
   const invoiceItems = invoice?.invoiceItems ?? [];
@@ -11,7 +11,7 @@ export const renderTemplate = async (invoiceId) => {
   const totalMoneyProduct = suppliesProducts.reduce(
     (acc, cur) => acc + Number(cur.quantity) * Number(cur.product.priceUnit),
     0
-  );
+  ).toString();
   const totalMoneyPayProduct = suppliesProducts.reduce((acc, cur) => {
     const moneyProduct =
       Number(cur?.quantity) * Number(cur?.product?.priceUnit);
@@ -20,14 +20,14 @@ export const renderTemplate = async (invoiceId) => {
       moneyProduct * (cur?.product?.tax ?? 0 / 100) +
       moneyProduct * (cur?.product?.ck ?? 0 / 100);
     return acc + moneyPay;
-  }, 0);
+  }, 0).toString();
   const repairsGeneral = invoiceItems.filter(
     (el) => el.product.type === 'REPAIRS'
   );
   const totalMoneyRepairs = repairsGeneral.reduce(
     (acc, cur) => acc + Number(cur.quantity) * Number(cur.product.priceUnit),
     0
-  );
+  ).toString();
   const totalMoneyPayRepairs = repairsGeneral.reduce((acc, cur) => {
     const moneyProduct =
       Number(cur?.quantity) * Number(cur?.product?.priceUnit);
@@ -36,7 +36,7 @@ export const renderTemplate = async (invoiceId) => {
       moneyProduct * (cur?.product?.tax ?? 0 / 100) +
       moneyProduct * (cur?.product?.ck ?? 0 / 100);
     return acc + moneyPay;
-  }, 0);
+  }, 0).toString();
 
   const totalMoneyProductRepairs = (
     parseInt(totalMoneyProduct) + parseInt(totalMoneyRepairs)
@@ -127,14 +127,14 @@ export const renderTemplate = async (invoiceId) => {
         <th class="font-bold" colspan="10">Phần vật tư phụ tùng</th>
       </tr>
          ${suppliesProducts
-           .map((item, index) => {
-             const moneyProduct =
-               Number(item?.quantity) * Number(item?.product?.priceUnit);
-             const moneyPay =
-               moneyProduct +
-               moneyProduct * (item?.product?.tax / 100) +
-               moneyProduct * (item?.product?.ck / 100);
-             const tableItemsData = `
+      .map((item, index) => {
+        const moneyProduct =
+          Number(item?.quantity) * Number(item?.product?.priceUnit);
+        const moneyPay =
+          moneyProduct +
+          moneyProduct * (Number(item?.product?.tax) / 100) +
+          moneyProduct * (Number(item?.product?.ck) / 100);
+        const tableItemsData = `
    
   <tr>
     <th class="font-light border border-slate-600">${index + 1}</th>
@@ -142,26 +142,25 @@ export const renderTemplate = async (invoiceId) => {
     <th class="font-light border border-slate-600">
     ${item.product.description}
     </th>
-    <th class="font-light border border-slate-600">${
-      item.product.countUnit
-    }</th>
+    <th class="font-light border border-slate-600">${item.product.countUnit
+          }</th>
     <th class="font-light border border-slate-600">${item.quantity}</th>
     <th class="font-light border border-slate-600">${parseInt(
-      item.product.priceUnit
-    ).toLocaleString('it-IT')}</th>
+            (item.product.priceUnit).toString()
+          ).toLocaleString('it-IT')}</th>
     <th class="font-light border border-slate-600">${item.product.ck}</th>
     <th class="font-light border border-slate-600">${item.product.tax}</th>
     <th class="font-light border border-slate-600">${moneyProduct.toLocaleString(
-      'it-IT'
-    )}</th>
+            'it-IT'
+          )}</th>
     <th class="font-light border border-slate-600">${moneyPay.toLocaleString(
-      'it-IT'
-    )}</th>
+            'it-IT'
+          )}</th>
   </tr>  
   `;
-             return tableItemsData;
-           })
-           .join(' ')}
+        return tableItemsData;
+      })
+      .join(' ')}
   <tr>
   <th colspan="3">Tổng cộng tiền vật tư, phụ tùng</th>
   <th></th>
@@ -176,30 +175,27 @@ export const renderTemplate = async (invoiceId) => {
             <th colspan="10">Phần sửa chữa chung</th>
           </tr>
         ${repairsGeneral
-          .map((item, index) => {
-            const moneyProduct = item?.quantity * item?.product?.priceUnit;
-            const moneyPay =
-              moneyProduct +
-              moneyProduct * (item?.product?.tax / 100) +
-              moneyProduct * (item?.product?.ck / 100);
-            const tableItemsData = `<tr>
+      .map((item, index) => {
+        const moneyProduct = Number(item?.quantity) * Number(item?.product?.priceUnit);
+        const moneyPay =
+          moneyProduct +
+          moneyProduct * (Number(item?.product?.tax) / 100) +
+          moneyProduct * (Number(item?.product?.ck) / 100);
+        const tableItemsData = `<tr>
           <th class="font-light border border-slate-600">${index}</th>
-          <th class="font-light border border-slate-600">${
-            item?.product?.code
+          <th class="font-light border border-slate-600">${item?.product?.code
           }</th>
           <th class="font-light border border-slate-600">
             ${item?.product?.description}
           </th>
-          <th class="font-light border border-slate-600">${
-            item?.product?.countUnit
+          <th class="font-light border border-slate-600">${item?.product?.countUnit
           }</th>
           <th class="font-light border border-slate-600">${item?.quantity}</th>
           <th class="font-light border border-slate-600">${parseInt(
-            item.product.priceUnit
+            (item.product.priceUnit).toString()
           ).toLocaleString('it-IT')}</th>
           <th class="font-light border border-slate-600">${item.product.ck}</th>
-          <th class="font-light border border-slate-600">${
-            item.product.tax
+          <th class="font-light border border-slate-600">${item.product.tax
           }</th>
           <th class="font-light border border-slate-600">${moneyProduct.toLocaleString(
             'it-IT'
@@ -208,9 +204,9 @@ export const renderTemplate = async (invoiceId) => {
             'it-IT'
           )}</th>
         </tr>`;
-            return tableItemsData;
-          })
-          .join(' ')}
+        return tableItemsData;
+      })
+      .join(' ')}
           
           <tr>
             <th colspan="3">Tổng cộng tiền công</th>
