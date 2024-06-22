@@ -132,13 +132,13 @@ export default function OrderCreateForm() {
 
   const searchUsers = useDebouncedCallback(async (query: string) => {
     setUsers([]);
-    const data = await getUsers(1, query);
+    const data = (await getUsers(1, query)) as any;
     setUsers(data?.data ?? []);
   }, 300);
 
   const searchProducts = useDebouncedCallback(async (query: string) => {
     setProducts([]);
-    const data = await getProducts(1, query);
+    const data = (await getProducts(1, query)) as any;
     setProducts(data?.data ?? []);
   }, 300);
 
