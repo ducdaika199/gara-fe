@@ -5,7 +5,9 @@ FROM node:20
 WORKDIR /app  
 
 # Copy package.json and package-lock.json to the container  
-COPY package*.json ./  
+COPY package*.json ./ 
+
+COPY prisma ./prisma/
 
 # Install dependencies  
 RUN npm install
@@ -15,6 +17,8 @@ COPY . .
 
 # Build the Next.js app  
 RUN npm run build  
+
+RUN npx prisma generate
 
 # Expose the port the app will run on  
 EXPOSE 3000  

@@ -18,9 +18,10 @@ services:
       - 3000:3000
     volumes:
       - .:/app
-      - /app/node_modules
+      # - /app/node_modules
     environment:
-      - NODE_ENV=development
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
+      NODE_ENV: production
     command: ['npm', 'start']
 volumes:
   db_data:

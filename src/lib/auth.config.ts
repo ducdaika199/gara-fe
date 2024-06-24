@@ -2,6 +2,8 @@ export const authConfig = {
   pages: {
     signIn: '/login',
   },
+  trustHost: true,
+  trustHostedDomain: true,
   providers: [],
   callbacks: {
     // FOR MORE DETAIL ABOUT CALLBACK FUNCTIONS CHECK https://next-auth.js.org/configuration/callbacks
@@ -26,7 +28,8 @@ export const authConfig = {
         request.nextUrl?.pathname.startsWith('/products');
       const isOnOrdersPage = request.nextUrl?.pathname.startsWith('/orders');
       const isOnLoginPage = request.nextUrl?.pathname.startsWith('/login');
-      const isOnDashboardPage = request.nextUrl?.pathname.startsWith('/dashboard');
+      const isOnDashboardPage =
+        request.nextUrl?.pathname.startsWith('/dashboard');
 
       // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
 
@@ -37,7 +40,6 @@ export const authConfig = {
       if (isOnDashboardPage && !user) {
         return false;
       }
-
 
       // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
 
