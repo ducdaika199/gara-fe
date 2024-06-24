@@ -20,6 +20,8 @@ RUN npm run build
 
 RUN npx prisma generate
 
+RUN npx prisma db push
+
 # Expose the port the app will run on  
 EXPOSE 3000  
 
