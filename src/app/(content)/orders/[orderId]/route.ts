@@ -1,12 +1,13 @@
 import puppeteer from 'puppeteer';
 import { renderTemplate } from '../../../../components/pdf/template';
+import locateChrome from 'locate-chrome';
 
 export async function GET(request: Request, context: any) {
   const { params } = context;
+  const executablePath: string = await new Promise(resolve => locateChrome((arg: any) => resolve(arg))) || '';
   const browser = await puppeteer.launch({
-    headless: true,
+    executablePath,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     // `headless: true` (default) enables old Headless;
     // `headless: 'new'` enables new Headless;
     // `headless: false` enables “headful” mode.
