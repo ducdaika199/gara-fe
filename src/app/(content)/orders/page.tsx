@@ -142,7 +142,7 @@ const Orders = async ({
                       <TableHead className="hidden md:table-cell">
                         Ngày vào
                       </TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
+                      <TableHead className="text-right">Số tiền</TableHead>
                       <TableHead>
                         <span className="sr-only">Actions</span>
                       </TableHead>
@@ -164,7 +164,11 @@ const Orders = async ({
                             </div>
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            <div>{item.joinDate?.toDateString()}</div>
+                            <div>
+                              {new Date(
+                                item?.joinDate ?? ''
+                              ).toLocaleDateString()}
+                            </div>
                           </TableCell>
                           <TableCell className="text-right">
                             {`${Number(item.totalAmount).toLocaleString(

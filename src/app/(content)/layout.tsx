@@ -31,6 +31,13 @@ import {
   TooltipTrigger,
 } from '@/src/components/ui/tooltip';
 import { Toaster } from '@/src/components/ui/toaster';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/src/components/ui/avatar';
+import { handleLogout } from '@/src/lib/actions';
+import AvatarHeader from '@/src/components/avatarHeader/avatarHeader';
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -172,31 +179,7 @@ export default function DashboardLayout({
                   className='w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]'
                 /> */}
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="overflow-hidden rounded-full"
-                  >
-                    <Image
-                      src="/placeholder-user.jpg"
-                      width={36}
-                      height={36}
-                      alt="Avatar"
-                      className="overflow-hidden"
-                    />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <AvatarHeader />
             </header>
             {children}
             <Toaster />

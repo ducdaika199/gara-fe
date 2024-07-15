@@ -70,14 +70,14 @@ export const getUsers = async (page: any, query: any) => {
   LIMIT ${take}
   OFFSET ${skip};`;
 
-  const count = await prisma.$queryRaw`
+  const count = (await prisma.$queryRaw`
   SELECT COUNT(*)
   FROM "User"
   WHERE (
   unaccent("name") ILIKE unaccent(${query} || '%')
   AND "status" != 'INACTIVE'
 );
-` as any;
+`) as any;
 
   return {
     data: users,
@@ -148,14 +148,14 @@ export const getProducts = async (page: any, query: any) => {
   LIMIT ${take}
   OFFSET ${skip};`;
 
-  const count = await prisma.$queryRaw`
+  const count = (await prisma.$queryRaw`
 SELECT COUNT(*)
 FROM "Product"
 WHERE (
   unaccent("name") ILIKE unaccent(${query} || '%')
   AND "status" != 'INACTIVE'
 );
-` as any;
+`) as any;
 
   return {
     data: products,
@@ -223,6 +223,8 @@ export const getInvoices = async (page: any, query: any) => {
       "Invoice"."status",
       "Invoice"."totalAmount",
       u."username",
+      u."email",
+      u."phoneNumber",
       array_agg(
         json_build_object(
           'id', "InvoiceItem"."id",
@@ -245,9 +247,9 @@ export const getInvoices = async (page: any, query: any) => {
         AND u."status" != 'INACTIVE'
       )
     GROUP BY
-      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."username";
+      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."username", u."email", u."phoneNumber";
   `;
-  const count = await prisma.$queryRaw`
+  const count = (await prisma.$queryRaw`
     SELECT COUNT(*) 
     FROM "Invoice" i
     LEFT JOIN "User" u ON i."userId" = u."id"
@@ -255,7 +257,7 @@ export const getInvoices = async (page: any, query: any) => {
       u."username" LIKE ${query + '%'}
     )
     AND u."status" != 'INACTIVE';
-  ` as any;
+  `) as any;
   return {
     data: invoices,
     total: Number(count[0].count),
