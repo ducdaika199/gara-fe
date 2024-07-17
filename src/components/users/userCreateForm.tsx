@@ -99,16 +99,12 @@ const UserCreateSheet = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tên đăng nhập</FormLabel>
+                <FormLabel>Tên</FormLabel>
                 <FormControl>
-                  <Input
-                    id="username"
-                    placeholder="Tên đăng nhập..."
-                    {...field}
-                  />
+                  <Input id="name" placeholder="Tên..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,19 +118,6 @@ const UserCreateSheet = () => {
                 <FormLabel>Địa chỉ email</FormLabel>
                 <FormControl>
                   <Input id="email" placeholder="Địa chỉ email..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tên</FormLabel>
-                <FormControl>
-                  <Input id="name" placeholder="Tên..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
