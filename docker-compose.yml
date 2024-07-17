@@ -13,14 +13,14 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
   frontend:
-    image: ducdaika246199/gara-fe-frontend
-    # build: .
+    # image: ducdaika246199/gara-fe-frontend
+    build: .
     platform: linux/amd64
     ports:
       - 3000:3000
-    volumes:
-      - .:/app
-      - /app/node_modules
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
     environment:
       DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
       NODE_ENV: production

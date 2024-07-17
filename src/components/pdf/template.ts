@@ -20,8 +20,8 @@ export const renderTemplate = async (invoiceId: any) => {
         Number(cur?.quantity) * Number(cur?.product?.priceUnit);
       const moneyPay =
         moneyProduct +
-        moneyProduct * (cur?.product?.tax ?? 0 / 100) +
-        moneyProduct * (cur?.product?.ck ?? 0 / 100);
+        moneyProduct * (Number(cur?.product?.tax) / 100) +
+        moneyProduct * (Number(cur?.product?.ck) / 100);
       return acc + moneyPay;
     }, 0)
     .toString();
@@ -40,8 +40,8 @@ export const renderTemplate = async (invoiceId: any) => {
         Number(cur?.quantity) * Number(cur?.product?.priceUnit);
       const moneyPay =
         moneyProduct +
-        moneyProduct * (cur?.product?.tax ?? 0 / 100) +
-        moneyProduct * (cur?.product?.ck ?? 0 / 100);
+        moneyProduct * (Number(cur?.product?.tax) / 100) +
+        moneyProduct * (Number(cur?.product?.ck) / 100);
       return acc + moneyPay;
     }, 0)
     .toString();
@@ -55,6 +55,32 @@ export const renderTemplate = async (invoiceId: any) => {
   const numberToWords = VNnum2words(
     parseInt(totalMoneyPayProduct) + parseInt(totalMoneyPayRepairs)
   );
+
+  const productTax = suppliesProducts.reduce((acc, cur) => {
+    const moneyProduct =
+      Number(cur?.quantity) * Number(cur?.product?.priceUnit);
+    const moneyPay = moneyProduct * (Number(cur?.product?.tax) / 100);
+    return acc + moneyPay;
+  }, 0);
+  const repairTax = repairsGeneral.reduce((acc, cur) => {
+    const moneyProduct =
+      Number(cur?.quantity) * Number(cur?.product?.priceUnit);
+    const moneyPay = moneyProduct * (Number(cur?.product?.tax) / 100);
+    return acc + moneyPay;
+  }, 0);
+
+  const productCK = suppliesProducts.reduce((acc, cur) => {
+    const moneyProduct =
+      Number(cur?.quantity) * Number(cur?.product?.priceUnit);
+    const moneyPay = moneyProduct * (Number(cur?.product?.ck) / 100);
+    return acc + moneyPay;
+  }, 0);
+  const repairCK = repairsGeneral.reduce((acc, cur) => {
+    const moneyProduct =
+      Number(cur?.quantity) * Number(cur?.product?.priceUnit);
+    const moneyPay = moneyProduct * (Number(cur?.product?.ck) / 100);
+    return acc + moneyPay;
+  }, 0);
 
   const template = `<!DOCTYPE html>
 <html>
@@ -240,12 +266,12 @@ export const renderTemplate = async (invoiceId: any) => {
           <p>Tổng tiền hàng: ${totalMoneyProductRepairs}</p>
         </div>
         <div class="justify-center items-center px-4 border-t border-slate-300">
-          <p>Tổng CK: 0</p>
+          <p>Tổng CK: ${productCK + repairCK}</p>
         </div>
         <div
           class="bg-slate-200 justify-center items-center px-4 border-t border-slate-300"
         >
-          <p>Thuế VAT: 0</p>
+          <p>Thuế VAT: ${productTax + repairTax}</p>
         </div>
         <div class="justify-center items-center px-4 border-t border-slate-300">
           <p>Tổng thanh toán: ${totalMoneyPayProductRepairs}</p>
