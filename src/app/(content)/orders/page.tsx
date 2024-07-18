@@ -153,7 +153,7 @@ const Orders = async ({
                       return (
                         <TableRow key={item?.id ?? 0}>
                           <TableCell>
-                            <div className="font-medium">{item.username}</div>
+                            <div className="font-medium">{item.name}</div>
                             <div className="hidden text-sm text-muted-foreground md:inline">
                               {item.phoneNumber}
                             </div>

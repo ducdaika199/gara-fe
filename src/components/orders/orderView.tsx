@@ -124,7 +124,7 @@ const OrderView = (data: any) => {
                     <dl className="grid gap-3">
                       <div className="flex items-center justify-between">
                         <dt className="text-muted-foreground">Khách hàng</dt>
-                        <dd>{data?.data?.username ?? ''}</dd>
+                        <dd>{data?.data?.name ?? ''}</dd>
                       </div>
                       <div className="flex items-center justify-between">
                         <dt className="text-muted-foreground">Email</dt>

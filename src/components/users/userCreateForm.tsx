@@ -26,19 +26,13 @@ const UserCreateSheet = () => {
   );
   const { toast } = useToast();
   const formSchema = z.object({
-    username: z
-      .string()
-      .min(2, {
-        message: 'Tên phải có ít nhất 2 ký tự',
-      })
-      .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
-    email: z.string(),
     name: z
       .string()
       .min(2, {
         message: 'Tên phải có ít nhất 2 ký tự',
       })
       .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
+    email: z.string(),
     phoneNumber: z
       .string()
       .min(4, { message: 'Số điện thoại phải có ít nhất 4 ký tự' })
@@ -57,9 +51,8 @@ const UserCreateSheet = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
-      email: '',
       name: '',
+      email: '',
       phoneNumber: '',
       plateNumber: '',
       carName: '',

@@ -55,31 +55,16 @@ const UserEditSheet = (data: any) => {
     /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
   );
 
-  const {
-    username,
-    email,
-    name,
-    phoneNumber,
-    plateNumber,
-    carName,
-    carType,
-    code,
-    id,
-  } = data.user;
+  const { email, name, phoneNumber, plateNumber, carName, carType, code, id } =
+    data.user;
   const formSchema = z.object({
-    username: z
-      .string()
-      .min(2, {
-        message: 'Tên phải có ít nhất 2 ký tự',
-      })
-      .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
-    email: z.string(),
     name: z
       .string()
       .min(2, {
         message: 'Tên phải có ít nhất 2 ký tự',
       })
       .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
+    email: z.string(),
     phoneNumber: z
       .string()
       .min(4, { message: 'Số điện thoại phải có ít nhất 4 ký tự' })
@@ -99,9 +84,8 @@ const UserEditSheet = (data: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: username || '',
-      email: email || '',
       name: name || '',
+      email: email || '',
       phoneNumber: phoneNumber || '',
       plateNumber: plateNumber || '',
       carName: carName || '',

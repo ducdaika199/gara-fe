@@ -222,7 +222,7 @@ export const getInvoices = async (page: any, query: any) => {
       "Invoice"."userId",
       "Invoice"."status",
       "Invoice"."totalAmount",
-      u."username",
+      u."name",
       u."email",
       u."phoneNumber",
       array_agg(
@@ -243,18 +243,18 @@ export const getInvoices = async (page: any, query: any) => {
     LEFT JOIN
       "User" u ON "Invoice"."userId" = u."id"
     WHERE (
-        unaccent(u."username") ILIKE unaccent(${query} || '%')
+        unaccent(u."name") ILIKE unaccent(${query} || '%')
         AND u."status" != 'INACTIVE'
       )
     GROUP BY
-      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."username", u."email", u."phoneNumber";
+      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."name", u."email", u."phoneNumber";
   `;
   const count = (await prisma.$queryRaw`
     SELECT COUNT(*) 
     FROM "Invoice" i
     LEFT JOIN "User" u ON i."userId" = u."id"
     WHERE (
-      u."username" LIKE ${query + '%'}
+      u."name" LIKE ${query + '%'}
     )
     AND u."status" != 'INACTIVE';
   `) as any;
