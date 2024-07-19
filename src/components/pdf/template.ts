@@ -126,9 +126,9 @@ export const renderTemplate = async (invoiceId: any) => {
           <div>
             <p>Tên KH: ${invoice?.user?.name || ''}</p>
             <p>Mã KH:  ${invoice?.user?.code || ''}</p>
-            <p>Điện thoại:${invoice?.user?.phoneNumber || ''} </p>
+            <p>Điện thoại: ${invoice?.user?.phoneNumber || ''} </p>
             <p>Địa chỉ: ${invoice?.user?.address || ''}</p>
-            <p>Biển số:${invoice?.user?.plateNumber || ''} </p>
+            <p>Biển số: ${invoice?.user?.plateNumber || ''} </p>
           </div>
           <div class="ml-auto">
             <p>Đơn hàng số: ${invoice?.id || ''}</p>
@@ -162,8 +162,7 @@ export const renderTemplate = async (invoiceId: any) => {
       </tr>
          ${suppliesProducts
            .map((item, index) => {
-             const moneyProduct =
-               Number(item?.quantity) * Number(item?.product?.priceUnit);
+             const moneyProduct = Number(item?.quantity) * Number(item?.price);
              const moneyPay =
                moneyProduct +
                moneyProduct * (Number(item?.product?.tax) / 100) +
@@ -181,7 +180,7 @@ export const renderTemplate = async (invoiceId: any) => {
     }</th>
     <th class="font-light border border-slate-600">${item.quantity}</th>
     <th class="font-light border border-slate-600">${parseInt(
-      item.product.priceUnit.toString()
+      item.price.toString()
     ).toLocaleString('it-IT')}</th>
     <th class="font-light border border-slate-600">${item.product.ck}</th>
     <th class="font-light border border-slate-600">${item.product.tax}</th>
@@ -211,8 +210,7 @@ export const renderTemplate = async (invoiceId: any) => {
           </tr>
         ${repairsGeneral
           .map((item, index) => {
-            const moneyProduct =
-              Number(item?.quantity) * Number(item?.product?.priceUnit);
+            const moneyProduct = Number(item?.quantity) * Number(item?.price);
             const moneyPay =
               moneyProduct +
               moneyProduct * (Number(item?.product?.tax) / 100) +

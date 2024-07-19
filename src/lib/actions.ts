@@ -279,6 +279,8 @@ export const getInvoice = async (id: any) => {
           quantity: true,
           id: true,
           product: true,
+          price: true,
+          productName: true,
         },
       },
       user: true,
@@ -302,9 +304,11 @@ export const createInvoice = async (formData: any) => {
           data: invoiceItems,
         },
       },
-      totalAmount: invoiceItems.reduce(
-        (acc: any, cur: any) => acc + cur.quantity * cur.price,
-        0
+      totalAmount: Math.round(
+        invoiceItems.reduce(
+          (acc: any, cur: any) => acc + cur.quantity * cur.price,
+          0
+        )
       ),
     },
   });
