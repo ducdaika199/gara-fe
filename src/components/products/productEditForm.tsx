@@ -51,6 +51,7 @@ import {
   SelectValue,
 } from '../ui/select';
 import { Skeleton } from '../ui/skeleton';
+import { Textarea } from '../ui/textarea';
 
 const ProductEditSheet = (data: any) => {
   const [isClient, setIsClient] = useState(false);
@@ -146,12 +147,12 @@ const ProductEditSheet = (data: any) => {
           <Sheet>
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <Button aria-haspopup="true" size="icon" variant="ghost">
-                  <MoreHorizontalIcon className="h-4 w-4" />
-                  <span className="sr-only">Toggle menu</span>
+                <Button aria-haspopup='true' size='icon' variant='ghost'>
+                  <MoreHorizontalIcon className='h-4 w-4' />
+                  <span className='sr-only'>Toggle menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align='end'>
                 <SheetTrigger
                   asChild
                   onClick={() => {
@@ -195,22 +196,23 @@ const ProductEditSheet = (data: any) => {
                   </SheetDescription>
                 </SheetHeader>
               )}
-              <div className="py-4">
+              <div className='py-4'>
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-4"
+                    className='space-y-4'
                   >
                     <FormField
                       control={form.control}
-                      name="name"
+                      name='name'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Tên sản phẩm</FormLabel>
                           <FormControl>
-                            <Input
-                              id="name"
-                              placeholder="Tên sản phẩm..."
+                            <Textarea
+                              id='name'
+                              placeholder='Tên sản phẩm...'
+                              className='resize-none'
                               {...field}
                               disabled={isView}
                             />
@@ -221,14 +223,14 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="code"
+                      name='code'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Mã</FormLabel>
                           <FormControl>
                             <Input
-                              id="code"
-                              placeholder="Mã..."
+                              id='code'
+                              placeholder='Mã...'
                               {...field}
                               disabled={isView}
                             />
@@ -239,14 +241,14 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="description"
+                      name='description'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Mô tả</FormLabel>
                           <FormControl>
                             <Input
-                              id="description"
-                              placeholder="Mô tả..."
+                              id='description'
+                              placeholder='Mô tả...'
                               {...field}
                               disabled={isView}
                             />
@@ -257,14 +259,14 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="countUnit"
+                      name='countUnit'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>ĐVT</FormLabel>
                           <FormControl>
                             <Input
-                              id="countUnit"
-                              placeholder="Đơn vị tính..."
+                              id='countUnit'
+                              placeholder='Đơn vị tính...'
                               {...field}
                               disabled={isView}
                             />
@@ -275,23 +277,23 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="priceUnit"
+                      name='priceUnit'
                       render={({ field }) => {
                         return (
                           <FormItem>
                             <FormLabel>Đơn giá</FormLabel>
                             <FormControl>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                              <div className='relative'>
+                                <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                                   đ
                                 </span>
                                 <Input
-                                  className="pl-8"
-                                  id="amount"
-                                  maxLength={10}
-                                  pattern="[0-9]*"
-                                  placeholder="0.00"
-                                  type="number"
+                                  className='pl-8'
+                                  id='amount'
+                                  maxLength={12}
+                                  pattern='[0-9]*'
+                                  placeholder=''
+                                  type='text'
                                   {...field}
                                   disabled={isView}
                                 />
@@ -304,7 +306,7 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="type"
+                      name='type'
                       render={({ field }) => {
                         return (
                           <FormItem>
@@ -317,15 +319,15 @@ const ProductEditSheet = (data: any) => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Chọn vật công hoặc vật liệu" />
+                                  <SelectValue placeholder='Chọn vật công hoặc vật liệu' />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
                                 <SelectGroup>
-                                  <SelectItem value="SUPPLIES">
+                                  <SelectItem value='SUPPLIES'>
                                     Vật liệu
                                   </SelectItem>
-                                  <SelectItem value="REPAIRS">
+                                  <SelectItem value='REPAIRS'>
                                     Vật công
                                   </SelectItem>
                                 </SelectGroup>
@@ -338,23 +340,23 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="tax"
+                      name='tax'
                       render={({ field }) => {
                         return (
                           <FormItem>
                             <FormLabel>Thuế</FormLabel>
                             <FormControl>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                              <div className='relative'>
+                                <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                                   %
                                 </span>
                                 <Input
-                                  className="pl-8"
-                                  id="amount"
+                                  className='pl-8'
+                                  id='tax'
                                   maxLength={10}
-                                  pattern="[0-9]*"
-                                  placeholder="0.00"
-                                  type="number"
+                                  pattern='[0-9]*'
+                                  placeholder=''
+                                  type='text'
                                   {...field}
                                   disabled={isView}
                                 />
@@ -367,23 +369,23 @@ const ProductEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="ck"
+                      name='ck'
                       render={({ field }) => {
                         return (
                           <FormItem>
                             <FormLabel>Chiết khấu</FormLabel>
                             <FormControl>
-                              <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                              <div className='relative'>
+                                <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                                   %
                                 </span>
                                 <Input
-                                  className="pl-8"
-                                  id="amount"
+                                  className='pl-8'
+                                  id='ck'
                                   maxLength={10}
-                                  pattern="[0-9]*"
-                                  placeholder="0.00"
-                                  type="number"
+                                  pattern='[0-9]*'
+                                  placeholder=''
+                                  type='text'
                                   {...field}
                                   disabled={isView}
                                 />
@@ -395,9 +397,9 @@ const ProductEditSheet = (data: any) => {
                       }}
                     />
                     {!isView && (
-                      <div className="flex justify-end">
+                      <div className='flex justify-end'>
                         <Button
-                          type="submit"
+                          type='submit'
                           disabled={!form.formState.isDirty}
                         >
                           Lưu
@@ -419,7 +421,7 @@ const ProductEditSheet = (data: any) => {
               setProductSelected(0);
             }}
           >
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className='sm:max-w-[425px]'>
               <DialogHeader>
                 <DialogTitle>Xóa dữ liệu?</DialogTitle>
                 <DialogDescription>
@@ -428,7 +430,7 @@ const ProductEditSheet = (data: any) => {
               </DialogHeader>
               <DialogFooter>
                 <Button
-                  type="submit"
+                  type='submit'
                   onClick={() => handleDeleted(productSelected)}
                 >
                   Xóa
@@ -439,7 +441,7 @@ const ProductEditSheet = (data: any) => {
         </>
       ) : (
         <>
-          <Skeleton className="w-[40px] h-[40px]" />
+          <Skeleton className='w-[40px] h-[40px]' />
         </>
       )}
     </div>

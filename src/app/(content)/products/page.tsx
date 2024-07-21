@@ -35,6 +35,11 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/src/components/ui/tabs';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/src/components/ui/tooltip';
 import { getProducts } from '@/src/lib/actions';
 import { PlusCircleIcon } from 'lucide-react';
 
@@ -132,7 +137,16 @@ const Products = async ({
                           {item?.id ?? 0}
                         </TableCell>
                         <TableCell className='hidden sm:table-cell'>
-                          {item?.name ?? ''}
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <div className='truncate max-w-[200px]'>
+                                {item?.name ?? ''}
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent className='max-w-[400px]'>
+                              <p>{item?.name ?? ''}</p>
+                            </TooltipContent>
+                          </Tooltip>
                         </TableCell>
                         <TableCell className='hidden md:table-cell'>
                           {item?.countUnit ?? ''}

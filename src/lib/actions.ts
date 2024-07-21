@@ -64,9 +64,10 @@ export const getUsers = async (page: any, query: any) => {
   SELECT *
   FROM "User"
   WHERE (
-    unaccent("name") ILIKE unaccent(${query} || '%')
+    unaccent("name") ILIKE unaccent('%' || ${query} || '%')
     AND "status" != 'INACTIVE'
   )
+  ORDER BY "createdAt" DESC, "updatedAt" DESC
   LIMIT ${take}
   OFFSET ${skip};`;
 
@@ -74,7 +75,7 @@ export const getUsers = async (page: any, query: any) => {
   SELECT COUNT(*)
   FROM "User"
   WHERE (
-  unaccent("name") ILIKE unaccent(${query} || '%')
+  unaccent("name") ILIKE unaccent('%' || ${query} || '%')
   AND "status" != 'INACTIVE'
 );
 `) as any;
@@ -142,9 +143,10 @@ export const getProducts = async (page: any, query: any) => {
   SELECT *
   FROM "Product"
   WHERE (
-    unaccent("name") ILIKE unaccent(${query} || '%')
+    unaccent("name") ILIKE unaccent('%' || ${query} || '%')
     AND "status" != 'INACTIVE'
   )
+  ORDER BY "createdAt" DESC, "updatedAt" DESC
   LIMIT ${take}
   OFFSET ${skip};`;
 
@@ -152,7 +154,7 @@ export const getProducts = async (page: any, query: any) => {
 SELECT COUNT(*)
 FROM "Product"
 WHERE (
-  unaccent("name") ILIKE unaccent(${query} || '%')
+  unaccent("name") ILIKE unaccent('%' || ${query} || '%')
   AND "status" != 'INACTIVE'
 );
 `) as any;
@@ -243,11 +245,12 @@ export const getInvoices = async (page: any, query: any) => {
     LEFT JOIN
       "User" u ON "Invoice"."userId" = u."id"
     WHERE (
-        unaccent(u."name") ILIKE unaccent(${query} || '%')
+        unaccent(u."name") ILIKE unaccent('%' || ${query} || '%')
         AND u."status" != 'INACTIVE'
       )
     GROUP BY
-      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."name", u."email", u."phoneNumber";
+      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."name", u."email", u."phoneNumber"
+    ORDER BY "Invoice"."createdAt" DESC, "Invoice"."updatedAt" DESC;
   `;
   const count = (await prisma.$queryRaw`
     SELECT COUNT(*) 

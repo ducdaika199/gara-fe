@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  // binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -26,6 +26,8 @@ model User {
   invoices Invoice[]
   status Status @default(ACTIVE)
   isAdmin Boolean? @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Product {
@@ -40,6 +42,8 @@ model Product {
   type TypeWork @default(SUPPLIES)
   invoiceItems InvoiceItem[]
   status Status @default(ACTIVE)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Invoice {
@@ -51,6 +55,8 @@ model Invoice {
   invoiceItems InvoiceItem[]
   status Status @default(ACTIVE)
   totalAmount BigInt @default(0)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model InvoiceItem {

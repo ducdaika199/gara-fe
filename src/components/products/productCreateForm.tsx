@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
+import { Textarea } from '../ui/textarea';
 
 const ProductCreateSheet = () => {
   const { toast } = useToast();
@@ -31,7 +32,7 @@ const ProductCreateSheet = () => {
     name: z
       .string()
       .min(2, { message: 'Tên phải có ít nhất 2 ký tự' })
-      .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
+      .max(525, 'Tên có độ dài tối đa là 525 ký tự'),
     code: z.string(),
     description: z.string(),
     countUnit: z
@@ -92,58 +93,20 @@ const ProductCreateSheet = () => {
   }
 
   return (
-    <div className="py-4">
+    <div className='py-4'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <FormField
             control={form.control}
-            name="name"
+            name='name'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tên sản phẩm</FormLabel>
                 <FormControl>
-                  <Input id="name" placeholder="Tên sản phẩm..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mã</FormLabel>
-                <FormControl>
-                  <Input id="code" placeholder="Mã..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mô tả</FormLabel>
-                <FormControl>
-                  <Input id="description" placeholder="Mô tả..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="countUnit"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ĐVT</FormLabel>
-                <FormControl>
-                  <Input
-                    id="countUnit"
-                    placeholder="Đơn vị tính..."
+                  <Textarea
+                    id='name'
+                    placeholder='Tên sản phẩm ...'
+                    className='resize-none'
                     {...field}
                   />
                 </FormControl>
@@ -153,23 +116,66 @@ const ProductCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name="priceUnit"
+            name='code'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mã</FormLabel>
+                <FormControl>
+                  <Input id='code' placeholder='Mã...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='description'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mô tả</FormLabel>
+                <FormControl>
+                  <Input id='description' placeholder='Mô tả...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='countUnit'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ĐVT</FormLabel>
+                <FormControl>
+                  <Input
+                    id='countUnit'
+                    placeholder='Đơn vị tính...'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='priceUnit'
             render={({ field }) => {
               return (
                 <FormItem>
                   <FormLabel>Đơn giá</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <div className='relative'>
+                      <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                         đ
                       </span>
                       <Input
-                        className="pl-8"
-                        id="amount"
-                        maxLength={10}
-                        pattern="[0-9]*"
-                        placeholder="0.00"
-                        type="number"
+                        className='pl-8'
+                        id='amount'
+                        maxLength={12}
+                        pattern='[0-9]*'
+                        placeholder=''
+                        type='text'
                         {...field}
                       />
                     </div>
@@ -181,7 +187,7 @@ const ProductCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name="type"
+            name='type'
             render={({ field }) => {
               return (
                 <FormItem>
@@ -189,13 +195,13 @@ const ProductCreateSheet = () => {
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Chọn vật công hoặc vật liệu" />
+                        <SelectValue placeholder='Chọn vật công hoặc vật liệu' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="SUPPLIES">Vật liệu</SelectItem>
-                        <SelectItem value="REPAIRS">Vật công</SelectItem>
+                        <SelectItem value='SUPPLIES'>Vật liệu</SelectItem>
+                        <SelectItem value='REPAIRS'>Vật công</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -206,23 +212,23 @@ const ProductCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name="tax"
+            name='tax'
             render={({ field }) => {
               return (
                 <FormItem>
                   <FormLabel>Thuế</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <div className='relative'>
+                      <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                         %
                       </span>
                       <Input
-                        className="pl-8"
-                        id="amount"
+                        className='pl-8'
+                        id='tax'
                         maxLength={10}
-                        pattern="[0-9]*"
-                        placeholder="0.00"
-                        type="number"
+                        pattern='[0-9]*'
+                        placeholder=''
+                        type='text'
                         {...field}
                       />
                     </div>
@@ -234,23 +240,23 @@ const ProductCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name="ck"
+            name='ck'
             render={({ field }) => {
               return (
                 <FormItem>
                   <FormLabel>Chiết khấu</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <div className='relative'>
+                      <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                         %
                       </span>
                       <Input
-                        className="pl-8"
-                        id="amount"
+                        className='pl-8'
+                        id='ck'
                         maxLength={10}
-                        pattern="[0-9]*"
-                        placeholder="0.00"
-                        type="text"
+                        pattern='[0-9]*'
+                        placeholder=''
+                        type='text'
                         {...field}
                       />
                     </div>
@@ -260,8 +266,8 @@ const ProductCreateSheet = () => {
               );
             }}
           />
-          <div className="flex justify-end">
-            <Button type="submit">Lưu</Button>
+          <div className='flex justify-end'>
+            <Button type='submit'>Lưu</Button>
           </div>
         </form>
       </Form>

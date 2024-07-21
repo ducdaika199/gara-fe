@@ -27,15 +27,16 @@ REM Start the application
 echo Opening Google Chrome at localhost:3000...
 start "" "C:\Users\ADMIN\Desktop\Gara.lnk" http://localhost:3000
 
-REM Push database schema with Prisma
-echo Starting db push...
-npx prisma db push
-IF %ERRORLEVEL% NEQ 0 ( 
-    echo Failed to push database schema with Prisma.
-    pause
-    exit /b 1
-) ELSE (
-    echo DB push successful.
-)
+@REM REM Push database schema with Prisma
+@REM echo Starting db push...
+@REM npx prisma db push
+@REM IF %ERRORLEVEL% NEQ 0 ( 
+@REM     echo Failed to push database schema with Prisma.
+@REM     pause
+@REM     exit /b 1
+@REM ) ELSE (
+@REM     echo DB push successful.
+@REM )
+
 echo Project setup complete.
 
