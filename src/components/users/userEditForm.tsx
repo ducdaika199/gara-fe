@@ -55,8 +55,16 @@ const UserEditSheet = (data: any) => {
     /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
   );
 
-  const { email, name, phoneNumber, plateNumber, carName, carType, code, id } =
-    data.user;
+  const {
+    address,
+    name,
+    phoneNumber,
+    plateNumber,
+    carName,
+    carType,
+    code,
+    id,
+  } = data.user;
   const formSchema = z.object({
     name: z
       .string()
@@ -64,7 +72,7 @@ const UserEditSheet = (data: any) => {
         message: 'Tên phải có ít nhất 2 ký tự',
       })
       .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
-    email: z.string(),
+    address: z.string(),
     phoneNumber: z
       .string()
       .min(4, { message: 'Số điện thoại phải có ít nhất 4 ký tự' })
@@ -85,7 +93,7 @@ const UserEditSheet = (data: any) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: name || '',
-      email: email || '',
+      address: address || '',
       phoneNumber: phoneNumber || '',
       plateNumber: plateNumber || '',
       carName: carName || '',
@@ -224,14 +232,14 @@ const UserEditSheet = (data: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Địa chỉ email</FormLabel>
+                          <FormLabel>Địa chỉ </FormLabel>
                           <FormControl>
                             <Input
-                              id="email"
-                              placeholder="Địa chỉ email..."
+                              id="address"
+                              placeholder="Địa chỉ ..."
                               {...field}
                               disabled={isView}
                             />

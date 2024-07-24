@@ -9,15 +9,11 @@ export const renderTemplate = async (invoiceId: any) => {
     (el) => el.product.type === 'SUPPLIES'
   );
   const totalMoneyProduct = suppliesProducts
-    .reduce(
-      (acc, cur) => acc + Number(cur.quantity) * Number(cur.price),
-      0
-    )
+    .reduce((acc, cur) => acc + Number(cur.quantity) * Number(cur.price), 0)
     .toString();
   const totalMoneyPayProduct = suppliesProducts
     .reduce((acc, cur) => {
-      const moneyProduct =
-        Number(cur?.quantity) * Number(cur?.price);
+      const moneyProduct = Number(cur?.quantity) * Number(cur?.price);
       const moneyPay =
         moneyProduct +
         moneyProduct * (Number(cur?.product?.tax) / 100) +
@@ -29,15 +25,11 @@ export const renderTemplate = async (invoiceId: any) => {
     (el) => el.product.type === 'REPAIRS'
   );
   const totalMoneyRepairs = repairsGeneral
-    .reduce(
-      (acc, cur) => acc + Number(cur.quantity) * Number(cur.price),
-      0
-    )
+    .reduce((acc, cur) => acc + Number(cur.quantity) * Number(cur.price), 0)
     .toString();
   const totalMoneyPayRepairs = repairsGeneral
     .reduce((acc, cur) => {
-      const moneyProduct =
-        Number(cur?.quantity) * Number(cur?.price);
+      const moneyProduct = Number(cur?.quantity) * Number(cur?.price);
       const moneyPay =
         moneyProduct +
         moneyProduct * (Number(cur?.product?.tax) / 100) +
@@ -57,27 +49,23 @@ export const renderTemplate = async (invoiceId: any) => {
   );
 
   const productTax = suppliesProducts.reduce((acc, cur) => {
-    const moneyProduct =
-      Number(cur?.quantity) * Number(cur?.price);
+    const moneyProduct = Number(cur?.quantity) * Number(cur?.price);
     const moneyPay = moneyProduct * (Number(cur?.product?.tax) / 100);
     return acc + moneyPay;
   }, 0);
   const repairTax = repairsGeneral.reduce((acc, cur) => {
-    const moneyProduct =
-      Number(cur?.quantity) * Number(cur?.price);
+    const moneyProduct = Number(cur?.quantity) * Number(cur?.price);
     const moneyPay = moneyProduct * (Number(cur?.product?.tax) / 100);
     return acc + moneyPay;
   }, 0);
 
   const productCK = suppliesProducts.reduce((acc, cur) => {
-    const moneyProduct =
-      Number(cur?.quantity) * Number(cur?.price);
+    const moneyProduct = Number(cur?.quantity) * Number(cur?.price);
     const moneyPay = moneyProduct * (Number(cur?.product?.ck) / 100);
     return acc + moneyPay;
   }, 0);
   const repairCK = repairsGeneral.reduce((acc, cur) => {
-    const moneyProduct =
-      Number(cur?.quantity) * Number(cur?.price);
+    const moneyProduct = Number(cur?.quantity) * Number(cur?.price);
     const moneyPay = moneyProduct * (Number(cur?.product?.ck) / 100);
     return acc + moneyPay;
   }, 0);
@@ -139,15 +127,16 @@ export const renderTemplate = async (invoiceId: any) => {
         </div>
       </div>
       <div class="border-slate-600 rounded mt-2">
-        <p class="ml-[40px] mb-4">Yêu cầu khách hàng: ${invoice?.userRequest}</p>
+        <p class="ml-[40px] mb-4">Yêu cầu khách hàng: ${
+          invoice?.userRequest
+        }</p>
       </div>
       <table class="border-collapse border border-slate-500 mb-[50px] w-full">
         <thead>
           <tr>
             <th class="border border-slate-600">STT</th>
-            <th class="border border-slate-600">Mã VTHH</th>
-            <th class="border border-slate-600">Mô tả</th>
-            <th class="border border-slate-600 w-[30px]">ĐVT</th>
+            <th class="border border-slate-600">Tên sản phẩm</th>
+            <th class="border border-slate-600 w-[70px]">ĐVT</th>
             <th class="border border-slate-600 w-[30px]">SL</th>
             <th class="border border-slate-600 w-[85px]">Đơn giá</th>
             <th class="border border-slate-600">% CK</th>
@@ -158,44 +147,42 @@ export const renderTemplate = async (invoiceId: any) => {
         </thead>
         <tbody>
         <tr>
-        <th class="font-bold" colspan="10">Phần vật tư phụ tùng</th>
+        <th class="font-bold" colspan="9">Phần vật tư phụ tùng</th>
       </tr>
          ${suppliesProducts
-      .map((item, index) => {
-        const moneyProduct = Number(item?.quantity) * Number(item?.price);
-        const moneyPay =
-          moneyProduct +
-          moneyProduct * (Number(item?.product?.tax) / 100) +
-          moneyProduct * (Number(item?.product?.ck) / 100);
-        const tableItemsData = `
+           .map((item, index) => {
+             const moneyProduct = Number(item?.quantity) * Number(item?.price);
+             const moneyPay =
+               moneyProduct +
+               moneyProduct * (Number(item?.product?.tax) / 100) +
+               moneyProduct * (Number(item?.product?.ck) / 100);
+             const tableItemsData = `
    
   <tr>
     <th class="font-light border border-slate-600">${index + 1}</th>
-    <th class="font-light border border-slate-600">${item.product.code}</th>
-    <th class="font-light border border-slate-600">
-    ${item.product.description}
-    </th>
-    <th class="font-light border border-slate-600">${item.price}</th>
+    <th class="font-light border border-slate-600">${item.productName}</th>
+    <th class="font-light border border-slate-600">${
+      item.product.countUnit
+    }</th>
     <th class="font-light border border-slate-600">${item.quantity}</th>
     <th class="font-light border border-slate-600">${parseInt(
-          item.price.toString()
-        ).toLocaleString('it-IT')}</th>
+      item.price.toString()
+    ).toLocaleString('it-IT')}</th>
     <th class="font-light border border-slate-600">${item.product.ck}</th>
     <th class="font-light border border-slate-600">${item.product.tax}</th>
     <th class="font-light border border-slate-600">${moneyProduct.toLocaleString(
-          'it-IT'
-        )}</th>
+      'it-IT'
+    )}</th>
     <th class="font-light border border-slate-600">${moneyPay.toLocaleString(
-          'it-IT'
-        )}</th>
+      'it-IT'
+    )}</th>
   </tr>  
   `;
-        return tableItemsData;
-      })
-      .join(' ')}
+             return tableItemsData;
+           })
+           .join(' ')}
   <tr>
   <th colspan="3">Tổng cộng tiền vật tư, phụ tùng</th>
-  <th></th>
   <th></th>
   <th></th>
   <th></th>
@@ -204,29 +191,30 @@ export const renderTemplate = async (invoiceId: any) => {
   <th>${parseInt(totalMoneyPayProduct).toLocaleString('it-IT')}</th>
   </tr>
           <tr class="border border-slate-600">
-            <th colspan="10">Phần sửa chữa chung</th>
+            <th colspan="9">Phần sửa chữa chung</th>
           </tr>
         ${repairsGeneral
-      .map((item, index) => {
-        const moneyProduct = Number(item?.quantity) * Number(item?.price);
-        const moneyPay =
-          moneyProduct +
-          moneyProduct * (Number(item?.product?.tax) / 100) +
-          moneyProduct * (Number(item?.product?.ck) / 100);
-        const tableItemsData = `<tr>
+          .map((item, index) => {
+            const moneyProduct = Number(item?.quantity) * Number(item?.price);
+            const moneyPay =
+              moneyProduct +
+              moneyProduct * (Number(item?.product?.tax) / 100) +
+              moneyProduct * (Number(item?.product?.ck) / 100);
+            const tableItemsData = `<tr>
           <th class="font-light border border-slate-600">${index}</th>
-          <th class="font-light border border-slate-600">${item?.product?.code
+          <th class="font-light border border-slate-600">${
+            item.productName
           }</th>
-          <th class="font-light border border-slate-600">
-            ${item?.product?.description}
-          </th>
-          <th class="font-light border border-slate-600">${item?.price}</th>
+          <th class="font-light border border-slate-600">${
+            item.product.countUnit
+          }</th>
           <th class="font-light border border-slate-600">${item?.quantity}</th>
           <th class="font-light border border-slate-600">${parseInt(
-            item.product.priceUnit.toString()
+            item.price.toString()
           ).toLocaleString('it-IT')}</th>
           <th class="font-light border border-slate-600">${item.product.ck}</th>
-          <th class="font-light border border-slate-600">${item.product.tax
+          <th class="font-light border border-slate-600">${
+            item.product.tax
           }</th>
           <th class="font-light border border-slate-600">${moneyProduct.toLocaleString(
             'it-IT'
@@ -235,13 +223,12 @@ export const renderTemplate = async (invoiceId: any) => {
             'it-IT'
           )}</th>
         </tr>`;
-        return tableItemsData;
-      })
-      .join(' ')}
+            return tableItemsData;
+          })
+          .join(' ')}
           
           <tr>
             <th colspan="3">Tổng cộng tiền công</th>
-            <th></th>
             <th></th>
             <th></th>
             <th></th>

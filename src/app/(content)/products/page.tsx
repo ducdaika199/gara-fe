@@ -63,21 +63,21 @@ const Products = async ({
   };
 
   return (
-    <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
-      <Tabs defaultValue='all'>
-        <div className='flex items-center'>
+    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <Tabs defaultValue="all">
+        <div className="flex items-center">
           <TabsList>
-            <TabsTrigger value='all'>Tất cả</TabsTrigger>
+            <TabsTrigger value="all">Tất cả</TabsTrigger>
           </TabsList>
-          <div className='relative ml-2 flex-1 md:grow-0'>
+          <div className="relative ml-2 flex-1 md:grow-0">
             <SearchInput />
           </div>
-          <div className='ml-auto flex items-center gap-2'>
+          <div className="ml-auto flex items-center gap-2">
             <Sheet>
               <SheetTrigger asChild>
-                <Button className='h-8 gap-1' size='sm'>
-                  <PlusCircleIcon className='h-3.5 w-3.5' />
-                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+                <Button className="h-8 gap-1" size="sm">
+                  <PlusCircleIcon className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Thêm sản phẩm
                   </span>
                 </Button>
@@ -89,7 +89,7 @@ const Products = async ({
                     Tạo mới thông tin sản phẩm ở đây và lưu
                   </SheetDescription>
                 </SheetHeader>
-                <div className='py-4'>
+                <div className="py-4">
                   <ProductCreateSheet />
                 </div>
                 <SheetFooter>
@@ -99,8 +99,8 @@ const Products = async ({
             </Sheet>
           </div>
         </div>
-        <TabsContent value='all'>
-          <Card x-chunk='dashboard-06-chunk-0'>
+        <TabsContent value="all">
+          <Card x-chunk="dashboard-06-chunk-0">
             <CardHeader>
               <CardTitle>Sản phẩm</CardTitle>
               <CardDescription>Danh sách sản phẩm</CardDescription>
@@ -109,23 +109,23 @@ const Products = async ({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className='hidden w-[100px] sm:table-cell'>
+                    <TableHead className="hidden w-[100px] sm:table-cell">
                       ID
                     </TableHead>
                     <TableHead>Tên</TableHead>
-                    <TableHead className='hidden md:table-cell'>
+                    <TableHead className="hidden md:table-cell">
                       Đơn vị tính
                     </TableHead>
-                    <TableHead className='hidden md:table-cell'>
+                    <TableHead className="hidden md:table-cell">
                       Đơn giá
                     </TableHead>
-                    <TableHead className='hidden md:table-cell'>Thuế</TableHead>
-                    <TableHead className='hidden md:table-cell'>
+                    <TableHead className="hidden md:table-cell">Thuế</TableHead>
+                    <TableHead className="hidden md:table-cell">
                       Chiết khấu
                     </TableHead>
-                    <TableHead className='hidden md:table-cell'>Loại</TableHead>
+                    <TableHead className="hidden md:table-cell">Loại</TableHead>
                     <TableHead>
-                      <span className='sr-only'>Actions</span>
+                      <span className="sr-only">Actions</span>
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -133,34 +133,34 @@ const Products = async ({
                   {products?.data?.map((item: any) => {
                     return (
                       <TableRow key={item?.id ?? 0}>
-                        <TableCell className='hidden sm:table-cell'>
+                        <TableCell className="hidden sm:table-cell">
                           {item?.id ?? 0}
                         </TableCell>
-                        <TableCell className='hidden sm:table-cell'>
+                        <TableCell className="hidden sm:table-cell">
                           <Tooltip>
                             <TooltipTrigger>
-                              <div className='truncate max-w-[200px]'>
+                              <div className="truncate max-w-[200px]">
                                 {item?.name ?? ''}
                               </div>
                             </TooltipTrigger>
-                            <TooltipContent className='max-w-[400px]'>
+                            <TooltipContent className="max-w-[400px]">
                               <p>{item?.name ?? ''}</p>
                             </TooltipContent>
                           </Tooltip>
                         </TableCell>
-                        <TableCell className='hidden md:table-cell'>
+                        <TableCell className="hidden md:table-cell">
                           {item?.countUnit ?? ''}
                         </TableCell>
-                        <TableCell className='hidden md:table-cell'>
+                        <TableCell className="hidden md:table-cell">
                           {`${item?.priceUnit?.toLocaleString('it-IT')} đ`}
                         </TableCell>
-                        <TableCell className='hidden md:table-cell'>
+                        <TableCell className="hidden md:table-cell">
                           {item?.tax?.toString() ?? ''}
                         </TableCell>
-                        <TableCell className='hidden md:table-cell'>
+                        <TableCell className="hidden md:table-cell">
                           {item?.ck?.toString() ?? ''}
                         </TableCell>
-                        <TableCell className='hidden md:table-cell'>
+                        <TableCell className="hidden md:table-cell">
                           {renderType(item?.type) ?? ''}
                         </TableCell>
                         <TableCell>
@@ -180,13 +180,13 @@ const Products = async ({
               </Table>
             </CardContent>
             <CardFooter>
-              <div className='text-xs text-muted-foreground'>
+              <div className="text-xs text-muted-foreground">
                 Hiển thị
                 <strong>{` ${products?.data?.length} - ${products?.pagination?.take} `}</strong>
                 của <strong>{products?.total} </strong>
                 sản phẩm
               </div>
-              <div className='text-xs ml-auto'>
+              <div className="text-xs ml-auto">
                 <PaginationFooter totalItems={products.total} />
               </div>
             </CardFooter>

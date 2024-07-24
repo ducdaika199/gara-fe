@@ -227,13 +227,15 @@ export const getInvoices = async (page: any, query: any) => {
       u."name",
       u."email",
       u."phoneNumber",
+      u."address",
       array_agg(
         json_build_object(
           'id', "InvoiceItem"."id",
           'quantity', "InvoiceItem"."quantity",
           'productId', "InvoiceItem"."productId",
           'price', "InvoiceItem"."price",
-          'productName', p."name"
+          'productName', p."name",
+          'productType', p."type"
         )
       ) AS "invoiceItems"
     FROM
@@ -249,8 +251,10 @@ export const getInvoices = async (page: any, query: any) => {
         AND u."status" != 'INACTIVE'
       )
     GROUP BY
-      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."name", u."email", u."phoneNumber"
-    ORDER BY "Invoice"."createdAt" DESC, "Invoice"."updatedAt" DESC;
+      "Invoice"."id", "Invoice"."userRequest", "Invoice"."joinDate", "Invoice"."userId", "Invoice"."status", "Invoice"."totalAmount", u."name", u."email", u."phoneNumber",  u."address"
+    ORDER BY "Invoice"."createdAt" DESC, "Invoice"."updatedAt" DESC
+    LIMIT ${take}
+    OFFSET ${skip};
   `;
   const count = (await prisma.$queryRaw`
     SELECT COUNT(*) 

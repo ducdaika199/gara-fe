@@ -69,7 +69,6 @@ const FormSchema = z.object({
 
 export default function OrderCreateForm() {
   const [users, setUsers] = useState<Partial<User[]>>([]);
-  console.log(users, 'users');
   const [products, setProducts] = useState<Partial<Product[]>>([]);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -145,20 +144,20 @@ export default function OrderCreateForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-        <div className='grid grid-flow-col gap-2'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-flow-col gap-2">
           <FormField
             control={form.control}
-            name='userId'
+            name="userId"
             render={({ field }) => (
-              <FormItem className='flex flex-col'>
+              <FormItem className="flex flex-col">
                 <FormLabel>Khách hàng: </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant='outline'
-                        role='combobox'
+                        variant="outline"
+                        role="combobox"
                         className={cn(
                           'w-[200px] justify-between mt-8',
                           !field.value && 'text-muted-foreground'
@@ -169,16 +168,16 @@ export default function OrderCreateForm() {
                               (user) => user?.id.toString() === field.value
                             )?.name
                           : 'Chọn khách hàng'}
-                        <ChevronsUpDown className='ml-2  h-4 w-4 shrink-0 opacity-50' />
+                        <ChevronsUpDown className="ml-2  h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className='w-[200px] p-0'>
+                  <PopoverContent className="w-[200px] p-0">
                     <Command>
                       <Input
-                        placeholder='Tìm kiếm khách hàng...'
+                        placeholder="Tìm kiếm khách hàng..."
                         onChange={(e) => searchUsers(e.target.value)}
-                        className='focus-visible:ring-transparent border-t-0 border-l-0 border-r-0 mb-2'
+                        className="focus-visible:ring-transparent border-t-0 border-l-0 border-r-0 mb-2"
                       />
                       <CommandList>
                         <CommandEmpty>Không tìm thấy khách hàng</CommandEmpty>
@@ -218,14 +217,14 @@ export default function OrderCreateForm() {
           />
           <FormField
             control={form.control}
-            name='userRequest'
+            name="userRequest"
             render={({ field }) => (
-              <FormItem className='flex flex-col'>
+              <FormItem className="flex flex-col">
                 <FormLabel>Yêu cầu của khách hàng: </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder='Điền thông tin yêu cầu của khách hàng ...'
-                    className='resize-none'
+                    placeholder="Điền thông tin yêu cầu của khách hàng ..."
+                    className="resize-none"
                     {...field}
                   />
                 </FormControl>
@@ -234,9 +233,9 @@ export default function OrderCreateForm() {
             )}
           />
         </div>
-        <div className='flex'>
+        <div className="flex">
           <Button
-            type='button'
+            type="button"
             onClick={() =>
               append({
                 quantity: '1',
@@ -257,47 +256,47 @@ export default function OrderCreateForm() {
           return (
             <div
               key={field.id}
-              className='grid grid-flow-col gap-2 items-center'
+              className="grid grid-flow-col gap-2 items-center"
             >
               <FormField
                 control={form.control}
-                name='invoiceItems'
+                name="invoiceItems"
                 key={index}
                 render={() => {
                   return (
                     <>
-                      <FormItem className='flex flex-col'>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Sản phẩm: </FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
-                                variant='outline'
-                                role='combobox'
+                                variant="outline"
+                                role="combobox"
                                 className={cn(
                                   'w-[200px] justify-between mt-8',
                                   !field.id && 'text-muted-foreground'
                                 )}
                               >
-                                <p className='truncate'>
+                                <p className="truncate">
                                   {field.product.productId
                                     ? field.product.productName
                                     : 'Chọn sản phẩm'}
                                 </p>
 
-                                <ChevronsUpDown className='ml-2  h-4 w-4 shrink-0 opacity-50' />
+                                <ChevronsUpDown className="ml-2  h-4 w-4 shrink-0 opacity-50" />
                               </Button>
                             </FormControl>
                           </PopoverTrigger>
-                          <PopoverContent className='w-[200px] p-0'>
+                          <PopoverContent className="w-[200px] p-0">
                             <Command>
                               <Input
-                                placeholder='Tìm kiếm sản phẩm...'
+                                placeholder="Tìm kiếm sản phẩm..."
                                 {...form.register(
                                   `invoiceItems.${index}.product.productName`
                                 )}
                                 onChange={(e) => searchProducts(e.target.value)}
-                                className='focus-visible:ring-transparent border-t-0 border-l-0 border-r-0 mb-2'
+                                className="focus-visible:ring-transparent border-t-0 border-l-0 border-r-0 mb-2"
                               />
                               <CommandEmpty>
                                 Không tìm thấy sản phẩm
@@ -333,7 +332,7 @@ export default function OrderCreateForm() {
                                               : 'opacity-0'
                                           )}
                                         />
-                                        <div className='truncate max-w-[200px]'>
+                                        <div className="truncate max-w-[200px]">
                                           {product?.name}
                                         </div>
                                       </CommandItem>
@@ -349,9 +348,9 @@ export default function OrderCreateForm() {
                       <FormItem>
                         <FormLabel>Số lượng: </FormLabel>
                         <FormControl>
-                          <div className='flex items-center gap-2'>
+                          <div className="flex items-center gap-2">
                             <Input
-                              id='quantity'
+                              id="quantity"
                               // value={field.quantity}
                               defaultValue={'1'}
                               {...form.register(
@@ -359,9 +358,9 @@ export default function OrderCreateForm() {
                               )}
                               maxLength={10}
                               // pattern="[0-9]*"
-                              className='w-max text-center'
+                              className="w-max text-center"
                               min={0}
-                              step='.01'
+                              step=".01"
                             />
                           </div>
                         </FormControl>
@@ -370,17 +369,17 @@ export default function OrderCreateForm() {
                       <FormItem>
                         <FormLabel>Đơn giá</FormLabel>
                         <FormControl>
-                          <div className='relative'>
-                            <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                               đ
                             </span>
                             <Input
-                              className='pl-8'
-                              id='amount'
+                              className="pl-8"
+                              id="amount"
                               maxLength={10}
-                              pattern='[0-9]*'
-                              placeholder='0.00'
-                              type='number'
+                              pattern="[0-9]*"
+                              placeholder="0.00"
+                              type="number"
                               value={field.product.price}
                               disabled
                             />
@@ -393,22 +392,22 @@ export default function OrderCreateForm() {
                         <Select value={field.product.type} disabled>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Chọn vật công hoặc vật liệu' />
+                              <SelectValue placeholder="Chọn vật công hoặc vật liệu" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectItem value='SUPPLIES'>Vật liệu</SelectItem>
-                              <SelectItem value='REPAIRS'>Vật công</SelectItem>
+                              <SelectItem value="SUPPLIES">Vật liệu</SelectItem>
+                              <SelectItem value="REPAIRS">Vật công</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
                         <FormMessage />
                       </FormItem>
                       <Button
-                        type='button'
+                        type="button"
                         onClick={() => remove(index)}
-                        className='mt-8'
+                        className="mt-8"
                       >
                         Xóa
                       </Button>
@@ -420,7 +419,7 @@ export default function OrderCreateForm() {
           );
         })}
 
-        <Button type='submit' className='ml-auto flex'>
+        <Button type="submit" className="ml-auto flex">
           Tạo mới hóa đơn
         </Button>
       </form>

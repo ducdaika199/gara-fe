@@ -32,7 +32,7 @@ const UserCreateSheet = () => {
         message: 'Tên phải có ít nhất 2 ký tự',
       })
       .max(24, 'Tên có độ dài tối đa là 24 ký tự'),
-    email: z.string(),
+    address: z.string(),
     phoneNumber: z
       .string()
       .min(4, { message: 'Số điện thoại phải có ít nhất 4 ký tự' })
@@ -52,7 +52,7 @@ const UserCreateSheet = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      email: '',
+      address: '',
       phoneNumber: '',
       plateNumber: '',
       carName: '',
@@ -105,12 +105,12 @@ const UserCreateSheet = () => {
           />
           <FormField
             control={form.control}
-            name="email"
+            name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Địa chỉ email</FormLabel>
+                <FormLabel>Địa chỉ </FormLabel>
                 <FormControl>
-                  <Input id="email" placeholder="Địa chỉ email..." {...field} />
+                  <Input id="address" placeholder="Địa chỉ ..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
