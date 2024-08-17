@@ -13,8 +13,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
   frontend:
-    # image: ducdaika246199/gara-fe-frontend:1.0.4
-    build: .
+    image: ducdaika246199/gara-fe-frontend:1.0.5
+    # build: .
     platform: linux/amd64
     ports:
       - 3000:3000

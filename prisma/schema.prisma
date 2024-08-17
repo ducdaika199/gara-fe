@@ -24,10 +24,31 @@ model User {
   carName String?
   carType String?
   invoices Invoice[]
+  roleId Role @relation(fields: [id], references: [id])
   status Status @default(ACTIVE)
-  isAdmin Boolean? @default(false)
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  name String?
+  RolePermission RolePermission[]
+  User User[]
+}
+
+model Permission {
+  id Int @id @default(autoincrement())
+  name String?
+  RolePermission RolePermission[]
+}
+
+model RolePermission {
+  id Int @id @default(autoincrement())
+  roleId Int
+  permissionId Int
+  role Role @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
 }
 
 model Product {

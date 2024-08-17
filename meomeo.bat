@@ -25,7 +25,8 @@ timeout /t 10
 
 REM Start the application
 echo Opening Google Chrome at localhost:3000...
-start "" "C:\Users\ADMIN\Desktop\Gara.lnk" http://localhost:3000
+@REM copy as path here
+start "" "D:\Gara.lnk" http://localhost:3000
 
 @REM REM Push database schema with Prisma
 @REM echo Starting db push...
